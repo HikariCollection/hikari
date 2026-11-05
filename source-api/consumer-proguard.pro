@@ -1,0 +1,32 @@
+# Types extensions implement, extend or construct
+-keep class app.hikari.source.Source { public protected *; }
+-keep class app.hikari.source.Source$DefaultImpls { public protected *; }
+-keep class app.hikari.source.CatalogueSource { public protected *; }
+-keep class app.hikari.source.CatalogueSource$DefaultImpls { public protected *; }
+-keep class app.hikari.source.ConfigurableSource { public protected *; }
+-keep class app.hikari.source.SourceFactory { public protected *; }
+-keep class app.hikari.source.UnmeteredSource { public protected *; }
+-keep class app.hikari.source.model.Filter { public protected *; }
+-keep class app.hikari.source.model.Filter$* { public protected *; }
+-keep class app.hikari.source.model.FilterList { public protected *; }
+-keep class app.hikari.source.model.MangasPage { public protected *; }
+-keep class app.hikari.source.model.Page { public protected *; }
+-keep class app.hikari.source.model.SChapter { public protected *; }
+-keep class app.hikari.source.model.SChapter$Companion { public protected *; }
+-keep class app.hikari.source.model.SManga { public protected *; }
+-keep class app.hikari.source.model.SManga$Companion { public protected *; }
+-keep class app.hikari.source.model.SMangaUpdate { public protected *; }
+-keep class app.hikari.source.model.UpdateStrategy { public protected *; }
+-keep class app.hikari.source.online.HttpSource { public protected *; }
+-keep class app.hikari.source.online.ParsedHttpSource { public protected *; }
+
+# Final classes and top-level functions extensions only call into
+-keep,allowoptimization class app.hikari.AppInfo { public protected *; }
+-keep,allowoptimization class app.hikari.network.HttpException { public protected *; }
+-keep,allowoptimization class app.hikari.network.JavaScriptEngine { public protected *; }
+-keep,allowoptimization class app.hikari.network.NetworkHelper { public protected *; }
+-keep,allowoptimization class app.hikari.network.OkHttpExtensionsKt { public protected *; }
+-keep,allowoptimization class app.hikari.network.RequestsKt { public protected *; }
+-keep,allowoptimization class app.hikari.network.interceptor.RateLimitInterceptorKt { public protected *; }
+-keep,allowoptimization class app.hikari.network.interceptor.SpecificHostRateLimitInterceptorKt { public protected *; }
+-keep,allowoptimization class app.hikari.util.JsoupExtensionsKt { public protected *; }

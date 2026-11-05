@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Base.V27.Hikari" parent="Base.Theme.Hikari">
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar">@bool/lightNavigationBar</item>
+    </style>
+
+    <style name="Theme.Hikari" parent="Base.V27.Hikari" />
+</resources>

@@ -1,0 +1,14 @@
+package app.hikari.data.track.mangabaka
+
+import app.hikari.data.database.models.Track
+
+internal fun Track.toApiStatus() = when (status) {
+    MangaBaka.CONSIDERING -> "considering"
+    MangaBaka.COMPLETED -> "completed"
+    MangaBaka.DROPPED -> "dropped"
+    MangaBaka.PAUSED -> "paused"
+    MangaBaka.PLAN_TO_READ -> "plan_to_read"
+    MangaBaka.READING -> "reading"
+    MangaBaka.REREADING -> "rereading"
+    else -> throw NotImplementedError("Unknown status: $status")
+}
