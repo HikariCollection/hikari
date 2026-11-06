@@ -1,6 +1,5 @@
 package app.hikari.source.online
 
-import app.hikari.core.common.util.lang.awaitSingle
 import app.hikari.network.GET
 import app.hikari.network.NetworkHelper
 import app.hikari.network.asObservableSuccess
@@ -12,6 +11,7 @@ import app.hikari.source.model.MangasPage
 import app.hikari.source.model.Page
 import app.hikari.source.model.SChapter
 import app.hikari.source.model.SManga
+import app.hikari.source.util.awaitSingle
 import okhttp3.Headers
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -88,7 +88,7 @@ abstract class HttpSource : CatalogueSource {
      * Can be used to generate outdated IDs, such as when the source name or language
      * needs to be changed but migrations can be avoided.
      *
-     * @since extensions-lib 1.5
+     * @since extensions-lib 1.1
      * @param name [String] the name of the source
      * @param lang [String] the language of the source
      * @param versionId [Int] the version ID of the source
@@ -465,7 +465,7 @@ abstract class HttpSource : CatalogueSource {
     /**
      * Returns the url of the provided manga
      *
-     * @since extensions-lib 1.4
+     * @since extensions-lib 1.1
      * @param manga the manga
      * @return url of the manga
      */
@@ -477,7 +477,7 @@ abstract class HttpSource : CatalogueSource {
     /**
      * Returns the url of the provided chapter
      *
-     * @since extensions-lib 1.4
+     * @since extensions-lib 1.1
      * @param chapter the chapter
      * @return url of the chapter
      */

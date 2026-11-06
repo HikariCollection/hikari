@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.0.2] - 2026-11-06
+
+### Added
+
+- Standalone extension repository support compiling against `app.hikari:source-api:1.1`.
+- Official Hikari extension repository integration with pre-trusted signer verification.
+- Direct navigation shortcut from empty sources screen to extensions tab.
+
+### Changed
+
+- Migrated extension library versioning to Hikari-native 1.1 format.
+
+### Removed
+
+- In-app built-in sources (`source-builtin`) in favor of official signed extensions.
+
 ## [0.0.1] - 2026-11-05
 
 ### Added

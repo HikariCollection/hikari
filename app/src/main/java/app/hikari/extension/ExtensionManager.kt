@@ -16,7 +16,6 @@ import app.hikari.extension.util.ExtensionInstallReceiver
 import app.hikari.extension.util.ExtensionInstaller
 import app.hikari.extension.util.ExtensionLoader
 import app.hikari.i18n.MR
-import app.hikari.source.builtin.BuiltinSources
 import app.hikari.util.system.toast
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
@@ -72,7 +71,7 @@ class ExtensionManager(
     @Volatile
     private var stores = emptyList<ExtensionStore>()
 
-    private val loadedExtensionMapFlow = MutableStateFlow(BuiltinSources.extensions.associateBy { it.pkgName })
+    private val loadedExtensionMapFlow = MutableStateFlow(emptyMap<String, Extension.Loaded>())
     val loadedExtensionsFlow = loadedExtensionMapFlow.mapExtensionsWhenInitialized()
 
     // Every store's listing, since more than one store can list the same extension
@@ -163,9 +162,8 @@ class ExtensionManager(
     private suspend fun loadExtensions() = loadMutex.withLock {
         try {
             val extensions = ExtensionLoader.loadExtensions(context, loadedExtensionMapFlow.value)
-            val builtinExtensions = BuiltinSources.extensions.associateBy { it.pkgName }
 
-            loadedExtensionMapFlow.value = builtinExtensions + extensions
+            loadedExtensionMapFlow.value = extensions
                 .filterIsInstance<Extension.Loaded>()
                 .associateBy { it.pkgName }
 
@@ -310,7 +308,6 @@ class ExtensionManager(
      * @param extension The extension to uninstall.
      */
     fun uninstallExtension(extension: Extension.Installed) {
-        if (BuiltinSources.extensions.any { it.pkgName == extension.pkgName }) return
         installer.uninstallApk(extension.pkgName)
     }
 
@@ -344,7 +341,6 @@ class ExtensionManager(
      * @param pkgName The package name of the uninstalled application.
      */
     private fun unregisterExtension(pkgName: String) {
-        if (BuiltinSources.extensions.any { it.pkgName == pkgName }) return
         loadedExtensionMapFlow.update { it - pkgName }
         notLoadedExtensionMapFlow.update { it - pkgName }
     }
@@ -381,14 +377,11 @@ class ExtensionManager(
         if (available.isNotEmpty()) {
             loadedExtensionMapFlow.update { current ->
                 current.mapValues { (_, extension) ->
-                    val isBuiltin = BuiltinSources.extensions.any { it.pkgName == extension.pkgName }
                     val listing = extension.findListing(available)
                     extension.copy(
-                        hasUpdate = if (isBuiltin) false else extension.findUpdate(available) != null,
-                        isObsolete = if (isBuiltin) false else listing == null,
-                        store = if (isBuiltin) {
-                            null
-                        } else if (stores.isEmpty()) {
+                        hasUpdate = extension.findUpdate(available) != null,
+                        isObsolete = listing == null,
+                        store = if (stores.isEmpty()) {
                             extension.store
                         } else {
                             extension.pickStore()

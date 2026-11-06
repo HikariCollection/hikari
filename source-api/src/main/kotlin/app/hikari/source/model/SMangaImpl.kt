@@ -2,7 +2,7 @@
 
 package app.hikari.source.model
 
-import app.hikari.core.common.extensions.EMPTY
+import app.hikari.source.util.EMPTY
 import kotlinx.serialization.json.JsonObject
 
 class SMangaImpl : SManga {

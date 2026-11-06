@@ -3,6 +3,7 @@ plugins {
     alias(hikarix.plugins.spotless)
 
     alias(libs.plugins.kotlin.serialization)
+    `maven-publish`
 }
 
 android {
@@ -11,17 +12,39 @@ android {
     defaultConfig {
         consumerProguardFiles("consumer-proguard.pro")
     }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "app.hikari"
+            artifactId = "source-api"
+            version = "1.1"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
 
 dependencies {
-    implementation(projects.core.common)
+    api(libs.okhttp.core)
+    api(libs.okio)
+    api(libs.rxJava)
+    api(libs.jsoup)
+    api(libs.kotlinx.serialization.json)
+    api(libs.kotlinx.serialization.jsonOkio)
+    api(libs.injekt)
+    api(libs.bundles.kotlinx.coroutines)
 
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.injekt)
-    implementation(libs.rxJava)
-    implementation(libs.jsoup)
-
-    implementation(libs.androidx.preference)
+    api(libs.androidx.preference)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.runtime)

@@ -11,7 +11,7 @@ interface ConfigurableSource : Source {
     /**
      * Gets instance of [SharedPreferences] scoped to the specific source.
      *
-     * @since extensions-lib 1.5
+     * @since extensions-lib 1.1
      */
     fun getSourcePreferences(): SharedPreferences =
         Injekt.get<Context>().getSharedPreferences(preferenceKey(), Context.MODE_PRIVATE)

@@ -22,6 +22,7 @@ import app.hikari.domain.source.model.Source
 import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Keep
+import app.hikari.icons.materialsymbols.roundedfilled.Extension
 import app.hikari.icons.materialsymbols.roundedfilled.Keep
 import app.hikari.presentation.browse.components.BaseSourceItem
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
@@ -30,6 +31,7 @@ import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.components.material.topSmallPaddingValues
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
+import app.hikari.presentation.core.screens.EmptyScreenAction
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.theme.header
 import app.hikari.presentation.core.util.plus
@@ -45,12 +47,20 @@ fun SourcesScreen(
     onClickItem: (Source, Listing) -> Unit,
     onClickPin: (Source) -> Unit,
     onLongClickItem: (Source) -> Unit,
+    onClickExtensions: () -> Unit = {},
 ) {
     when {
         state.isLoading -> LoadingScreen(Modifier.padding(contentPadding))
         state.isEmpty -> EmptyScreen(
             stringRes = MR.strings.source_empty_screen,
             modifier = Modifier.padding(contentPadding),
+            actions = listOf(
+                EmptyScreenAction(
+                    stringRes = MR.strings.label_extensions,
+                    icon = MaterialSymbols.RoundedFilled.Extension,
+                    onClick = onClickExtensions,
+                ),
+            ),
         )
         else -> {
             ScrollbarLazyColumn(

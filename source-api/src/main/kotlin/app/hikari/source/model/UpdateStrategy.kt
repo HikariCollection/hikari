@@ -4,7 +4,7 @@ package app.hikari.source.model
  * Define the update strategy for a single [SManga].
  * The strategy used will only take effect on the library update.
  *
- * @since extensions-lib 1.4
+ * @since extensions-lib 1.1
  */
 @Suppress("UNUSED")
 enum class UpdateStrategy {

@@ -1,12 +1,12 @@
 package app.hikari.source
 
-import app.hikari.core.common.util.lang.awaitSingle
 import app.hikari.source.model.FilterList
 import app.hikari.source.model.MangasPage
 import app.hikari.source.model.Page
 import app.hikari.source.model.SChapter
 import app.hikari.source.model.SManga
 import app.hikari.source.model.SMangaUpdate
+import app.hikari.source.util.awaitSingle
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
 import rx.Observable

@@ -34,8 +34,8 @@ android {
     defaultConfig {
         applicationId = "app.hikari"
 
-        versionCode = 1
-        versionName = "0.0.1"
+        versionCode = 2
+        versionName = "0.0.2"
 
         buildConfigField("boolean", "TELEMETRY_INCLUDED", "false")
         buildConfigField("boolean", "UPDATER_ENABLED", "false")
@@ -201,7 +201,6 @@ dependencies {
     implementation(projects.coreMetadata)
     implementation(projects.sourceApi)
     implementation(projects.sourceLocal)
-    implementation(projects.sourceBuiltin)
     implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.presentationCore)

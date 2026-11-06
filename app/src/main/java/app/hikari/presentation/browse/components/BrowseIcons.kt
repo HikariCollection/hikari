@@ -22,7 +22,6 @@ import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.roundedfilled.Dangerous
 import app.hikari.icons.materialsymbols.roundedfilled.Warning
 import app.hikari.presentation.util.rememberResourceBitmapPainter
-import app.hikari.source.builtin.BuiltinSources
 import app.hikari.source.local.isLocal
 import coil3.compose.AsyncImage
 
@@ -35,23 +34,6 @@ fun SourceIcon(
     source: Source,
     modifier: Modifier = Modifier,
 ) {
-    val builtinIconRes = when (source.id) {
-        BuiltinSources.shinigami.id -> R.mipmap.ic_source_shinigami
-        BuiltinSources.wurmz.id -> R.mipmap.ic_source_wurmz
-        BuiltinSources.mgKomik.id -> R.mipmap.ic_source_mgkomik
-        BuiltinSources.arenaScans.id -> R.mipmap.ic_source_arenascans
-        BuiltinSources.roliaScan.id -> R.mipmap.ic_source_roliascan
-        else -> null
-    }
-    if (builtinIconRes != null) {
-        Image(
-            painter = painterResource(builtinIconRes),
-            contentDescription = null,
-            modifier = modifier.then(defaultModifier),
-        )
-        return
-    }
-
     when {
         source.isStub -> {
             Image(
@@ -87,25 +69,6 @@ fun ExtensionIcon(
     modifier: Modifier = Modifier,
     density: Int = DisplayMetrics.DENSITY_DEFAULT,
 ) {
-    if (extension is Extension.Loaded) {
-        val builtinIconRes = when (extension.pkgName) {
-            "app.hikari.extension.id.shinigami" -> R.mipmap.ic_source_shinigami
-            "app.hikari.extension.id.wurmz" -> R.mipmap.ic_source_wurmz
-            "app.hikari.extension.id.mgkomik" -> R.mipmap.ic_source_mgkomik
-            "app.hikari.extension.en.arenascans" -> R.mipmap.ic_source_arenascans
-            "app.hikari.extension.en.roliascan" -> R.mipmap.ic_source_roliascan
-            else -> null
-        }
-        if (builtinIconRes != null) {
-            Image(
-                painter = painterResource(builtinIconRes),
-                contentDescription = null,
-                modifier = modifier,
-            )
-            return
-        }
-    }
-
     when (extension) {
         is Extension.Available -> {
             AsyncImage(

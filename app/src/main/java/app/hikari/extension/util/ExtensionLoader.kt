@@ -38,7 +38,7 @@ internal object ExtensionLoader {
     private const val METADATA_EXTENSION_LIB = "hikarix.extensionLib"
     private const val METADATA_CONTENT_WARNING = "hikarix.contentWarning"
 
-    private val SUPPORTED_LIB_VERSIONS = listOf(1.4, 1.6)
+    private val SUPPORTED_LIB_VERSIONS = listOf(1.1)
 
     @Suppress("DEPRECATION")
     private val PACKAGE_FLAGS = PackageManager.GET_CONFIGURATIONS or

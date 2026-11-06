@@ -2,12 +2,9 @@ package app.hikari.data.coil
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
-import app.hikari.R
 import app.hikari.extension.ExtensionManager
 import app.hikari.extension.util.ExtensionLoader
-import app.hikari.source.builtin.BuiltinSources
 import coil3.ImageLoader
 import coil3.asImage
 import coil3.decode.DataSource
@@ -39,24 +36,6 @@ class ExtensionIconFetcher(
 
     override suspend fun fetch(): FetchResult {
         val pkgName = getPkgName() ?: error("No installed extension")
-        val builtinIconRes = when (pkgName) {
-            "app.hikari.extension.id.shinigami" -> R.mipmap.ic_source_shinigami
-            "app.hikari.extension.id.wurmz" -> R.mipmap.ic_source_wurmz
-            "app.hikari.extension.id.mgkomik" -> R.mipmap.ic_source_mgkomik
-            "app.hikari.extension.en.arenascans" -> R.mipmap.ic_source_arenascans
-            "app.hikari.extension.en.roliascan" -> R.mipmap.ic_source_roliascan
-            else -> null
-        }
-        if (builtinIconRes != null) {
-            val drawable = ContextCompat.getDrawable(context, builtinIconRes)
-                ?: error("Failed to load drawable for $pkgName")
-            return ImageFetchResult(
-                image = drawable.toBitmap().asImage(),
-                isSampled = false,
-                dataSource = DataSource.DISK,
-            )
-        }
-
         val appInfo = ExtensionLoader.getExtensionPackageInfoFromPkgName(context, pkgName)?.applicationInfo
             ?: error("Extension $pkgName isn't installed")
         val drawable: Drawable = if (density == null) {

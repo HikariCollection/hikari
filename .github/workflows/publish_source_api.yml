@@ -1,0 +1,35 @@
+name: Publish source-api
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'source-api/**'
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Publish source-api
+        run: ./gradlew :source-api:publishReleasePublicationToMavenLocal --no-daemon

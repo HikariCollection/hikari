@@ -6,7 +6,6 @@ import app.hikari.domain.source.model.StubSource
 import app.hikari.domain.source.repository.StubSourceRepository
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.extension.ExtensionManager
-import app.hikari.source.builtin.BuiltinSources
 import app.hikari.source.local.LocalSource
 import app.hikari.source.online.HttpSource
 import dev.zacsweers.metro.AppScope
@@ -52,10 +51,6 @@ class AndroidSourceManager(
                     val mutableMap = ConcurrentHashMap<Long, Source>(
                         mapOf(LocalSource.ID to localSource),
                     )
-                    BuiltinSources.all.forEach { source ->
-                        mutableMap[source.id] = source
-                        registerStubSource(StubSource.from(source))
-                    }
                     extensions.forEach { extension ->
                         extension.sources.forEach {
                             mutableMap[it.id] = it

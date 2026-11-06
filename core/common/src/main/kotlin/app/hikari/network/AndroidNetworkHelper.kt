@@ -18,13 +18,13 @@ import kotlin.time.Duration.Companion.seconds
 
 @Inject
 @SingleIn(AppScope::class)
-class NetworkHelper(
+class AndroidNetworkHelper(
     @AppCoroutineScope private val scope: CoroutineScope,
     private val context: Context,
     private val preferences: NetworkPreferences,
-) {
+) : NetworkHelper() {
 
-    val cookieJar = AndroidCookieJar()
+    override val cookieJar = AndroidCookieJar()
 
     private fun clientBuilder(): OkHttpClient.Builder = run {
         val builder = OkHttpClient.Builder()
@@ -69,7 +69,7 @@ class NetworkHelper(
         }
     }
 
-    val client: OkHttpClient by lazy {
+    override val client: OkHttpClient by lazy {
         clientBuilder()
             .addInterceptor(
                 CloudflareInterceptor(context, cookieJar, scope, ::defaultUserAgentProvider),
@@ -77,12 +77,5 @@ class NetworkHelper(
             .build()
     }
 
-    /**
-     * @deprecated Since extension-lib 1.5
-     */
-    @Deprecated("The regular client handles Cloudflare by default")
-    @Suppress("UNUSED")
-    val cloudflareClient: OkHttpClient get() = client
-
-    fun defaultUserAgentProvider() = preferences.defaultUserAgent.get().trim()
+    override fun defaultUserAgentProvider(): String = preferences.defaultUserAgent.get().trim()
 }

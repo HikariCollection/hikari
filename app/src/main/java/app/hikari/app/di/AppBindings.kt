@@ -4,6 +4,8 @@ import app.hikari.core.common.util.system.logcat
 import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.core.metro.IsDebugBuild
 import app.hikari.data.backup.models.backupProtoBuf
+import app.hikari.network.AndroidNetworkHelper
+import app.hikari.network.NetworkHelper
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.BindingContainer
 import dev.zacsweers.metro.Provides
@@ -61,4 +63,8 @@ object AppBindings {
     @Provides
     @SingleIn(AppScope::class)
     fun providesProtoBuf(): ProtoBuf = backupProtoBuf
+
+    @Provides
+    @SingleIn(AppScope::class)
+    fun providesNetworkHelper(impl: AndroidNetworkHelper): NetworkHelper = impl
 }

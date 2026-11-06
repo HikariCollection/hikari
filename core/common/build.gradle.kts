@@ -20,6 +20,7 @@ kotlin {
 }
 
 dependencies {
+    api(projects.sourceApi)
     implementation(projects.core.metro)
     implementation(projects.i18n)
 

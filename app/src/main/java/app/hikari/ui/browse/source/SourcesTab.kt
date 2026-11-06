@@ -13,6 +13,7 @@ import app.hikari.presentation.browse.SourcesScreen
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.components.TabContent
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.ui.browse.BrowseTab
 import app.hikari.ui.browse.source.browse.BrowseSourceScreen
 import app.hikari.ui.browse.source.globalsearch.GlobalSearchScreen
 import cafe.adriel.voyager.core.screen.Screen
@@ -51,6 +52,7 @@ fun Screen.sourcesTab(): TabContent {
                 },
                 onClickPin = viewModel::togglePin,
                 onLongClickItem = viewModel::showSourceDialog,
+                onClickExtensions = { BrowseTab.showExtension() },
             )
 
             state.dialog?.let { dialog ->
