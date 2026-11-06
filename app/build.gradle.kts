@@ -24,6 +24,10 @@ plugins {
 val keystorePropertiesFile = layout.settingsDirectory.file("keystore.properties").asFile
 val hasReleaseSigning = System.getenv("HIKARI_GITHUB_RELEASE").toBoolean() || keystorePropertiesFile.exists()
 
+base {
+    archivesName.set("hikari")
+}
+
 android {
     namespace = "app.hikari"
 

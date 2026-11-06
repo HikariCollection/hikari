@@ -79,6 +79,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_type == 'tag' && github.ref_name || inputs.tag_name }}
-          name: ${{ github.ref_type == 'tag' && github.ref_name || inputs.tag_name }}
+          name: Hikari ${{ github.ref_type == 'tag' && github.ref_name || inputs.tag_name }}
           body_path: RELEASE_NOTES.md
           files: app/build/outputs/apk/release/*.apk

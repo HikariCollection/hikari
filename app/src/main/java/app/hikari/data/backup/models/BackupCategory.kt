@@ -6,7 +6,7 @@ import kotlinx.serialization.protobuf.ProtoNumber
 
 @Serializable
 class BackupCategory(
-    @ProtoNumber(1) var name: String,
+    @ProtoNumber(1) var name: String = "",
     @ProtoNumber(2) var order: Long = 0,
     @ProtoNumber(3) var id: Long = 0,
     // @ProtoNumber(3) val updateInterval: Int = 0, 1.x value not used in 0.x

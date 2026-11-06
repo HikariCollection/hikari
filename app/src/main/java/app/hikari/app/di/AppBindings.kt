@@ -3,6 +3,7 @@ package app.hikari.app.di
 import app.hikari.core.common.util.system.logcat
 import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.core.metro.IsDebugBuild
+import app.hikari.data.backup.models.backupProtoBuf
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.BindingContainer
 import dev.zacsweers.metro.Provides
@@ -59,5 +60,5 @@ object AppBindings {
 
     @Provides
     @SingleIn(AppScope::class)
-    fun providesProtoBuf(): ProtoBuf = ProtoBuf
+    fun providesProtoBuf(): ProtoBuf = backupProtoBuf
 }

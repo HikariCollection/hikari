@@ -11,10 +11,19 @@ import app.hikari.data.backup.models.BackupSource
 import app.hikari.data.backup.models.BackupSourcePreferences
 import app.hikari.data.backup.models.BackupTracking
 import app.hikari.data.backup.models.BooleanPreferenceValue
+import app.hikari.data.backup.models.FloatPreferenceValue
+import app.hikari.data.backup.models.IntPreferenceValue
+import app.hikari.data.backup.models.LongPreferenceValue
+import app.hikari.data.backup.models.PreferenceValue
 import app.hikari.data.backup.models.StringPreferenceValue
 import app.hikari.data.backup.models.StringSetPreferenceValue
+import app.hikari.data.backup.models.backupProtoBuf
 import io.kotest.matchers.shouldBe
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
 import kotlinx.serialization.protobuf.ProtoBuf
 import kotlinx.serialization.protobuf.ProtoNumber
 import okio.Buffer
@@ -27,7 +36,7 @@ import java.io.IOException
 @Execution(ExecutionMode.CONCURRENT)
 class BackupStreamTest {
 
-    private val parser = ProtoBuf
+    private val parser = backupProtoBuf
 
     @Test
     fun `writer output is the plain encoding`() {
@@ -143,6 +152,42 @@ class BackupStreamTest {
         ).forEach { input ->
             assertThrows<IOException> { read(input) }
         }
+    }
+
+    @Test
+    fun `deserializes preferences encoded with legacy and alternative serial names`() {
+        val testParser = ProtoBuf {
+            serializersModule = SerializersModule {
+                polymorphic(PreferenceValue::class) {
+                    subclass(IntPreferenceValue::class, IntPreferenceValue.serializer())
+                }
+            }
+        }
+        val pref = BackupPreference("intKey", IntPreferenceValue(42))
+        val bytes = testParser.encodeToByteArray(BackupPreference.serializer(), pref)
+
+        val decoded = parser.decodeFromByteArray(BackupPreference.serializer(), bytes)
+        decoded.key shouldBe "intKey"
+        (decoded.value as IntPreferenceValue).value shouldBe 42
+    }
+
+    @Test
+    fun `deserializes all preference value types`() {
+        val prefs = listOf(
+            BackupPreference("int", IntPreferenceValue(10)),
+            BackupPreference("long", LongPreferenceValue(100L)),
+            BackupPreference("float", FloatPreferenceValue(1.5f)),
+            BackupPreference("string", StringPreferenceValue("val")),
+            BackupPreference("bool", BooleanPreferenceValue(true)),
+            BackupPreference("set", StringSetPreferenceValue(setOf("x", "y"))),
+        )
+        val backup = Backup(
+            backupManga = emptyList(),
+            backupPreferences = prefs,
+        )
+        val bytes = parser.encodeToByteArray(Backup.serializer(), backup)
+        val decoded = parser.decodeFromByteArray(Backup.serializer(), bytes)
+        decoded.backupPreferences shouldBe prefs
     }
 
     private fun write(backup: Backup): ByteArray {
