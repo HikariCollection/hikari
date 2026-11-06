@@ -4,6 +4,7 @@ import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.extension.model.Extension
 import app.hikari.source.CatalogueSource
 import app.hikari.source.builtin.en.arenascans.ArenaScans
+import app.hikari.source.builtin.en.roliascan.RoliaScan
 import app.hikari.source.builtin.id.mgkomik.MGKomik
 import app.hikari.source.builtin.id.shinigami.Shinigami
 import app.hikari.source.builtin.id.wurmz.Wurmz
@@ -13,6 +14,7 @@ object BuiltinSources {
     val wurmz by lazy { Wurmz() }
     val mgKomik by lazy { MGKomik() }
     val arenaScans by lazy { ArenaScans() }
+    val roliaScan by lazy { RoliaScan() }
 
     val all: List<CatalogueSource> by lazy {
         listOf(
@@ -20,6 +22,7 @@ object BuiltinSources {
             wurmz,
             mgKomik,
             arenaScans,
+            roliaScan,
         )
     }
 
@@ -76,6 +79,19 @@ object BuiltinSources {
                 signatures = emptyList(),
                 pkgFactory = null,
                 sources = listOf(arenaScans),
+            ),
+            Extension.Loaded(
+                name = roliaScan.name,
+                pkgName = "app.hikari.extension.en.roliascan",
+                versionName = "1.1.1",
+                versionCode = 1L,
+                libVersion = 1.6,
+                lang = roliaScan.lang,
+                contentWarning = ContentWarning.SAFE,
+                isShared = false,
+                signatures = emptyList(),
+                pkgFactory = null,
+                sources = listOf(roliaScan),
             ),
         )
     }

@@ -44,6 +44,7 @@ class ExtensionIconFetcher(
             "app.hikari.extension.id.wurmz" -> R.mipmap.ic_source_wurmz
             "app.hikari.extension.id.mgkomik" -> R.mipmap.ic_source_mgkomik
             "app.hikari.extension.en.arenascans" -> R.mipmap.ic_source_arenascans
+            "app.hikari.extension.en.roliascan" -> R.mipmap.ic_source_roliascan
             else -> null
         }
         if (builtinIconRes != null) {

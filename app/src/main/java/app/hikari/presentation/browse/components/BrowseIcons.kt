@@ -40,6 +40,7 @@ fun SourceIcon(
         BuiltinSources.wurmz.id -> R.mipmap.ic_source_wurmz
         BuiltinSources.mgKomik.id -> R.mipmap.ic_source_mgkomik
         BuiltinSources.arenaScans.id -> R.mipmap.ic_source_arenascans
+        BuiltinSources.roliaScan.id -> R.mipmap.ic_source_roliascan
         else -> null
     }
     if (builtinIconRes != null) {
@@ -92,6 +93,7 @@ fun ExtensionIcon(
             "app.hikari.extension.id.wurmz" -> R.mipmap.ic_source_wurmz
             "app.hikari.extension.id.mgkomik" -> R.mipmap.ic_source_mgkomik
             "app.hikari.extension.en.arenascans" -> R.mipmap.ic_source_arenascans
+            "app.hikari.extension.en.roliascan" -> R.mipmap.ic_source_roliascan
             else -> null
         }
         if (builtinIconRes != null) {
