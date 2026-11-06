@@ -28,7 +28,6 @@ import soup.compose.material.motion.animation.rememberSlideDistance
 fun OnboardingScreen(
     onComplete: () -> Unit,
     onRestoreBackup: () -> Unit,
-    onBrowseExtensions: () -> Unit = {},
 ) {
     val slideDistance = rememberSlideDistance()
 
@@ -38,7 +37,7 @@ fun OnboardingScreen(
             ThemeStep(),
             StorageStep(),
             PermissionStep(),
-            GuidesStep(onRestoreBackup = onRestoreBackup, onBrowseExtensions = onBrowseExtensions),
+            GuidesStep(onRestoreBackup = onRestoreBackup),
         )
     }
     val isLastStep = currentStep == steps.lastIndex

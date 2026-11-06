@@ -32,6 +32,12 @@ publishing {
             }
         }
     }
+    repositories {
+        maven {
+            name = "buildDir"
+            url = uri(layout.buildDirectory.dir("repo"))
+        }
+    }
 }
 
 dependencies {

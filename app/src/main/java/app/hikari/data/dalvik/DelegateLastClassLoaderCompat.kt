@@ -43,6 +43,14 @@ private class DelegateLastPathClassLoader(
             } catch (_: ClassNotFoundException) {}
         }
 
+        if (name != null &&
+            (name.startsWith("kotlin.") || name.startsWith("kotlinx.") || name.startsWith("app.hikari.source."))
+        ) {
+            try {
+                return parent.loadClass(name)
+            } catch (_: ClassNotFoundException) {}
+        }
+
         val fromSuper = try {
             return findClass(name)
         } catch (e: ClassNotFoundException) {

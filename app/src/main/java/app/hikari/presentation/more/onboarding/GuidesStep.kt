@@ -20,7 +20,6 @@ import app.hikari.presentation.theme.HikariPreviewTheme
 
 internal class GuidesStep(
     private val onRestoreBackup: () -> Unit,
-    private val onBrowseExtensions: () -> Unit = {},
 ) : OnboardingStep {
 
     override val isComplete: Boolean = true
@@ -33,19 +32,6 @@ internal class GuidesStep(
             modifier = Modifier.padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(MaterialTheme.padding.small),
         ) {
-            Text(stringResource(MR.strings.label_extensions))
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = onBrowseExtensions,
-            ) {
-                Text(stringResource(MR.strings.label_extensions))
-            }
-
-            HorizontalDivider(
-                modifier = Modifier.padding(vertical = 8.dp),
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
-            )
-
             Text(stringResource(MR.strings.onboarding_guides_new_user, stringResource(MR.strings.app_name)))
             Button(
                 modifier = Modifier.fillMaxWidth(),

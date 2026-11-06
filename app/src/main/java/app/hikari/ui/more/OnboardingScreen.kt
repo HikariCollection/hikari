@@ -12,7 +12,6 @@ import app.hikari.presentation.more.onboarding.OnboardingScreen
 import app.hikari.presentation.more.settings.screen.SearchableSettings
 import app.hikari.presentation.more.settings.screen.SettingsDataScreen
 import app.hikari.presentation.util.Screen
-import app.hikari.ui.browse.BrowseTab
 import app.hikari.ui.setting.SettingsScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -44,10 +43,6 @@ class OnboardingScreen : Screen() {
                 finishOnboarding()
                 SearchableSettings.highlightKey = restoreSettingKey
                 navigator.push(SettingsScreen(SettingsScreen.Destination.DataAndStorage))
-            },
-            onBrowseExtensions = {
-                finishOnboarding()
-                BrowseTab.showExtension()
             },
         )
     }
