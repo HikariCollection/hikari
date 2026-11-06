@@ -44,16 +44,11 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMaxOfOrNull
-import coil3.request.ImageRequest
-import coil3.request.crossfade
-import app.hikari.presentation.components.AdaptiveSheet
-import app.hikari.presentation.components.TabbedDialogPaddings
-import app.hikari.presentation.manga.components.MangaCover
-import app.hikari.presentation.more.settings.LocalPreferenceMinHeight
-import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
-import app.hikari.source.Source
-import app.hikari.source.model.SManga
 import app.hikari.app.di.appGraph
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.MangaWithChapterCount
+import app.hikari.domain.source.model.StubSource
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Add
 import app.hikari.icons.materialsymbols.rounded.AttachMoney
@@ -66,16 +61,21 @@ import app.hikari.icons.materialsymbols.rounded.Schedule
 import app.hikari.icons.materialsymbols.roundedfilled.Brush
 import app.hikari.icons.materialsymbols.roundedfilled.Pause
 import app.hikari.icons.materialsymbols.roundedfilled.Warning
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.manga.model.MangaWithChapterCount
-import app.hikari.domain.source.model.StubSource
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AdaptiveSheet
+import app.hikari.presentation.components.TabbedDialogPaddings
 import app.hikari.presentation.core.components.Badge
 import app.hikari.presentation.core.components.BadgeGroup
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.presentation.manga.components.MangaCover
+import app.hikari.presentation.more.settings.LocalPreferenceMinHeight
+import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
+import app.hikari.source.Source
+import app.hikari.source.model.SManga
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 
 @Composable
 fun DuplicateMangaDialog(

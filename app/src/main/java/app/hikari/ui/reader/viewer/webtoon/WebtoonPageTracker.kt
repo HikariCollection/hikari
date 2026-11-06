@@ -1,9 +1,9 @@
 package app.hikari.ui.reader.viewer.webtoon
 
+import app.hikari.core.common.util.system.logcat
 import app.hikari.ui.reader.ReaderActivity
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.ReaderPage
-import app.hikari.core.common.util.system.logcat
 import kotlin.math.abs
 
 /**

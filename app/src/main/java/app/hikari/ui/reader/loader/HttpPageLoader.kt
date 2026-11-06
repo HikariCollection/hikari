@@ -1,5 +1,6 @@
 package app.hikari.ui.reader.loader
 
+import app.hikari.data.cache.ChapterCache
 import app.hikari.domain.chapter.model.toSChapter
 import app.hikari.source.model.Page
 import app.hikari.source.online.HttpSource
@@ -15,7 +16,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import app.hikari.data.cache.ChapterCache
 import java.io.FileNotFoundException
 import java.util.concurrent.ConcurrentHashMap
 

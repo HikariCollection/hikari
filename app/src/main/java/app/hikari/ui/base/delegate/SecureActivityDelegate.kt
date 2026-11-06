@@ -8,17 +8,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.base.BasePreferences
+import app.hikari.app.di.appGraph
 import app.hikari.core.security.SecurityPreferences
+import app.hikari.domain.base.BasePreferences
 import app.hikari.ui.security.UnlockActivity
 import app.hikari.util.system.AuthenticatorUtil
 import app.hikari.util.system.AuthenticatorUtil.isAuthenticationSupported
 import app.hikari.util.view.setSecureScreen
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import app.hikari.app.di.appGraph
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
 

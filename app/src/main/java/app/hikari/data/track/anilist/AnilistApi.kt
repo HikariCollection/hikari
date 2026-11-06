@@ -2,18 +2,10 @@ package app.hikari.data.track.anilist
 
 import android.net.Uri
 import androidx.core.net.toUri
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.api.Optional
-import com.apollographql.apollo.network.okHttpClient
+import app.hikari.core.common.util.system.logcat
 import app.hikari.data.database.models.Track
 import app.hikari.data.track.anilist.dto.ALUser
 import app.hikari.data.track.model.TrackSearch
-import app.hikari.network.dataOrElse
-import app.hikari.network.interceptor.rateLimit
-import kotlinx.coroutines.Dispatchers
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.number
-import kotlinx.datetime.toLocalDateTime
 import app.hikari.graphql.anilist.AniListAddMangaMutation
 import app.hikari.graphql.anilist.AniListDeleteMangaMutation
 import app.hikari.graphql.anilist.AniListGetCurrentUserQuery
@@ -22,8 +14,16 @@ import app.hikari.graphql.anilist.AniListGetMangaDetailsQuery
 import app.hikari.graphql.anilist.AniListSearchMangaQuery
 import app.hikari.graphql.anilist.AniListUpdateMangaMutation
 import app.hikari.graphql.anilist.type.FuzzyDateInput
+import app.hikari.network.dataOrElse
+import app.hikari.network.interceptor.rateLimit
+import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.network.okHttpClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 import okhttp3.OkHttpClient
-import app.hikari.core.common.util.system.logcat
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Instant
 import app.hikari.domain.track.model.Track as DomainTrack
@@ -200,7 +200,7 @@ class AnilistApi(
     }
 
     companion object {
-        private const val CLIENT_ID = "16329"
+        private const val CLIENT_ID = "56115"
 
         fun authUrl(): Uri = "https://anilist.co/api/v2/oauth/authorize".toUri().buildUpon()
             .appendQueryParameter("client_id", CLIENT_ID)

@@ -1,7 +1,7 @@
 package app.hikari.data.backup.create
 
-import dev.icerock.moko.resources.StringResource
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 
 data class BackupOptions(
     val libraryEntries: Boolean = true,

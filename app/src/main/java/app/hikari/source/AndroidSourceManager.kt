@@ -1,12 +1,18 @@
 package app.hikari.source
 
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.data.download.DownloadManager
+import app.hikari.domain.source.model.StubSource
+import app.hikari.domain.source.repository.StubSourceRepository
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.extension.ExtensionManager
+import app.hikari.source.builtin.BuiltinSources
+import app.hikari.source.local.LocalSource
+import app.hikari.source.online.HttpSource
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import app.hikari.data.download.DownloadManager
-import app.hikari.extension.ExtensionManager
-import app.hikari.source.online.HttpSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,11 +21,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.domain.source.model.StubSource
-import app.hikari.domain.source.repository.StubSourceRepository
-import app.hikari.domain.source.service.SourceManager
-import app.hikari.source.local.LocalSource
 import java.util.concurrent.ConcurrentHashMap
 
 @Inject
@@ -51,6 +52,10 @@ class AndroidSourceManager(
                     val mutableMap = ConcurrentHashMap<Long, Source>(
                         mapOf(LocalSource.ID to localSource),
                     )
+                    BuiltinSources.all.forEach { source ->
+                        mutableMap[source.id] = source
+                        registerStubSource(StubSource.from(source))
+                    }
                     extensions.forEach { extension ->
                         extension.sources.forEach {
                             mutableMap[it.id] = it

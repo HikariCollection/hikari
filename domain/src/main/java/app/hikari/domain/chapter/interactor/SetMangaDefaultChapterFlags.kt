@@ -1,10 +1,10 @@
 package app.hikari.domain.chapter.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.interactor.GetFavorites
 import app.hikari.domain.manga.interactor.SetMangaChapterFlags
 import app.hikari.domain.manga.model.Manga
+import dev.zacsweers.metro.Inject
 
 @Inject
 class SetMangaDefaultChapterFlags(

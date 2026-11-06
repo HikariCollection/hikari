@@ -6,22 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.net.toUri
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.Constants
+import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.data.backup.restore.BackupRestoreWorker
 import app.hikari.data.download.DownloadManager
 import app.hikari.data.library.LibraryUpdateWorker
-import app.hikari.ui.main.MainActivity
-import app.hikari.ui.reader.ReaderActivity
-import app.hikari.util.system.cancelNotification
-import app.hikari.util.system.getParcelableExtraCompat
-import app.hikari.util.system.notificationManager
-import app.hikari.util.system.toShareIntent
-import app.hikari.util.system.workManager
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import app.hikari.app.di.appGraph
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.core.common.Constants
 import app.hikari.domain.chapter.interactor.GetChapter
 import app.hikari.domain.chapter.interactor.UpdateChapter
 import app.hikari.domain.chapter.model.Chapter
@@ -30,6 +20,16 @@ import app.hikari.domain.download.service.DownloadPreferences
 import app.hikari.domain.manga.interactor.GetManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.source.service.SourceManager
+import app.hikari.ui.main.MainActivity
+import app.hikari.ui.reader.ReaderActivity
+import app.hikari.util.system.cancelNotification
+import app.hikari.util.system.getParcelableExtraCompat
+import app.hikari.util.system.notificationManager
+import app.hikari.util.system.toShareIntent
+import app.hikari.util.system.workManager
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import app.hikari.BuildConfig.APPLICATION_ID as ID
 
 /**

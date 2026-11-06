@@ -1,7 +1,7 @@
 package app.hikari.domain.ui.model
 
-import dev.icerock.moko.resources.StringResource
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 
 enum class TabletUiMode(val titleRes: StringResource) {
     AUTOMATIC(MR.strings.automatic_background),

@@ -1,11 +1,11 @@
 package app.hikari.domain.chapter.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.chapter.interactor.GetChaptersByMangaId
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.download.service.DownloadPreferences
 import app.hikari.domain.manga.model.Manga
+import dev.zacsweers.metro.Inject
 
 /**
  * Interactor responsible for determining which chapters of a manga should be downloaded.

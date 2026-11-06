@@ -1,9 +1,9 @@
 package app.hikari.domain.chapter.model
 
-import app.hikari.source.model.SChapter
 import app.hikari.core.common.extensions.toEpochMillisOrZero
 import app.hikari.core.common.extensions.toInstantOrNull
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.source.model.SChapter
 
 fun Chapter.toSChapter(): SChapter {
     return SChapter.create().also {

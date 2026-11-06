@@ -10,19 +10,21 @@ import android.net.Uri
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import coil3.asDrawable
-import coil3.imageLoader
-import coil3.request.ImageRequest
-import coil3.request.transformations
-import coil3.transform.CircleCropTransformation
-import dev.zacsweers.metro.Inject
-import app.hikari.presentation.util.formatChapterNumber
 import app.hikari.R
+import app.hikari.core.common.Constants
+import app.hikari.core.common.i18n.pluralStringResource
+import app.hikari.core.common.i18n.stringResource
 import app.hikari.core.security.SecurityPreferences
 import app.hikari.data.download.Downloader
 import app.hikari.data.notification.NotificationHandler
 import app.hikari.data.notification.NotificationReceiver
 import app.hikari.data.notification.Notifications
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.library.model.LibraryManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.i18n.MR
+import app.hikari.presentation.util.formatChapterNumber
 import app.hikari.source.UnmeteredSource
 import app.hikari.ui.main.MainActivity
 import app.hikari.util.lang.chop
@@ -30,14 +32,12 @@ import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.getBitmapOrNull
 import app.hikari.util.system.notificationBuilder
 import app.hikari.util.system.notify
-import app.hikari.core.common.Constants
-import app.hikari.core.common.i18n.pluralStringResource
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.library.model.LibraryManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.service.SourceManager
-import app.hikari.i18n.MR
+import coil3.asDrawable
+import coil3.imageLoader
+import coil3.request.ImageRequest
+import coil3.request.transformations
+import coil3.transform.CircleCropTransformation
+import dev.zacsweers.metro.Inject
 import java.math.RoundingMode
 import java.text.NumberFormat
 import app.hikari.icons.materialsymbols.R as MaterialSymbolsR
@@ -169,7 +169,7 @@ class LibraryUpdateNotifier(
         ) {
             setContentTitle(context.pluralStringResource(MR.plurals.notification_update_error, failed, failed))
             setContentText(context.stringResource(MR.strings.action_show_errors))
-            setSmallIcon(R.drawable.ic_mihon)
+            setSmallIcon(R.drawable.ic_hikari)
 
             setContentIntent(NotificationReceiver.openErrorLogPendingActivity(context, uri))
         }
@@ -209,7 +209,7 @@ class LibraryUpdateNotifier(
                 }
             }
 
-            setSmallIcon(R.drawable.ic_mihon)
+            setSmallIcon(R.drawable.ic_hikari)
             setLargeIcon(notificationBitmap)
 
             setGroup(Notifications.GROUP_NEW_CHAPTERS)
@@ -243,7 +243,7 @@ class LibraryUpdateNotifier(
             setContentText(description)
             setStyle(NotificationCompat.BigTextStyle().bigText(description))
 
-            setSmallIcon(R.drawable.ic_mihon)
+            setSmallIcon(R.drawable.ic_hikari)
 
             if (icon != null) {
                 setLargeIcon(icon)

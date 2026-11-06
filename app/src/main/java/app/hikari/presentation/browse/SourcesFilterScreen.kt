@@ -7,17 +7,17 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import app.hikari.presentation.browse.components.BaseSourceItem
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.more.settings.widget.SwitchPreferenceWidget
-import app.hikari.ui.browse.source.SourcesFilterViewModel
-import app.hikari.util.system.LocaleHelper
 import app.hikari.domain.source.model.Source
 import app.hikari.i18n.MR
+import app.hikari.presentation.browse.components.BaseSourceItem
+import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.core.components.FastScrollLazyColumn
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
+import app.hikari.presentation.more.settings.widget.SwitchPreferenceWidget
+import app.hikari.ui.browse.source.SourcesFilterViewModel
+import app.hikari.util.system.LocaleHelper
 
 @Composable
 fun SourcesFilterScreen(

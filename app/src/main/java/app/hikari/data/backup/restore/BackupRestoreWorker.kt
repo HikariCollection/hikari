@@ -12,21 +12,21 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.AppGraph
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.metroGraph
 import app.hikari.data.backup.BackupNotifier
 import app.hikari.data.notification.Notifications
+import app.hikari.i18n.MR
 import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.isRunning
 import app.hikari.util.system.setForegroundSafely
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.AppGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.i18n.MR
 
 class BackupRestoreWorker(private val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {

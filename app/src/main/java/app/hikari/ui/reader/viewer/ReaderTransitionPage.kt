@@ -16,12 +16,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.reader.ChapterTransition
 import app.hikari.presentation.reader.reportPress
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.ReaderChapter
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 
 @Composable
 fun ReaderTransitionPage(

@@ -2,7 +2,9 @@ package app.hikari.data.backup.restore.restorers
 
 import android.content.Context
 import android.util.Log
-import dev.zacsweers.metro.Inject
+import app.hikari.core.common.preference.AndroidPreferenceStore
+import app.hikari.core.common.preference.PreferenceStore
+import app.hikari.core.common.preference.plusAssign
 import app.hikari.data.backup.create.BackupCreateWorker
 import app.hikari.data.backup.models.BackupCategory
 import app.hikari.data.backup.models.BackupPreference
@@ -14,14 +16,12 @@ import app.hikari.data.backup.models.LongPreferenceValue
 import app.hikari.data.backup.models.StringPreferenceValue
 import app.hikari.data.backup.models.StringSetPreferenceValue
 import app.hikari.data.library.LibraryUpdateWorker
-import app.hikari.source.sourcePreferences
-import app.hikari.core.common.preference.AndroidPreferenceStore
-import app.hikari.core.common.preference.PreferenceStore
-import app.hikari.core.common.preference.plusAssign
 import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.download.service.DownloadPreferences
 import app.hikari.domain.library.service.LibraryPreferences
+import app.hikari.source.sourcePreferences
+import dev.zacsweers.metro.Inject
 
 @Inject
 class PreferenceRestorer(

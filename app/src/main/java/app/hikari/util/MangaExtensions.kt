@@ -1,9 +1,9 @@
 package app.hikari.util
 
-import app.hikari.domain.manga.interactor.UpdateManga
-import app.hikari.domain.manga.model.toSManga
 import app.hikari.data.cache.CoverCache
+import app.hikari.domain.manga.interactor.UpdateManga
 import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.toSManga
 import app.hikari.source.local.image.LocalCoverManager
 import app.hikari.source.local.isLocal
 import java.io.InputStream

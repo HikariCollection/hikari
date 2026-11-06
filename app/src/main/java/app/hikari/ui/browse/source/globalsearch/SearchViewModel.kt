@@ -5,9 +5,16 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.produceState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.preference.toggle
+import app.hikari.domain.manga.interactor.GetManga
+import app.hikari.domain.manga.interactor.NetworkToLocalManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.toDomainManga
+import app.hikari.domain.source.service.SourceManager
 import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.ExtensionManager
 import app.hikari.source.Source
+import app.hikari.source.local.isLocal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -20,13 +27,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import app.hikari.domain.manga.model.toDomainManga
-import app.hikari.core.common.preference.toggle
-import app.hikari.domain.manga.interactor.GetManga
-import app.hikari.domain.manga.interactor.NetworkToLocalManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.service.SourceManager
-import app.hikari.source.local.isLocal
 
 abstract class SearchViewModel(
     initialState: State = State(),

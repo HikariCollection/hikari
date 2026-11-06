@@ -41,16 +41,16 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.core.app.ActivityCompat
 import app.hikari.domain.ui.model.AppTheme
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.roundedfilled.CheckCircle
+import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.util.secondaryItemAlpha
 import app.hikari.presentation.manga.components.MangaCover
 import app.hikari.presentation.theme.HikariTheme
 import app.hikari.util.system.DeviceUtil
 import app.hikari.util.system.isDynamicColorAvailable
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.roundedfilled.CheckCircle
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.material.padding
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.util.secondaryItemAlpha
 
 @Composable
 internal fun AppThemePreferenceWidget(

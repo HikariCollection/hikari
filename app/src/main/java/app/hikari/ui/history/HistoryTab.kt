@@ -10,31 +10,31 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.hikari.R
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.feature.migration.dialog.MigrateMangaDialog
+import app.hikari.i18n.MR
+import app.hikari.presentation.category.components.ChangeCategoryDialog
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.history.HistoryScreen
+import app.hikari.presentation.history.components.HistoryDeleteAllDialog
+import app.hikari.presentation.history.components.HistoryDeleteDialog
+import app.hikari.presentation.manga.DuplicateMangaDialog
+import app.hikari.presentation.util.Tab
+import app.hikari.ui.category.CategoryScreen
+import app.hikari.ui.main.MainActivity
+import app.hikari.ui.manga.MangaScreen
+import app.hikari.ui.reader.ReaderActivity
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.presentation.category.components.ChangeCategoryDialog
-import app.hikari.presentation.history.HistoryScreen
-import app.hikari.presentation.history.components.HistoryDeleteAllDialog
-import app.hikari.presentation.history.components.HistoryDeleteDialog
-import app.hikari.presentation.manga.DuplicateMangaDialog
-import app.hikari.presentation.util.Tab
-import app.hikari.R
-import app.hikari.ui.category.CategoryScreen
-import app.hikari.ui.main.MainActivity
-import app.hikari.ui.manga.MangaScreen
-import app.hikari.ui.reader.ReaderActivity
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
-import app.hikari.feature.migration.dialog.MigrateMangaDialog
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 
 data object HistoryTab : Tab {
 

@@ -3,7 +3,15 @@ package app.hikari.ui.category
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.icerock.moko.resources.StringResource
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.domain.category.interactor.CreateCategoryWithName
+import app.hikari.domain.category.interactor.DeleteCategory
+import app.hikari.domain.category.interactor.GetCategories
+import app.hikari.domain.category.interactor.RenameCategory
+import app.hikari.domain.category.interactor.ReorderCategory
+import app.hikari.domain.category.model.Category
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
@@ -21,14 +29,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.domain.category.interactor.CreateCategoryWithName
-import app.hikari.domain.category.interactor.DeleteCategory
-import app.hikari.domain.category.interactor.GetCategories
-import app.hikari.domain.category.interactor.RenameCategory
-import app.hikari.domain.category.interactor.ReorderCategory
-import app.hikari.domain.category.model.Category
-import app.hikari.i18n.MR
 import kotlin.time.Duration.Companion.seconds
 
 @Inject

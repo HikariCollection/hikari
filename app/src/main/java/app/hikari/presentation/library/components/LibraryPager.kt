@@ -19,13 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import app.hikari.core.preference.PreferenceMutableState
-import app.hikari.ui.library.LibraryItem
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.library.model.LibraryDisplayMode
 import app.hikari.domain.library.model.LibraryManga
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.screens.EmptyScreen
 import app.hikari.presentation.core.util.plus
+import app.hikari.ui.library.LibraryItem
 
 @Composable
 fun LibraryPager(

@@ -2,15 +2,15 @@ package app.hikari.ui.reader.loader
 
 import android.content.Context
 import android.net.Uri
-import com.hippo.unifile.UniFile
+import app.hikari.core.archive.archiveReader
 import app.hikari.data.download.DownloadManager
 import app.hikari.data.download.DownloadProvider
+import app.hikari.domain.manga.model.Manga
 import app.hikari.source.Source
 import app.hikari.source.model.Page
 import app.hikari.ui.reader.model.ReaderChapter
 import app.hikari.ui.reader.model.ReaderPage
-import app.hikari.core.archive.archiveReader
-import app.hikari.domain.manga.model.Manga
+import com.hippo.unifile.UniFile
 import uy.kohesive.injekt.injectLazy
 
 /**

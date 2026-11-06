@@ -1,7 +1,7 @@
 package app.hikari.domain.source.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.source.model.StubSource
+import kotlinx.coroutines.flow.Flow
 
 interface StubSourceRepository {
     fun subscribeAll(): Flow<List<StubSource>>

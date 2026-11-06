@@ -1,8 +1,8 @@
 package app.hikari.source.local.metadata
 
+import app.hikari.core.archive.EpubReader
 import app.hikari.source.model.SChapter
 import app.hikari.source.model.SManga
-import app.hikari.core.archive.EpubReader
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale

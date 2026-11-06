@@ -9,9 +9,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import dev.icerock.moko.resources.StringResource
 import app.hikari.core.common.preference.CheckboxState
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.core.components.LabeledCheckbox
 import app.hikari.presentation.core.i18n.stringResource
 

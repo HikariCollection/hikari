@@ -12,11 +12,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.window.DialogWindowProvider
+import app.hikari.i18n.MR
 import app.hikari.presentation.components.TabbedDialog
 import app.hikari.presentation.components.TabbedDialogPaddings
-import app.hikari.ui.reader.setting.ReaderSettingsViewModel
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.ui.reader.setting.ReaderSettingsViewModel
 
 @Composable
 fun ReaderSettingsDialog(

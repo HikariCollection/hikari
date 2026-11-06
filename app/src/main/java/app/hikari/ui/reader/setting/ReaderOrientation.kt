@@ -2,14 +2,14 @@ package app.hikari.ui.reader.setting
 
 import android.content.pm.ActivityInfo
 import androidx.compose.ui.graphics.vector.ImageVector
-import dev.icerock.moko.resources.StringResource
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Mobile
 import app.hikari.icons.materialsymbols.rounded.MobileLandscape
 import app.hikari.icons.materialsymbols.rounded.MobileLockLandscape
 import app.hikari.icons.materialsymbols.rounded.MobileLockPortrait
 import app.hikari.icons.materialsymbols.rounded.MobileRotate
-import app.hikari.i18n.MR
 
 enum class ReaderOrientation(
     val flag: Int,

@@ -6,17 +6,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.util.fastMap
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.metroViewModel
 import app.hikari.presentation.category.CategoryScreen
 import app.hikari.presentation.category.components.CategoryCreateDialog
 import app.hikari.presentation.category.components.CategoryDeleteDialog
 import app.hikari.presentation.category.components.CategoryRenameDialog
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.util.Screen
 import app.hikari.util.system.toast
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import kotlinx.coroutines.flow.collectLatest
-import app.hikari.presentation.core.screens.LoadingScreen
 
 class CategoryScreen : Screen() {
 

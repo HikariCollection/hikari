@@ -1,10 +1,10 @@
 package app.hikari.domain.category.interactor
 
-import dev.zacsweers.metro.Inject
-import logcat.LogPriority
 import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.category.repository.CategoryRepository
+import dev.zacsweers.metro.Inject
+import logcat.LogPriority
 
 @Inject
 class RenameCategory(

@@ -3,20 +3,20 @@ package app.hikari.data.backup
 import android.content.Context
 import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
-import com.hippo.unifile.UniFile
-import dev.zacsweers.metro.Inject
 import app.hikari.R
+import app.hikari.core.common.i18n.pluralStringResource
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.storage.displayablePath
 import app.hikari.core.security.SecurityPreferences
 import app.hikari.data.notification.NotificationReceiver
 import app.hikari.data.notification.Notifications
+import app.hikari.i18n.MR
 import app.hikari.util.storage.getUriCompat
 import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.notificationBuilder
 import app.hikari.util.system.notify
-import app.hikari.core.common.i18n.pluralStringResource
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.storage.displayablePath
-import app.hikari.i18n.MR
+import com.hippo.unifile.UniFile
+import dev.zacsweers.metro.Inject
 import java.io.File
 import kotlin.time.Duration.Companion.milliseconds
 import app.hikari.icons.materialsymbols.R as MaterialSymbolsR
@@ -30,7 +30,7 @@ class BackupNotifier(
         Notifications.CHANNEL_BACKUP_RESTORE_PROGRESS,
     ) {
         setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
-        setSmallIcon(R.drawable.ic_mihon)
+        setSmallIcon(R.drawable.ic_hikari)
         setAutoCancel(false)
         setOngoing(true)
         setOnlyAlertOnce(true)
@@ -40,7 +40,7 @@ class BackupNotifier(
         Notifications.CHANNEL_BACKUP_RESTORE_COMPLETE,
     ) {
         setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
-        setSmallIcon(R.drawable.ic_mihon)
+        setSmallIcon(R.drawable.ic_hikari)
         setAutoCancel(false)
     }
 

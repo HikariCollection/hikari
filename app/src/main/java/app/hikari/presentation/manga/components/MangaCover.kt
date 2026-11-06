@@ -11,9 +11,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
-import coil3.compose.AsyncImage
-import app.hikari.presentation.util.rememberResourceBitmapPainter
 import app.hikari.R
+import app.hikari.presentation.util.rememberResourceBitmapPainter
+import coil3.compose.AsyncImage
 
 enum class MangaCover(val ratio: Float) {
     Square(1f / 1f),

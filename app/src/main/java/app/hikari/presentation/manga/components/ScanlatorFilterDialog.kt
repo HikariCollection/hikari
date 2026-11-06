@@ -24,10 +24,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.CheckBoxOutlineBlank
 import app.hikari.icons.materialsymbols.roundedfilled.DisabledByDefault
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.TextButton
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource

@@ -14,13 +14,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.AdaptiveSheet
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.ContentCopy
 import app.hikari.icons.materialsymbols.rounded.Photo
 import app.hikari.icons.materialsymbols.rounded.Save
 import app.hikari.icons.materialsymbols.rounded.Share
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AdaptiveSheet
 import app.hikari.presentation.core.components.ActionButton
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource

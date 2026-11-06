@@ -43,13 +43,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.DownloadDropdownMenu
-import app.hikari.presentation.components.DropdownMenu
-import app.hikari.presentation.manga.DownloadAction
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
+import app.hikari.i18n.MR
 import app.hikari.icons.custommaterialsymbols.CustomMaterialSymbols
 import app.hikari.icons.custommaterialsymbols.rounded.DonePrevious
 import app.hikari.icons.materialsymbols.MaterialSymbols
@@ -62,8 +56,14 @@ import app.hikari.icons.materialsymbols.rounded.Download
 import app.hikari.icons.materialsymbols.rounded.MoreVert
 import app.hikari.icons.materialsymbols.rounded.RemoveDone
 import app.hikari.icons.materialsymbols.rounded.SwapCalls
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.DownloadDropdownMenu
+import app.hikari.presentation.components.DropdownMenu
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.manga.DownloadAction
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 @Composable

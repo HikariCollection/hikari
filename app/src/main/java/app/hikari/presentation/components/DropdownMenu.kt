@@ -17,11 +17,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.PopupProperties
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.ArrowRight
 import app.hikari.icons.materialsymbols.rounded.RadioButtonChecked
 import app.hikari.icons.materialsymbols.rounded.RadioButtonUnchecked
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
 import androidx.compose.material3.DropdownMenu as ComposeDropdownMenu
 

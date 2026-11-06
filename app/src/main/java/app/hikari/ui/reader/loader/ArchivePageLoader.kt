@@ -1,10 +1,10 @@
 package app.hikari.ui.reader.loader
 
+import app.hikari.core.archive.ArchiveReader
+import app.hikari.core.common.util.system.ImageUtil
 import app.hikari.source.model.Page
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.util.lang.compareToCaseInsensitiveNaturalOrder
-import app.hikari.core.archive.ArchiveReader
-import app.hikari.core.common.util.system.ImageUtil
 
 /**
  * Loader used to load a chapter from an archive file.

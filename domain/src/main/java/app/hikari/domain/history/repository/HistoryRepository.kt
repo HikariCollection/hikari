@@ -1,9 +1,9 @@
 package app.hikari.domain.history.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.history.model.History
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.model.HistoryWithRelations
+import kotlinx.coroutines.flow.Flow
 
 interface HistoryRepository {
 

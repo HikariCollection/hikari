@@ -8,9 +8,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Preview
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 fun SwitchPreferenceWidget(

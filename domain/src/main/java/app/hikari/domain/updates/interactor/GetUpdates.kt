@@ -1,9 +1,9 @@
 package app.hikari.domain.updates.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.updates.model.UpdatesWithRelations
 import app.hikari.domain.updates.repository.UpdatesRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 import kotlin.time.Instant
 
 @Inject

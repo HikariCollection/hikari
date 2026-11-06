@@ -1,9 +1,9 @@
 package app.hikari.data.extension.model
 
 import android.annotation.SuppressLint
+import app.hikari.domain.extension.model.ExtensionStore
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import app.hikari.domain.extension.model.ExtensionStore
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable

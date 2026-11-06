@@ -17,6 +17,8 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.viewpager.widget.ViewPager
 import app.hikari.R
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
 import app.hikari.ui.reader.ReaderActivity
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.InsertPage
@@ -32,8 +34,6 @@ import app.hikari.ui.reader.viewer.mouseWheelPaging
 import app.hikari.ui.reader.viewer.position
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import app.hikari.app.di.appGraph
-import app.hikari.core.common.util.system.logcat
 import kotlin.math.min
 
 /**

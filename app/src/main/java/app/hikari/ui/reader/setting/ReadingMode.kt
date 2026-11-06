@@ -1,16 +1,9 @@
 package app.hikari.ui.reader.setting
 
 import androidx.compose.ui.graphics.vector.ImageVector
-import dev.icerock.moko.resources.StringResource
-import app.hikari.ui.reader.ReaderActivity
-import app.hikari.ui.reader.viewer.Viewer
-import app.hikari.ui.reader.viewer.pager.L2RPagerViewer
-import app.hikari.ui.reader.viewer.pager.R2LPagerViewer
-import app.hikari.ui.reader.viewer.pager.VerticalPagerViewer
-import app.hikari.ui.reader.viewer.webgpu.WebGpuViewer
-import app.hikari.ui.reader.viewer.webgpu.WebGpuViewerContinuous
-import app.hikari.ui.reader.viewer.webtoon.WebtoonViewer
 import app.hikari.app.di.appGraph
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.icons.custommaterialsymbols.CustomMaterialSymbols
 import app.hikari.icons.custommaterialsymbols.rounded.ReaderLeftToRight
 import app.hikari.icons.custommaterialsymbols.rounded.ReaderLongStrip
@@ -19,7 +12,14 @@ import app.hikari.icons.custommaterialsymbols.rounded.ReaderRightToLeft
 import app.hikari.icons.custommaterialsymbols.rounded.ReaderVertical
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.MobileGear
-import app.hikari.i18n.MR
+import app.hikari.ui.reader.ReaderActivity
+import app.hikari.ui.reader.viewer.Viewer
+import app.hikari.ui.reader.viewer.pager.L2RPagerViewer
+import app.hikari.ui.reader.viewer.pager.R2LPagerViewer
+import app.hikari.ui.reader.viewer.pager.VerticalPagerViewer
+import app.hikari.ui.reader.viewer.webgpu.WebGpuViewer
+import app.hikari.ui.reader.viewer.webgpu.WebGpuViewerContinuous
+import app.hikari.ui.reader.viewer.webtoon.WebtoonViewer
 
 enum class ReadingMode(
     val stringRes: StringResource,

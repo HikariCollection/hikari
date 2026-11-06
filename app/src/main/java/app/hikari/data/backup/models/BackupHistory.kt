@@ -1,9 +1,9 @@
 package app.hikari.data.backup.models
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.protobuf.ProtoNumber
 import app.hikari.core.common.extensions.toInstantOrNull
 import app.hikari.domain.history.model.History
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.protobuf.ProtoNumber
 
 @Serializable
 data class BackupHistory(

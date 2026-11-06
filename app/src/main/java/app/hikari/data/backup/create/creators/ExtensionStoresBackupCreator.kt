@@ -1,9 +1,9 @@
 package app.hikari.data.backup.create.creators
 
-import dev.zacsweers.metro.Inject
 import app.hikari.data.backup.models.BackupExtensionStore
 import app.hikari.data.backup.models.backupExtensionStoreMapper
 import app.hikari.domain.extension.interactor.GetExtensionStores
+import dev.zacsweers.metro.Inject
 
 @Inject
 class ExtensionStoresBackupCreator(

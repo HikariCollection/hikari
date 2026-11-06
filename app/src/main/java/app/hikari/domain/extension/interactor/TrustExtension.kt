@@ -2,16 +2,16 @@ package app.hikari.domain.extension.interactor
 
 import android.content.pm.PackageInfo
 import androidx.core.content.pm.PackageInfoCompat
-import dev.zacsweers.metro.Inject
+import app.hikari.core.common.preference.getAndSet
+import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.domain.extension.repository.ExtensionStoreRepository
 import app.hikari.domain.source.service.SourcePreferences
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
-import app.hikari.domain.extension.model.ExtensionStore
-import app.hikari.domain.extension.repository.ExtensionStoreRepository
-import app.hikari.core.common.preference.getAndSet
 
 @Inject
 class TrustExtension(

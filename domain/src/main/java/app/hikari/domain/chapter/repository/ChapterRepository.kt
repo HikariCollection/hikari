@@ -1,10 +1,10 @@
 package app.hikari.domain.chapter.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterRemoteUpdate
 import app.hikari.domain.chapter.model.ChapterSummary
 import app.hikari.domain.chapter.model.ChapterUpdate
+import kotlinx.coroutines.flow.Flow
 
 interface ChapterRepository {
 

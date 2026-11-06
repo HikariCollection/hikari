@@ -4,6 +4,14 @@ import android.content.Context
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.network.NetworkHelper
+import app.hikari.source.online.HttpSource
+import app.hikari.util.system.openInBrowser
+import app.hikari.util.system.toShareIntent
+import app.hikari.util.system.toWebViewHeaders
+import app.hikari.util.system.toast
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
@@ -11,20 +19,12 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
-import app.hikari.network.NetworkHelper
-import app.hikari.source.online.HttpSource
-import app.hikari.util.system.openInBrowser
-import app.hikari.util.system.toShareIntent
-import app.hikari.util.system.toWebViewHeaders
-import app.hikari.util.system.toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import logcat.LogPriority
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.source.service.SourceManager
 
 @AssistedInject
 class WebViewViewModel(

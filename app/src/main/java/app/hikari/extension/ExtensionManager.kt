@@ -1,10 +1,13 @@
 package app.hikari.extension
 
 import android.content.Context
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.domain.extension.interactor.TrustExtension
+import app.hikari.domain.extension.interactor.UpdateExtensionStores
+import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.domain.extension.repository.ExtensionStoreRepository
+import app.hikari.domain.source.model.StubSource
 import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.api.ExtensionUpdateNotifier
 import app.hikari.extension.model.Extension
@@ -12,7 +15,12 @@ import app.hikari.extension.model.InstallStep
 import app.hikari.extension.util.ExtensionInstallReceiver
 import app.hikari.extension.util.ExtensionInstaller
 import app.hikari.extension.util.ExtensionLoader
+import app.hikari.i18n.MR
+import app.hikari.source.builtin.BuiltinSources
 import app.hikari.util.system.toast
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,13 +42,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.domain.extension.interactor.UpdateExtensionStores
-import app.hikari.domain.extension.model.ExtensionStore
-import app.hikari.domain.extension.repository.ExtensionStoreRepository
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.source.model.StubSource
-import app.hikari.i18n.MR
 import java.util.Locale
 
 /**
@@ -71,7 +72,7 @@ class ExtensionManager(
     @Volatile
     private var stores = emptyList<ExtensionStore>()
 
-    private val loadedExtensionMapFlow = MutableStateFlow(emptyMap<String, Extension.Loaded>())
+    private val loadedExtensionMapFlow = MutableStateFlow(BuiltinSources.extensions.associateBy { it.pkgName })
     val loadedExtensionsFlow = loadedExtensionMapFlow.mapExtensionsWhenInitialized()
 
     // Every store's listing, since more than one store can list the same extension
@@ -162,8 +163,9 @@ class ExtensionManager(
     private suspend fun loadExtensions() = loadMutex.withLock {
         try {
             val extensions = ExtensionLoader.loadExtensions(context, loadedExtensionMapFlow.value)
+            val builtinExtensions = BuiltinSources.extensions.associateBy { it.pkgName }
 
-            loadedExtensionMapFlow.value = extensions
+            loadedExtensionMapFlow.value = builtinExtensions + extensions
                 .filterIsInstance<Extension.Loaded>()
                 .associateBy { it.pkgName }
 
@@ -282,8 +284,7 @@ class ExtensionManager(
      */
     fun updateExtension(extension: Extension.Installed): Flow<InstallStep> {
         val update = extension.findUpdate(availableExtensionListFlow.value) ?: return emptyFlow()
-        val isUpdateForPrivatelyInstalled = !extension.isShared
-        return installer.downloadAndInstall(update, isUpdateForPrivatelyInstalled)
+        return installer.downloadAndInstall(update)
     }
 
     fun cancelInstallUpdateExtension(extension: Extension) {
@@ -309,6 +310,7 @@ class ExtensionManager(
      * @param extension The extension to uninstall.
      */
     fun uninstallExtension(extension: Extension.Installed) {
+        if (BuiltinSources.extensions.any { it.pkgName == extension.pkgName }) return
         installer.uninstallApk(extension.pkgName)
     }
 
@@ -342,6 +344,7 @@ class ExtensionManager(
      * @param pkgName The package name of the uninstalled application.
      */
     private fun unregisterExtension(pkgName: String) {
+        if (BuiltinSources.extensions.any { it.pkgName == pkgName }) return
         loadedExtensionMapFlow.update { it - pkgName }
         notLoadedExtensionMapFlow.update { it - pkgName }
     }
@@ -364,7 +367,6 @@ class ExtensionManager(
         }
 
         override suspend fun onPackageUninstalled(pkgName: String) = loadMutex.withLock {
-            ExtensionLoader.uninstallPrivateExtension(context, pkgName)
             unregisterExtension(pkgName)
             updatePendingUpdatesCount()
         }
@@ -379,11 +381,18 @@ class ExtensionManager(
         if (available.isNotEmpty()) {
             loadedExtensionMapFlow.update { current ->
                 current.mapValues { (_, extension) ->
+                    val isBuiltin = BuiltinSources.extensions.any { it.pkgName == extension.pkgName }
                     val listing = extension.findListing(available)
                     extension.copy(
-                        hasUpdate = extension.findUpdate(available) != null,
-                        isObsolete = listing == null,
-                        store = if (stores.isEmpty()) extension.store else extension.pickStore(),
+                        hasUpdate = if (isBuiltin) false else extension.findUpdate(available) != null,
+                        isObsolete = if (isBuiltin) false else listing == null,
+                        store = if (isBuiltin) {
+                            null
+                        } else if (stores.isEmpty()) {
+                            extension.store
+                        } else {
+                            extension.pickStore()
+                        },
                     )
                 }
             }

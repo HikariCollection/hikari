@@ -7,10 +7,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import app.hikari.ui.reader.setting.ReaderPreferences
-import app.hikari.ui.reader.setting.ReaderSettingsViewModel
-import app.hikari.ui.reader.setting.ReadingMode
-import app.hikari.util.system.hasDisplayCutout
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.CheckboxItem
 import app.hikari.presentation.core.components.SettingsChipRow
@@ -18,6 +14,10 @@ import app.hikari.presentation.core.components.SliderItem
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.reader.setting.ReaderPreferences
+import app.hikari.ui.reader.setting.ReaderSettingsViewModel
+import app.hikari.ui.reader.setting.ReadingMode
+import app.hikari.util.system.hasDisplayCutout
 
 private val themes = listOf(
     MR.strings.black_background to 1,

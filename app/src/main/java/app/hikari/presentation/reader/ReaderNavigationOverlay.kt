@@ -21,9 +21,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.ui.reader.viewer.ViewerNavigation
 import app.hikari.ui.reader.viewer.navigation.DisabledNavigation
-import app.hikari.presentation.core.i18n.stringResource
 
 @Composable
 fun ReaderNavigationOverlay(

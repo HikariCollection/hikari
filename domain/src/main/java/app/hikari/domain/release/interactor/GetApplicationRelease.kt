@@ -1,8 +1,8 @@
 package app.hikari.domain.release.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.release.model.Release
 import app.hikari.domain.release.service.ReleaseService
+import dev.zacsweers.metro.Inject
 
 @Inject
 class GetApplicationRelease(
@@ -33,11 +33,11 @@ class GetApplicationRelease(
         // Removes prefixes like "r" or "v"
         val newVersion = versionTag.replace("[^\\d.]".toRegex(), "")
         return if (isNightly) {
-            // Nightly builds: based on releases in "mihonapp/app.hikari-preview" repo
+            // Nightly builds: based on preview releases
             // tagged as something like "r1234"
             newVersion.toInt() > commitCount
         } else {
-            // Release builds: based on releases in "mihonapp/app.hikari" repo
+            // Release builds: based on stable releases
             // tagged as something like "v0.1.2"
             val oldVersion = versionName.replace("[^\\d.]".toRegex(), "")
 

@@ -1,11 +1,11 @@
 package app.hikari.domain.chapter.service
 
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.chapter.service.ChapterRecognition.ChapterNumbering
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.chapter.service.ChapterRecognition.ChapterNumbering
 
 @Execution(ExecutionMode.CONCURRENT)
 class ChapterRecognitionTest {

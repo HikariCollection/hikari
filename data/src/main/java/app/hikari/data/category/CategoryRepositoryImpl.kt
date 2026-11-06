@@ -2,16 +2,16 @@ package app.hikari.data.category
 
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import kotlinx.coroutines.flow.Flow
 import app.hikari.data.Database
 import app.hikari.data.subscribeToList
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.category.model.NewCategory
 import app.hikari.domain.category.repository.CategoryRepository
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlinx.coroutines.flow.Flow
 
 @Inject
 @SingleIn(AppScope::class)

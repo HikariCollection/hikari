@@ -3,11 +3,11 @@ package app.hikari.presentation.more.settings.screen
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import cafe.adriel.voyager.core.screen.Screen
-import dev.icerock.moko.resources.StringResource
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.more.settings.Preference
 import app.hikari.presentation.more.settings.PreferenceScaffold
 import app.hikari.presentation.util.LocalBackPress
+import cafe.adriel.voyager.core.screen.Screen
 
 interface SearchableSettings : Screen {
 

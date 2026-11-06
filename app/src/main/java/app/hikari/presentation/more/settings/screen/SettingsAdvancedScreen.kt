@@ -6,27 +6,22 @@ import android.content.Intent
 import android.provider.Settings
 import android.webkit.WebStorage
 import android.webkit.WebView
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.core.net.toUri
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import app.hikari.domain.base.BasePreferences
-import app.hikari.presentation.more.settings.Preference
-import app.hikari.presentation.more.settings.screen.advanced.ClearDatabaseScreen
-import app.hikari.presentation.more.settings.screen.debug.DebugInfoScreen
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
 import app.hikari.data.library.MetadataUpdateWorker
+import app.hikari.domain.base.BasePreferences
+import app.hikari.domain.library.service.LibraryPreferences
+import app.hikari.i18n.MR
 import app.hikari.network.NetworkPreferences
 import app.hikari.network.PREF_DOH_360
 import app.hikari.network.PREF_DOH_ADGUARD
@@ -40,24 +35,23 @@ import app.hikari.network.PREF_DOH_NJALLA
 import app.hikari.network.PREF_DOH_QUAD101
 import app.hikari.network.PREF_DOH_QUAD9
 import app.hikari.network.PREF_DOH_SHECAN
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.more.settings.Preference
+import app.hikari.presentation.more.settings.screen.advanced.ClearDatabaseScreen
+import app.hikari.presentation.more.settings.screen.debug.DebugInfoScreen
 import app.hikari.ui.more.OnboardingScreen
-import app.hikari.util.system.isReleaseBuildType
-import app.hikari.util.system.isShizukuInstalled
 import app.hikari.util.system.powerManager
 import app.hikari.util.system.setDefaultSettings
 import app.hikari.util.system.toast
 import app.hikari.util.system.workManager
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
 import okhttp3.Headers
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.library.service.LibraryPreferences
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.util.collectAsState
 import java.io.File
 
 object SettingsAdvancedScreen : SearchableSettings {
@@ -128,7 +122,7 @@ object SettingsAdvancedScreen : SearchableSettings {
             getNetworkGroup(networkPreferences = networkPreferences),
             getLibraryGroup(libraryPreferences = libraryPreferences),
             getReaderGroup(basePreferences = basePreferences),
-            getExtensionsGroup(basePreferences = basePreferences),
+            getExtensionsGroup(),
         )
     }
 
@@ -354,65 +348,13 @@ object SettingsAdvancedScreen : SearchableSettings {
     }
 
     @Composable
-    private fun getExtensionsGroup(
-        basePreferences: BasePreferences,
-    ): Preference.PreferenceGroup {
+    private fun getExtensionsGroup(): Preference.PreferenceGroup {
         val context = LocalContext.current
-        val uriHandler = LocalUriHandler.current
-        val extensionInstallerPref = basePreferences.extensionInstaller
-        var shizukuMissing by rememberSaveable { mutableStateOf(false) }
         val trustExtension = remember { context.appGraph.trustExtension }
 
-        if (shizukuMissing) {
-            val dismiss = { shizukuMissing = false }
-            AlertDialog(
-                onDismissRequest = dismiss,
-                title = { Text(text = stringResource(MR.strings.ext_installer_shizuku)) },
-                text = { Text(text = stringResource(MR.strings.ext_installer_shizuku_unavailable_dialog)) },
-                dismissButton = {
-                    TextButton(onClick = dismiss) {
-                        Text(text = stringResource(MR.strings.action_cancel))
-                    }
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            dismiss()
-                            uriHandler.openUri("https://shizuku.rikka.app/download")
-                        },
-                    ) {
-                        Text(text = stringResource(MR.strings.action_ok))
-                    }
-                },
-            )
-        }
         return Preference.PreferenceGroup(
             title = stringResource(MR.strings.label_extensions),
             preferenceItems = listOf(
-                Preference.PreferenceItem.ListPreference(
-                    preference = extensionInstallerPref,
-                    entries = extensionInstallerPref.entries
-                        .filter {
-                            // TODO: allow private option in stable versions once URL handling is more fleshed out
-                            if (isReleaseBuildType) {
-                                it != BasePreferences.ExtensionInstaller.PRIVATE
-                            } else {
-                                true
-                            }
-                        }
-                        .associateWith { stringResource(it.titleRes) },
-                    title = stringResource(MR.strings.ext_installer_pref),
-                    onValueChanged = {
-                        if (it == BasePreferences.ExtensionInstaller.SHIZUKU &&
-                            !context.isShizukuInstalled
-                        ) {
-                            shizukuMissing = true
-                            false
-                        } else {
-                            true
-                        }
-                    },
-                ),
                 Preference.PreferenceItem.TextPreference(
                     title = stringResource(MR.strings.ext_revoke_trust),
                     onClick = { trustExtension.revokeAll() },

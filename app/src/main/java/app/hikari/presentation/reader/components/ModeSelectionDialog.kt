@@ -17,13 +17,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.theme.HikariPreviewTheme
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Check
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.SettingsItemsPaddings
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 fun ModeSelectionDialog(

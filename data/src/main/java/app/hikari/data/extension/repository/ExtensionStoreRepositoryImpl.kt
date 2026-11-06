@@ -2,11 +2,19 @@ package app.hikari.data.extension.repository
 
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOne
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.data.Database
+import app.hikari.data.extension.service.ExtensionStoreService
+import app.hikari.data.subscribeToList
+import app.hikari.data.subscribeToOne
+import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.domain.extension.repository.ExtensionStoreRepository
+import app.hikari.extension.model.Extension
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import app.hikari.extension.model.Extension
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -18,14 +26,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.shareIn
 import kotlinx.coroutines.supervisorScope
 import logcat.LogPriority
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.data.extension.service.ExtensionStoreService
-import app.hikari.domain.extension.model.ExtensionStore
-import app.hikari.domain.extension.repository.ExtensionStoreRepository
-import app.hikari.core.common.util.system.logcat
-import app.hikari.data.Database
-import app.hikari.data.subscribeToList
-import app.hikari.data.subscribeToOne
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 

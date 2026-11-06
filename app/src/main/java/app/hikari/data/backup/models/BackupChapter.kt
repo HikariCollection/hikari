@@ -1,13 +1,13 @@
 package app.hikari.data.backup.models
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.protobuf.ProtoNumber
 import app.hikari.core.common.extensions.JsonObjectEmptyBytes
 import app.hikari.core.common.extensions.toByteArray
 import app.hikari.core.common.extensions.toEpochMillisOrZero
 import app.hikari.core.common.extensions.toInstantOrNull
 import app.hikari.core.common.extensions.toJsonObject
 import app.hikari.domain.chapter.model.Chapter
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.protobuf.ProtoNumber
 import kotlin.time.Instant
 
 @Serializable

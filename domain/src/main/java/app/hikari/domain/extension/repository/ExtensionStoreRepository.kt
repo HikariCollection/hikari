@@ -1,8 +1,8 @@
 package app.hikari.domain.extension.repository
 
+import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.extension.model.Extension
 import kotlinx.coroutines.flow.Flow
-import app.hikari.domain.extension.model.ExtensionStore
 
 interface ExtensionStoreRepository {
     suspend fun insert(indexUrl: String): Result<Unit>

@@ -1,10 +1,10 @@
 package app.hikari.data.extension.model
 
 import android.annotation.SuppressLint
-import app.hikari.extension.model.Extension
-import kotlinx.serialization.Serializable
 import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.extension.model.Extension
+import kotlinx.serialization.Serializable
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
@@ -28,7 +28,7 @@ data class NetworkLegacyExtension(
 
     fun toAvailableExtension(store: ExtensionStore, storeBaseUrl: String): Extension.Available {
         return Extension.Available(
-            name = name.substringAfter("Tachiyomi: "),
+            name = name.removePrefix("Hikari: ").removePrefix("Tachiyomi: "),
             pkgName = pkg,
             apkUrl = "$storeBaseUrl/apk/$apk",
             iconUrl = "$storeBaseUrl/icon/$pkg.png",

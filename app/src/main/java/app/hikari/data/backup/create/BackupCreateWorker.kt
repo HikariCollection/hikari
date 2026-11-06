@@ -15,23 +15,23 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.hippo.unifile.UniFile
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.AppGraph
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.metroGraph
 import app.hikari.data.backup.BackupNotifier
 import app.hikari.data.backup.restore.BackupRestoreWorker
 import app.hikari.data.notification.Notifications
+import app.hikari.domain.storage.service.StorageManager
 import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.isRunning
 import app.hikari.util.system.setForegroundSafely
 import app.hikari.util.system.workManager
+import com.hippo.unifile.UniFile
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.AppGraph
-import app.hikari.app.di.appGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.storage.service.StorageManager
 import java.util.concurrent.TimeUnit
 
 class BackupCreateWorker(private val context: Context, workerParams: WorkerParameters) :

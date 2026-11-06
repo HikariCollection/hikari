@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.BuildFeatures
-import com.android.build.api.dsl.CommonExtension
 import app.hikari.gradle.extensions.alias
 import app.hikari.gradle.extensions.android
 import app.hikari.gradle.extensions.api
@@ -7,6 +5,8 @@ import app.hikari.gradle.extensions.debugApi
 import app.hikari.gradle.extensions.implementation
 import app.hikari.gradle.extensions.libs
 import app.hikari.gradle.extensions.plugins
+import com.android.build.api.dsl.BuildFeatures
+import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies

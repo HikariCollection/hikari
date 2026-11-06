@@ -1,7 +1,7 @@
 package app.hikari.domain.updates.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.updates.model.UpdatesWithRelations
+import kotlinx.coroutines.flow.Flow
 import kotlin.time.Instant
 
 interface UpdatesRepository {

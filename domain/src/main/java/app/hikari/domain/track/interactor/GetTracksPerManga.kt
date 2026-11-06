@@ -1,10 +1,10 @@
 package app.hikari.domain.track.interactor
 
+import app.hikari.domain.track.model.Track
+import app.hikari.domain.track.repository.TrackRepository
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import app.hikari.domain.track.model.Track
-import app.hikari.domain.track.repository.TrackRepository
 
 @Inject
 class GetTracksPerManga(

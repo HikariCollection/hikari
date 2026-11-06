@@ -1,15 +1,15 @@
 package app.hikari.core.migration.migrations
 
+import app.hikari.core.common.preference.PreferenceStore
+import app.hikari.core.migration.Migration
+import app.hikari.core.migration.MigrationContext
+import app.hikari.ui.reader.setting.ReaderPreferences
+import app.hikari.ui.reader.setting.ReadingMode
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoSet
 import dev.zacsweers.metro.Inject
-import app.hikari.ui.reader.setting.ReaderPreferences
-import app.hikari.ui.reader.setting.ReadingMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.core.migration.Migration
-import app.hikari.core.migration.MigrationContext
-import app.hikari.core.common.preference.PreferenceStore
 
 @Inject
 @ContributesIntoSet(AppScope::class)

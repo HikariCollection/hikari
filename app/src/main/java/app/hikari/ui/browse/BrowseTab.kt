@@ -8,26 +8,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
-import cafe.adriel.voyager.navigator.tab.TabOptions
-import dev.zacsweers.metrox.viewmodel.metroViewModel
+import app.hikari.R
+import app.hikari.i18n.MR
 import app.hikari.presentation.components.TabbedScreen
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.util.Tab
 import app.hikari.presentation.util.rememberAnimatedVectorPainter
-import app.hikari.R
 import app.hikari.ui.browse.extension.ExtensionsViewModel
 import app.hikari.ui.browse.extension.extensionsTab
 import app.hikari.ui.browse.migration.sources.migrateSourceTab
 import app.hikari.ui.browse.source.globalsearch.GlobalSearchScreen
 import app.hikari.ui.browse.source.sourcesTab
 import app.hikari.ui.main.MainActivity
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.TabOptions
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 
 data object BrowseTab : Tab {
 

@@ -3,14 +3,14 @@ package app.hikari.ui.reader.viewer.webgpu
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import app.hikari.core.common.preference.Preference
+import app.hikari.core.common.util.system.logcat
 import ca.mpreg.webgpuviewer.renderer.ImageFilterWgsl
 import ca.mpreg.webgpuviewer.renderer.Sampler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.core.common.preference.Preference
-import app.hikari.core.common.util.system.logcat
 import java.io.File
 import java.util.UUID
 

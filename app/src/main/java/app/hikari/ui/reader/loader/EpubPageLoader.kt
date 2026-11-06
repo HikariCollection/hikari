@@ -1,8 +1,8 @@
 package app.hikari.ui.reader.loader
 
+import app.hikari.core.archive.EpubReader
 import app.hikari.source.model.Page
 import app.hikari.ui.reader.model.ReaderPage
-import app.hikari.core.archive.EpubReader
 
 /**
  * Loader used to load a chapter from a .epub file.

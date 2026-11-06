@@ -9,26 +9,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
 import androidx.core.app.ActivityCompat
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import app.hikari.app.di.appGraph
 import app.hikari.domain.ui.UiPreferences
 import app.hikari.domain.ui.model.TabletUiMode
 import app.hikari.domain.ui.model.ThemeMode
 import app.hikari.domain.ui.model.TimeFormat
 import app.hikari.domain.ui.model.setAppCompatDelegateThemeMode
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.settings.Preference
-import app.hikari.presentation.more.settings.screen.appearance.AppLanguageScreen
 import app.hikari.presentation.more.settings.widget.AppThemeModePreferenceWidget
 import app.hikari.presentation.more.settings.widget.AppThemePreferenceWidget
 import app.hikari.presentation.util.rememberIs24HourSystem
 import app.hikari.util.system.toast
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
-import app.hikari.app.di.appGraph
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.util.collectAsState
 import kotlin.time.Clock
 
 object SettingsAppearanceScreen : SearchableSettings {
@@ -117,10 +116,6 @@ object SettingsAppearanceScreen : SearchableSettings {
         return Preference.PreferenceGroup(
             title = stringResource(MR.strings.pref_category_display),
             preferenceItems = listOf(
-                Preference.PreferenceItem.TextPreference(
-                    title = stringResource(MR.strings.pref_app_language),
-                    onClick = { navigator.push(AppLanguageScreen()) },
-                ),
                 Preference.PreferenceItem.ListPreference(
                     preference = uiPreferences.tabletUiMode,
                     entries = TabletUiMode.entries

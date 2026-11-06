@@ -1,16 +1,16 @@
 package app.hikari.core.migration.migrations
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoSet
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.source.service.SourcePreferences
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import logcat.LogPriority
+import app.hikari.core.common.util.system.logcat
 import app.hikari.core.migration.Migration
 import app.hikari.core.migration.MigrationContext
 import app.hikari.domain.extension.repository.ExtensionStoreRepository
-import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.source.service.SourcePreferences
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import logcat.LogPriority
 
 @Inject
 @ContributesIntoSet(AppScope::class)

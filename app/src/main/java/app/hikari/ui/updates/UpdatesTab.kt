@@ -9,28 +9,28 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
-import cafe.adriel.voyager.navigator.tab.TabOptions
-import dev.zacsweers.metrox.viewmodel.metroViewModel
+import app.hikari.R
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.feature.upcoming.UpcomingScreen
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.updates.UpdateScreen
 import app.hikari.presentation.updates.UpdatesDeleteConfirmationDialog
 import app.hikari.presentation.updates.UpdatesFilterDialog
 import app.hikari.presentation.util.Tab
-import app.hikari.R
 import app.hikari.ui.download.DownloadQueueScreen
 import app.hikari.ui.home.HomeScreen
 import app.hikari.ui.main.MainActivity
 import app.hikari.ui.manga.MangaScreen
 import app.hikari.ui.reader.ReaderActivity
 import app.hikari.ui.updates.UpdatesViewModel.Event
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.TabOptions
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 import kotlinx.coroutines.flow.collectLatest
-import app.hikari.feature.upcoming.UpcomingScreen
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 
 data object UpdatesTab : Tab {
 

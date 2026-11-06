@@ -1,14 +1,14 @@
 package app.hikari.network
 
 import android.content.Context
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.network.interceptor.CloudflareInterceptor
 import app.hikari.network.interceptor.UncaughtExceptionInterceptor
 import app.hikari.network.interceptor.UserAgentInterceptor
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CoroutineScope
-import app.hikari.core.metro.AppCoroutineScope
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

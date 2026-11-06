@@ -64,10 +64,6 @@ gradlePlugin {
             id = hikarix.plugins.compose.get().pluginId
             implementationClass = "PluginComposeAndroid"
         }
-        register("kotlin-multiplatform") {
-            id = hikarix.plugins.kotlin.multiplatform.get().pluginId
-            implementationClass = "PluginKotlinMultiplatform"
-        }
         register("spotless") {
             id = hikarix.plugins.spotless.get().pluginId
             implementationClass = "PluginSpotless"

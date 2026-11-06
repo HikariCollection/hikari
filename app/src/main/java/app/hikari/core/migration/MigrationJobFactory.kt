@@ -1,12 +1,12 @@
 package app.hikari.core.migration
 
+import app.hikari.core.common.util.system.logcat
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
 
 class MigrationJobFactory(
     private val migrationContext: MigrationContext,

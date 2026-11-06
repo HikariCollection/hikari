@@ -1,11 +1,8 @@
 package app.hikari.core.common
 
 object Constants {
-    const val URL_HELP = ""
-    const val URL_HELP_UPCOMING = ""
-    const val URL_DONATE_PATREON = ""
-    const val URL_DONATE_OPENCOLLECTIVE = ""
-    const val URL_DISCORD = ""
+    const val URL_HELP = "https://github.com/HikariCollection/hikari"
+    const val URL_HELP_UPCOMING = "https://github.com/HikariCollection/hikari"
 
     const val MANGA_EXTRA = "manga"
 

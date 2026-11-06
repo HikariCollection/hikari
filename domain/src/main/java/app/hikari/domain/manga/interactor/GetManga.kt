@@ -1,11 +1,11 @@
 package app.hikari.domain.manga.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
-import logcat.LogPriority
 import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.repository.MangaRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
+import logcat.LogPriority
 
 @Inject
 class GetManga(

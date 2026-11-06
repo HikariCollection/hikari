@@ -1,13 +1,13 @@
 package app.hikari.core.migration.migrations
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoSet
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.source.service.SourcePreferences
+import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.migration.Migration
 import app.hikari.core.migration.MigrationContext
 import app.hikari.domain.extension.model.ContentWarning
-import app.hikari.core.common.preference.PreferenceStore
+import app.hikari.domain.source.service.SourcePreferences
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Inject
 
 @Inject
 @ContributesIntoSet(AppScope::class)

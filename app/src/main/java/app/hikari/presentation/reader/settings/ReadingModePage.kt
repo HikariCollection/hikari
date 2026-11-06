@@ -10,11 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import app.hikari.domain.manga.model.readerOrientation
 import app.hikari.domain.manga.model.readingMode
-import app.hikari.ui.reader.setting.ReaderOrientation
-import app.hikari.ui.reader.setting.ReaderPreferences
-import app.hikari.ui.reader.setting.ReaderSettingsViewModel
-import app.hikari.ui.reader.setting.ReadingMode
-import app.hikari.ui.reader.viewer.webgpu.WebGpuViewerSettings
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.CheckboxItem
 import app.hikari.presentation.core.components.HeadingItem
@@ -22,6 +17,11 @@ import app.hikari.presentation.core.components.SettingsChipRow
 import app.hikari.presentation.core.components.SliderItem
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.reader.setting.ReaderOrientation
+import app.hikari.ui.reader.setting.ReaderPreferences
+import app.hikari.ui.reader.setting.ReaderSettingsViewModel
+import app.hikari.ui.reader.setting.ReadingMode
+import app.hikari.ui.reader.viewer.webgpu.WebGpuViewerSettings
 import java.text.NumberFormat
 
 @Composable

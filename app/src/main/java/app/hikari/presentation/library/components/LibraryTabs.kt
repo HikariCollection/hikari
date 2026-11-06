@@ -6,8 +6,8 @@ import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.category.visualName
 import app.hikari.domain.category.model.Category
+import app.hikari.presentation.category.visualName
 import app.hikari.presentation.core.components.material.TabText
 
 @Composable

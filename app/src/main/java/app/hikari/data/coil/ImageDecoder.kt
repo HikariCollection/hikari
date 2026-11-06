@@ -3,6 +3,7 @@ package app.hikari.data.coil
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import androidx.core.graphics.createBitmap
+import app.hikari.core.common.util.system.ImageUtil
 import ca.mpreg.imagedecoder.ImageDecoder
 import coil3.Canvas
 import coil3.Image
@@ -17,7 +18,6 @@ import coil3.request.Options
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import okio.BufferedSource
-import app.hikari.core.common.util.system.ImageUtil
 import kotlin.math.min
 import kotlin.math.sqrt
 

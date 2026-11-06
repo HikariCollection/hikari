@@ -12,5 +12,4 @@ android-base = { id = "hikari.plugins.android.base" }
 android-library = { id = "hikari.plugins.android.library" }
 android-test = { id = "hikari.plugins.android.test" }
 compose = { id = "hikari.plugins.compose.android" }
-kotlin-multiplatform = { id = "hikari.plugins.kotlin.multiplatform" }
 spotless = { id = "hikari.plugins.spotless" }

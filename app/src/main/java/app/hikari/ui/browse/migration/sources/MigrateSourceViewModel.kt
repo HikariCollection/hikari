@@ -3,14 +3,17 @@ package app.hikari.ui.browse.migration.sources
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.preference.getAndSet
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.source.interactor.GetSourcesWithFavoriteCount
+import app.hikari.domain.source.interactor.SetMigrateSorting
+import app.hikari.domain.source.model.Source
+import app.hikari.domain.source.service.SourcePreferences
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.domain.source.interactor.GetSourcesWithFavoriteCount
-import app.hikari.domain.source.interactor.SetMigrateSorting
-import app.hikari.domain.source.service.SourcePreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,9 +25,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import logcat.LogPriority
-import app.hikari.core.common.preference.getAndSet
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.source.model.Source
 import kotlin.time.Duration.Companion.seconds
 
 @Inject

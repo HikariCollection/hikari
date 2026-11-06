@@ -10,7 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import dev.icerock.moko.resources.StringResource
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 

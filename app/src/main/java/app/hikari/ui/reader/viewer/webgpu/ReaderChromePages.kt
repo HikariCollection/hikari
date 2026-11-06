@@ -22,19 +22,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastCoerceIn
-import ca.mpreg.webgpuviewer.viewer.ComposePageSize
-import ca.mpreg.webgpuviewer.viewer.ImagePage
+import app.hikari.presentation.core.components.CombinedCircularProgressIndicator
 import app.hikari.presentation.reader.ChapterTransition
 import app.hikari.presentation.reader.ReaderError
 import app.hikari.presentation.util.formattedMessage
+import app.hikari.source.local.isLocal
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.ReaderChapter
 import app.hikari.ui.reader.viewer.ReaderThemedContent
 import app.hikari.ui.webview.WebViewActivity
+import ca.mpreg.webgpuviewer.viewer.ComposePageSize
+import ca.mpreg.webgpuviewer.viewer.ImagePage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.presentation.core.components.CombinedCircularProgressIndicator
-import app.hikari.source.local.isLocal
 
 /** The side padding `PagerTransitionHolder` gave the same transition view. */
 private const val TRANSITION_SIDE_PADDING = 64

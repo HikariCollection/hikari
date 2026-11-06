@@ -1,38 +1,28 @@
 package app.hikari.ui.browse.extension
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import app.hikari.extension.model.Extension
+import app.hikari.i18n.MR
 import app.hikari.presentation.browse.ExtensionScreen
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.components.TabContent
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
-import app.hikari.extension.model.Extension
 import app.hikari.ui.browse.extension.details.ExtensionDetailsScreen
 import app.hikari.ui.webview.WebViewScreen
-import app.hikari.util.system.isPackageInstalled
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 @Composable
 fun extensionsTab(
     extensionsViewModel: ExtensionsViewModel,
 ): TabContent {
     val navigator = LocalNavigator.currentOrThrow
-    val context = LocalContext.current
 
     val updatesCount by extensionsViewModel.updatesCount.collectAsStateWithLifecycle()
-    var privateExtensionToUninstall by remember { mutableStateOf<Extension.Installed?>(null) }
 
     return TabContent(
         titleRes = MR.strings.label_extensions,
@@ -62,13 +52,7 @@ fun extensionsTab(
                 onLongClickItem = { extension ->
                     when (extension) {
                         is Extension.Available -> extensionsViewModel.installExtension(extension)
-                        is Extension.Installed -> {
-                            if (context.isPackageInstalled(extension.pkgName)) {
-                                extensionsViewModel.uninstallExtension(extension)
-                            } else {
-                                privateExtensionToUninstall = extension
-                            }
-                        }
+                        is Extension.Installed -> extensionsViewModel.uninstallExtension(extension)
                     }
                 },
                 onClickItemCancel = extensionsViewModel::cancelInstallUpdateExtension,
@@ -91,50 +75,6 @@ fun extensionsTab(
                 onUpdateExtension = extensionsViewModel::updateExtension,
                 onRefresh = extensionsViewModel::findAvailableExtensions,
             )
-
-            privateExtensionToUninstall?.let { extension ->
-                ExtensionUninstallConfirmation(
-                    extensionName = extension.name,
-                    onClickConfirm = {
-                        extensionsViewModel.uninstallExtension(extension)
-                    },
-                    onDismissRequest = {
-                        privateExtensionToUninstall = null
-                    },
-                )
-            }
         },
-    )
-}
-
-@Composable
-private fun ExtensionUninstallConfirmation(
-    extensionName: String,
-    onClickConfirm: () -> Unit,
-    onDismissRequest: () -> Unit,
-) {
-    AlertDialog(
-        title = {
-            Text(text = stringResource(MR.strings.ext_confirm_remove))
-        },
-        text = {
-            Text(text = stringResource(MR.strings.remove_private_extension_message, extensionName))
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onClickConfirm()
-                    onDismissRequest()
-                },
-            ) {
-                Text(text = stringResource(MR.strings.ext_remove))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismissRequest) {
-                Text(text = stringResource(MR.strings.action_cancel))
-            }
-        },
-        onDismissRequest = onDismissRequest,
     )
 }

@@ -1,9 +1,9 @@
 package app.hikari.domain.extension.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.ExtensionManager
 import app.hikari.util.system.LocaleHelper
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

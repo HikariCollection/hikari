@@ -35,24 +35,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.resources.StringResource
-import app.hikari.presentation.browse.components.BaseBrowseItem
-import app.hikari.presentation.browse.components.ExtensionIcon
-import app.hikari.presentation.browse.components.ExtensionPill
-import app.hikari.presentation.browse.components.label
-import app.hikari.presentation.components.WarningBanner
-import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
-import app.hikari.presentation.util.rememberRequestPackageInstallsPermissionState
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.extension.model.Extension
 import app.hikari.extension.model.InstallStep
-import app.hikari.ui.browse.extension.ExtensionUiModel
-import app.hikari.ui.browse.extension.ExtensionsViewModel
-import app.hikari.util.system.LocaleHelper
-import app.hikari.util.system.copyToClipboard
-import app.hikari.util.system.launchRequestPackageInstallsPermission
-import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Close
 import app.hikari.icons.materialsymbols.rounded.Download
@@ -61,8 +49,11 @@ import app.hikari.icons.materialsymbols.rounded.Public
 import app.hikari.icons.materialsymbols.rounded.Refresh
 import app.hikari.icons.materialsymbols.rounded.Settings
 import app.hikari.icons.materialsymbols.rounded.VerifiedUser
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
+import app.hikari.presentation.browse.components.BaseBrowseItem
+import app.hikari.presentation.browse.components.ExtensionIcon
+import app.hikari.presentation.browse.components.ExtensionPill
+import app.hikari.presentation.browse.components.label
+import app.hikari.presentation.components.WarningBanner
 import app.hikari.presentation.core.components.FastScrollLazyColumn
 import app.hikari.presentation.core.components.material.PullRefresh
 import app.hikari.presentation.core.components.material.padding
@@ -73,6 +64,15 @@ import app.hikari.presentation.core.screens.EmptyScreenAction
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.theme.header
 import app.hikari.presentation.core.util.plus
+import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
+import app.hikari.presentation.util.rememberRequestPackageInstallsPermissionState
+import app.hikari.ui.browse.extension.ExtensionUiModel
+import app.hikari.ui.browse.extension.ExtensionsViewModel
+import app.hikari.util.system.LocaleHelper
+import app.hikari.util.system.copyToClipboard
+import app.hikari.util.system.launchRequestPackageInstallsPermission
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 @Composable
 fun ExtensionScreen(
@@ -157,7 +157,7 @@ private fun ExtensionContent(
     FastScrollLazyColumn(
         contentPadding = contentPadding + topSmallPaddingValues,
     ) {
-        if (!installGranted && state.installer?.requiresSystemPermission == true) {
+        if (!installGranted) {
             item(key = "extension-permissions-warning") {
                 WarningBanner(
                     textRes = MR.strings.ext_permission_install_apps_warning,
@@ -441,9 +441,6 @@ private fun ExtensionItemMetadata(
                 else -> null
             },
             extension.contentWarning.label?.let { it.title to it.color },
-            (extension as? Extension.Loaded)
-                ?.takeIf { !it.isShared }
-                ?.let { MR.strings.ext_installer_private to MaterialTheme.colorScheme.onSurfaceVariant },
         )
         notable.forEach { (label, color) ->
             ExtensionPill(text = stringResource(label), color = color)

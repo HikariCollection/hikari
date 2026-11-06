@@ -3,11 +3,11 @@ package app.hikari.presentation.more
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.more.settings.widget.SwitchPreferenceWidget
-import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
-import app.hikari.ui.more.DownloadQueueState
+import app.hikari.core.common.Constants
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.Help
 import app.hikari.icons.materialsymbols.automirroredrounded.Label
@@ -19,12 +19,14 @@ import app.hikari.icons.materialsymbols.rounded.QueryStats
 import app.hikari.icons.materialsymbols.rounded.Settings
 import app.hikari.icons.materialsymbols.rounded.Storage
 import app.hikari.icons.materialsymbols.roundedfilled.VolunteerActivism
-import app.hikari.core.common.Constants
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.settings.widget.SwitchPreferenceWidget
+import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
+import app.hikari.ui.more.DownloadQueueState
+import app.hikari.util.system.openInBrowser
 
 @Composable
 fun MoreScreen(
@@ -138,10 +140,11 @@ fun MoreScreen(
                 )
             }
             item {
+                val context = LocalContext.current
                 TextPreferenceWidget(
                     title = stringResource(MR.strings.label_help),
                     icon = MaterialSymbols.AutoMirroredRounded.Help,
-                    onPreferenceClick = { uriHandler.openUri(Constants.URL_HELP) },
+                    onPreferenceClick = { context.openInBrowser(Constants.URL_HELP) },
                 )
             }
         }

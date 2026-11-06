@@ -1,13 +1,25 @@
 package app.hikari.data.download
 
 import android.content.Context
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.storage.extension
+import app.hikari.core.common.util.system.ImageUtil
+import app.hikari.core.common.util.system.logcat
 import app.hikari.data.download.model.Download
+import app.hikari.domain.category.interactor.GetCategories
+import app.hikari.domain.chapter.interactor.GetChapter
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.download.service.DownloadPreferences
+import app.hikari.domain.manga.interactor.GetManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.i18n.MR
 import app.hikari.source.Source
 import app.hikari.source.model.Page
 import app.hikari.source.online.HttpSource
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
@@ -20,18 +32,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.storage.extension
-import app.hikari.core.common.util.system.ImageUtil
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.category.interactor.GetCategories
-import app.hikari.domain.chapter.interactor.GetChapter
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.download.service.DownloadPreferences
-import app.hikari.domain.manga.interactor.GetManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.service.SourceManager
-import app.hikari.i18n.MR
 
 /**
  * This class is used to manage chapter downloads in the application. It must be instantiated once

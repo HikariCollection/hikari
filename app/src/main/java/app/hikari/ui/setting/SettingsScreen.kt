@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import app.hikari.presentation.core.components.TwoPanelBox
 import app.hikari.presentation.more.settings.screen.SettingsAppearanceScreen
 import app.hikari.presentation.more.settings.screen.SettingsDataScreen
 import app.hikari.presentation.more.settings.screen.SettingsMainScreen
@@ -21,7 +19,9 @@ import app.hikari.presentation.util.DefaultNavigatorScreenTransition
 import app.hikari.presentation.util.LocalBackPress
 import app.hikari.presentation.util.Screen
 import app.hikari.presentation.util.isTabletUi
-import app.hikari.presentation.core.components.TwoPanelBox
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 class SettingsScreen(
     private val destination: Int? = null,

@@ -3,11 +3,11 @@ package app.hikari.extension.installer
 import android.app.Service
 import android.net.Uri
 import androidx.annotation.CallSuper
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
 import app.hikari.extension.ExtensionManager
 import app.hikari.extension.model.InstallStep
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
-import app.hikari.core.common.util.system.logcat
 import java.util.Collections
 import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.concurrent.atomics.AtomicReference

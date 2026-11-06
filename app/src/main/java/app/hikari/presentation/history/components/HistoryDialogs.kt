@@ -12,11 +12,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.LabeledCheckbox
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 fun HistoryDeleteDialog(

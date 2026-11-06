@@ -1,11 +1,11 @@
 package app.hikari.domain.category.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.category.repository.CategoryRepository
 import app.hikari.domain.library.model.LibrarySort
 import app.hikari.domain.library.model.plus
 import app.hikari.domain.library.service.LibraryPreferences
+import dev.zacsweers.metro.Inject
 import kotlin.random.Random
 
 @Inject

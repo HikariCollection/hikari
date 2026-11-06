@@ -1,19 +1,19 @@
 package app.hikari.domain.manga.model
 
 import android.content.Context
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.preference.TriState
+import app.hikari.core.metadata.comicinfo.ComicInfo
+import app.hikari.core.metadata.comicinfo.ComicInfoPublishingStatus
 import app.hikari.data.cache.CoverCache
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.manga.model.Manga
 import app.hikari.source.model.SManga
 import app.hikari.ui.reader.setting.ReaderOrientation
 import app.hikari.ui.reader.setting.ReadingMode
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.number
 import kotlinx.datetime.toLocalDateTime
-import app.hikari.app.di.appGraph
-import app.hikari.core.common.preference.TriState
-import app.hikari.core.metadata.comicinfo.ComicInfo
-import app.hikari.core.metadata.comicinfo.ComicInfoPublishingStatus
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.manga.model.Manga
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
 
@@ -107,11 +107,11 @@ fun getComicInfo(
         penciller = manga.artist?.let { ComicInfo.Penciller(it) },
         translator = chapter.scanlator?.let { ComicInfo.Translator(it) },
         genre = manga.genre?.let { ComicInfo.Genre(it.joinToString()) },
-        publishingStatus = ComicInfo.PublishingStatusTachiyomi(
+        publishingStatus = ComicInfo.PublishingStatusHikari(
             ComicInfoPublishingStatus.toComicInfoValue(manga.status),
         ),
-        categories = categories?.let { ComicInfo.CategoriesTachiyomi(it.joinToString()) },
-        source = ComicInfo.SourceMihon(sourceName),
+        categories = categories?.let { ComicInfo.CategoriesHikari(it.joinToString()) },
+        source = ComicInfo.SourceHikari(sourceName),
         inker = null,
         colorist = null,
         letterer = null,

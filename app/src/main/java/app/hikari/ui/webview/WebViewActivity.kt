@@ -9,10 +9,14 @@ import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.core.net.toUri
-import dev.zacsweers.metro.Inject
-import app.hikari.presentation.webview.WebViewScreenContent
 import app.hikari.R
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.i18n.MR
 import app.hikari.network.NetworkHelper
+import app.hikari.presentation.core.screens.LoadingScreen
+import app.hikari.presentation.webview.WebViewScreenContent
 import app.hikari.source.online.HttpSource
 import app.hikari.ui.base.activity.BaseActivity
 import app.hikari.util.system.WebViewUtil
@@ -21,15 +25,11 @@ import app.hikari.util.system.toShareIntent
 import app.hikari.util.system.toWebViewHeaders
 import app.hikari.util.system.toast
 import app.hikari.util.view.setComposeContent
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
 import okhttp3.HttpUrl.Companion.toHttpUrl
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.source.service.SourceManager
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.screens.LoadingScreen
 
 class WebViewActivity : BaseActivity() {
 

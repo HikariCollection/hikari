@@ -1,16 +1,16 @@
 package app.hikari.ui.updates
 
 import androidx.lifecycle.ViewModel
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.TriState
 import app.hikari.core.common.preference.getAndSet
 import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.updates.service.UpdatesPreferences
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metrox.viewmodel.ViewModelKey
 
 @Inject
 @ViewModelKey

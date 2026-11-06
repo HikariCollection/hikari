@@ -2,17 +2,17 @@ package app.hikari.ui.reader.setting
 
 import android.os.Build
 import androidx.compose.ui.graphics.BlendMode
-import dev.icerock.moko.resources.StringResource
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import app.hikari.ui.reader.viewer.webgpu.WebGpuShader
-import app.hikari.ui.reader.viewer.webgpu.WebGpuShaders
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.common.preference.getEnum
 import app.hikari.core.common.preference.getEnumSet
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
+import app.hikari.ui.reader.viewer.webgpu.WebGpuShader
+import app.hikari.ui.reader.viewer.webgpu.WebGpuShaders
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
 @Inject
 @SingleIn(AppScope::class)

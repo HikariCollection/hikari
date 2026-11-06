@@ -1,12 +1,12 @@
 package app.hikari.domain.category.interactor
 
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.category.model.Category
+import app.hikari.domain.category.repository.CategoryRepository
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.category.model.Category
-import app.hikari.domain.category.repository.CategoryRepository
 
 @Inject
 class ReorderCategory(

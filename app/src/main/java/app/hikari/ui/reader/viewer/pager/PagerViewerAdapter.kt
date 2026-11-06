@@ -2,13 +2,13 @@ package app.hikari.ui.reader.viewer.pager
 
 import android.view.View
 import android.view.ViewGroup
+import app.hikari.core.common.util.system.logcat
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.InsertPage
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.ui.reader.model.ViewerChapters
 import app.hikari.util.system.createReaderThemeContext
 import app.hikari.widget.ViewPagerAdapter
-import app.hikari.core.common.util.system.logcat
 
 /**
  * Pager adapter used by this [viewer] to where [ViewerChapters] updates are posted.

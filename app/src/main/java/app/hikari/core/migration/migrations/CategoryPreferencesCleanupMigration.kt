@@ -1,15 +1,15 @@
 package app.hikari.core.migration.migrations
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoSet
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import app.hikari.core.migration.Migration
 import app.hikari.core.migration.MigrationContext
 import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.download.service.DownloadPreferences
 import app.hikari.domain.library.service.LibraryPreferences
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Inject
 @ContributesIntoSet(AppScope::class)

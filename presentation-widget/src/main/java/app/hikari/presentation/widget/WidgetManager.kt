@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.updateAll
-import dev.zacsweers.metro.Inject
+import app.hikari.core.common.util.system.logcat
 import app.hikari.core.security.SecurityPreferences
+import app.hikari.domain.updates.interactor.GetUpdates
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,8 +23,6 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.updates.interactor.GetUpdates
 
 @Inject
 class WidgetManager(

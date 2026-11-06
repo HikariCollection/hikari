@@ -36,13 +36,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.hikari.presentation.manga.components.MangaCover
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.roundedfilled.PlayArrow
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.BadgeGroup
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.selectedBackground
+import app.hikari.presentation.manga.components.MangaCover
 import app.hikari.domain.manga.model.MangaCover as MangaCoverModel
 
 object CommonMangaItemDefaults {

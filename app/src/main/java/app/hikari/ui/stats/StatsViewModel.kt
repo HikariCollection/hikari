@@ -4,22 +4,9 @@ import androidx.compose.ui.util.fastDistinctBy
 import androidx.compose.ui.util.fastFilter
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.binding
-import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import app.hikari.core.util.fastCountNot
-import app.hikari.presentation.more.stats.StatsScreenState
-import app.hikari.presentation.more.stats.data.StatsData
 import app.hikari.data.download.DownloadManager
 import app.hikari.data.track.TrackerManager
-import app.hikari.source.model.SManga
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import app.hikari.domain.history.interactor.GetTotalReadDuration
 import app.hikari.domain.library.model.LibraryManga
 import app.hikari.domain.library.service.LibraryPreferences
@@ -29,7 +16,20 @@ import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_NON_
 import app.hikari.domain.manga.interactor.GetLibraryManga
 import app.hikari.domain.track.interactor.GetTracksPerManga
 import app.hikari.domain.track.model.Track
+import app.hikari.presentation.more.stats.StatsScreenState
+import app.hikari.presentation.more.stats.data.StatsData
 import app.hikari.source.local.isLocal
+import app.hikari.source.model.SManga
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.binding
+import dev.zacsweers.metrox.viewmodel.ViewModelKey
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 @Inject
 @ViewModelKey

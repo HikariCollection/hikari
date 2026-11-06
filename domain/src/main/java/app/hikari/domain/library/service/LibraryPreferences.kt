@@ -1,8 +1,5 @@
 package app.hikari.domain.library.service
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.common.preference.TriState
@@ -10,6 +7,9 @@ import app.hikari.core.common.preference.getEnum
 import app.hikari.domain.library.model.LibraryDisplayMode
 import app.hikari.domain.library.model.LibrarySort
 import app.hikari.domain.manga.model.Manga
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
 @Inject
 @SingleIn(AppScope::class)

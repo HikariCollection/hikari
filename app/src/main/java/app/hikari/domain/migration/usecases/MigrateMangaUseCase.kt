@@ -1,29 +1,29 @@
 package app.hikari.domain.migration.usecases
 
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.manga.interactor.UpdateManga
-import app.hikari.domain.manga.model.hasCustomCover
-import app.hikari.domain.source.service.SourcePreferences
+import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.data.cache.CoverCache
 import app.hikari.data.download.DownloadManager
 import app.hikari.data.track.EnhancedTracker
 import app.hikari.data.track.TrackerManager
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.domain.migration.models.MigrationFlag
-import app.hikari.domain.source.interactor.UpdateMangaFromRemote
 import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.category.interactor.SetMangaCategories
 import app.hikari.domain.chapter.interactor.GetChaptersByMangaId
 import app.hikari.domain.chapter.interactor.UpdateChapter
 import app.hikari.domain.chapter.model.ChapterUpdate
+import app.hikari.domain.manga.interactor.UpdateManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaUpdate
+import app.hikari.domain.manga.model.hasCustomCover
+import app.hikari.domain.migration.models.MigrationFlag
+import app.hikari.domain.source.interactor.UpdateMangaFromRemote
 import app.hikari.domain.source.service.SourceManager
+import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.domain.track.interactor.GetTracks
 import app.hikari.domain.track.interactor.UpsertTrack
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import kotlin.time.Clock
 
 @Inject

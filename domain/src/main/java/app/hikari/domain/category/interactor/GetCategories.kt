@@ -1,9 +1,9 @@
 package app.hikari.domain.category.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.category.repository.CategoryRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 
 @Inject
 class GetCategories(

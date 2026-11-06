@@ -1,8 +1,8 @@
 package app.hikari.domain.manga.interactor
 
+import app.hikari.domain.manga.repository.MangaRepository
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
-import app.hikari.domain.manga.repository.MangaRepository
 
 @Inject
 class GetExcludedScanlators(

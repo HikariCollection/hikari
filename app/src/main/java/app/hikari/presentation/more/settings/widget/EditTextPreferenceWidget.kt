@@ -18,12 +18,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.window.DialogProperties
-import kotlinx.coroutines.launch
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.roundedfilled.Cancel
 import app.hikari.icons.materialsymbols.roundedfilled.Error
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
+import kotlinx.coroutines.launch
 
 @Composable
 fun EditTextPreferenceWidget(

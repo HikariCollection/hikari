@@ -1,8 +1,8 @@
 package app.hikari.data.backup.models
 
+import app.hikari.domain.extension.model.ExtensionStore
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.protobuf.ProtoNumber
-import app.hikari.domain.extension.model.ExtensionStore
 
 @Serializable
 class BackupExtensionStore(

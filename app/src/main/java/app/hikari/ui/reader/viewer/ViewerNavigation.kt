@@ -3,9 +3,9 @@ package app.hikari.ui.reader.viewer
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import dev.icerock.moko.resources.StringResource
-import app.hikari.ui.reader.setting.ReaderPreferences
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
+import app.hikari.ui.reader.setting.ReaderPreferences
 
 /**
  * Tap zones of a viewer. [isReversed] is set for right to left books, where the right side of the

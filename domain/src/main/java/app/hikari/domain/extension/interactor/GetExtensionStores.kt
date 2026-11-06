@@ -1,9 +1,9 @@
 package app.hikari.domain.extension.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.domain.extension.repository.ExtensionStoreRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 
 @Inject
 class GetExtensionStores(

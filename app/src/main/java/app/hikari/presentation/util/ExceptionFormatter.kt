@@ -1,12 +1,12 @@
 package app.hikari.presentation.util
 
 import android.content.Context
-import app.hikari.network.HttpException
-import app.hikari.util.system.isOnline
 import app.hikari.core.common.i18n.stringResource
 import app.hikari.data.source.NoResultsException
 import app.hikari.domain.source.model.SourceNotInstalledException
 import app.hikari.i18n.MR
+import app.hikari.network.HttpException
+import app.hikari.util.system.isOnline
 import java.net.UnknownHostException
 
 context(context: Context)

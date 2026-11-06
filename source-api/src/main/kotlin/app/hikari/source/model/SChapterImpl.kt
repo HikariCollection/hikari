@@ -2,8 +2,8 @@
 
 package app.hikari.source.model
 
-import kotlinx.serialization.json.JsonObject
 import app.hikari.core.common.extensions.EMPTY
+import kotlinx.serialization.json.JsonObject
 
 class SChapterImpl : SChapter {
 

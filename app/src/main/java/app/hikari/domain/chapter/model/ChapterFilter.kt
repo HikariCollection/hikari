@@ -1,13 +1,13 @@
 package app.hikari.domain.chapter.model
 
-import app.hikari.domain.manga.model.downloadedFilter
 import app.hikari.data.download.DownloadManager
-import app.hikari.ui.manga.ChapterList
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.service.getChapterSort
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.applyFilter
+import app.hikari.domain.manga.model.downloadedFilter
 import app.hikari.source.local.isLocal
+import app.hikari.ui.manga.ChapterList
 
 /**
  * Applies the view filters to the list of chapters obtained from the database.

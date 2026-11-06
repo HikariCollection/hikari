@@ -1,11 +1,11 @@
 package app.hikari.domain.category.interactor
 
-import dev.zacsweers.metro.Inject
-import logcat.LogPriority
 import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.category.model.NewCategory
 import app.hikari.domain.category.repository.CategoryRepository
 import app.hikari.domain.library.service.LibraryPreferences
+import dev.zacsweers.metro.Inject
+import logcat.LogPriority
 
 @Inject
 class CreateCategoryWithName(

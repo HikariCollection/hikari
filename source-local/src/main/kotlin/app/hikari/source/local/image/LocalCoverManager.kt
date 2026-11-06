@@ -1,15 +1,15 @@
 package app.hikari.source.local.image
 
 import android.content.Context
+import app.hikari.core.common.storage.nameWithoutExtension
+import app.hikari.core.common.util.system.ImageUtil
+import app.hikari.source.local.io.LocalSourceFileSystem
+import app.hikari.source.model.SManga
+import app.hikari.util.storage.DiskUtil
 import com.hippo.unifile.UniFile
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import app.hikari.source.model.SManga
-import app.hikari.util.storage.DiskUtil
-import app.hikari.core.common.storage.nameWithoutExtension
-import app.hikari.core.common.util.system.ImageUtil
-import app.hikari.source.local.io.LocalSourceFileSystem
 import java.io.InputStream
 
 private const val DEFAULT_COVER_NAME = "cover.jpg"

@@ -3,9 +3,9 @@ package app.hikari.presentation.more.settings.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
-import app.hikari.presentation.category.visualName
 import app.hikari.domain.category.model.Category
 import app.hikari.i18n.MR
+import app.hikari.presentation.category.visualName
 import app.hikari.presentation.core.i18n.stringResource
 
 /**

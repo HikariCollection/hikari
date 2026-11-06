@@ -11,20 +11,20 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.AppGraph
+import app.hikari.core.metro.metroGraph
 import app.hikari.data.notification.Notifications
+import app.hikari.domain.download.service.DownloadPreferences
+import app.hikari.i18n.R
 import app.hikari.util.system.activeNetworkState
 import app.hikari.util.system.notificationBuilder
 import app.hikari.util.system.setForegroundSafely
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import app.hikari.app.di.AppGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.domain.download.service.DownloadPreferences
-import app.hikari.i18n.R
 import kotlin.time.Duration.Companion.seconds
 
 /**

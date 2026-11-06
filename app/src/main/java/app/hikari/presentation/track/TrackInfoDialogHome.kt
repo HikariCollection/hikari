@@ -47,21 +47,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.StringResource
+import app.hikari.data.track.Tracker
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.MoreVert
+import app.hikari.icons.materialsymbols.roundedfilled.VisibilityOff
 import app.hikari.presentation.components.DropdownMenu
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.presentation.track.components.TrackLogoIcon
-import app.hikari.data.track.Tracker
 import app.hikari.ui.manga.track.TrackItem
 import app.hikari.util.lang.toJavaLocalDate
 import app.hikari.util.lang.toLocalDate
 import app.hikari.util.system.copyToClipboard
 import kotlinx.datetime.toJavaLocalDate
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.MoreVert
-import app.hikari.icons.materialsymbols.roundedfilled.VisibilityOff
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 import java.time.format.DateTimeFormatter
 
 @Composable

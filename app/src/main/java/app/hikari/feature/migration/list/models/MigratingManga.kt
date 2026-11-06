@@ -1,10 +1,10 @@
 package app.hikari.feature.migration.list.models
 
+import app.hikari.domain.manga.model.Manga
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
-import app.hikari.domain.manga.model.Manga
 import kotlin.coroutines.CoroutineContext
 
 class MigratingManga(

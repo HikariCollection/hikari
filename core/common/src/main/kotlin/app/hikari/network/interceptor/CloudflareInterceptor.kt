@@ -13,6 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.webkit.ScriptHandler
 import androidx.webkit.WebViewCompat
 import androidx.webkit.WebViewFeature
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.i18n.MR
 import app.hikari.network.AndroidCookieJar
 import app.hikari.util.system.isOutdated
 import app.hikari.util.system.toWebViewHeaders
@@ -23,9 +26,6 @@ import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.i18n.MR
 import java.io.IOException
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.CountDownLatch
@@ -160,7 +160,13 @@ class CloudflareInterceptor(
                 // An isolated world keeps the bridge out of the page's reach
                 val world = WebViewCompat.getExecutionWorld(webview, "app.hikari")
                 val origins = setOf(originalRequest.url.origin())
-                WebViewCompat.addWebMessageListener(webview, "app.hikari", origins, world) { _, message, _, isMainFrame, _ ->
+                WebViewCompat.addWebMessageListener(webview, "app.hikari", origins, world) {
+                        _,
+                        message,
+                        _,
+                        isMainFrame,
+                        _,
+                    ->
                     if (isMainFrame) message.data?.let(::onChallengeEvent)
                 }
                 listenerScriptHandler = WebViewCompat.addJavaScriptOnEvent(

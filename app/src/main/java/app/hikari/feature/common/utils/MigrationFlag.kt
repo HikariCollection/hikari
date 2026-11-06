@@ -1,8 +1,8 @@
 package app.hikari.feature.common.utils
 
-import dev.icerock.moko.resources.StringResource
 import app.hikari.domain.migration.models.MigrationFlag
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 
 fun MigrationFlag.getLabel(): StringResource {
     return when (this) {

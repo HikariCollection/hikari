@@ -2,15 +2,15 @@ package app.hikari.data.track
 
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
+import app.hikari.data.Database
+import app.hikari.data.subscribeToList
+import app.hikari.domain.track.model.Track
+import app.hikari.domain.track.repository.TrackRepository
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
-import app.hikari.data.Database
-import app.hikari.data.subscribeToList
-import app.hikari.domain.track.model.Track
-import app.hikari.domain.track.repository.TrackRepository
 
 @Inject
 @SingleIn(AppScope::class)

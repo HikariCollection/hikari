@@ -1,10 +1,10 @@
 package app.hikari.domain.manga.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.ui.reader.setting.ReaderOrientation
-import app.hikari.ui.reader.setting.ReadingMode
 import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.repository.MangaRepository
+import app.hikari.ui.reader.setting.ReaderOrientation
+import app.hikari.ui.reader.setting.ReadingMode
+import dev.zacsweers.metro.Inject
 
 @Inject
 class SetMangaViewerFlags(

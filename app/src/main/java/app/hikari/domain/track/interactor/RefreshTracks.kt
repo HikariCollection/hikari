@@ -1,16 +1,16 @@
 package app.hikari.domain.track.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.track.model.toDbTrack
-import app.hikari.domain.track.model.toDomainTrack
 import app.hikari.data.track.Tracker
 import app.hikari.data.track.TrackerManager
+import app.hikari.domain.track.interactor.GetTracks
+import app.hikari.domain.track.interactor.UpsertTrack
+import app.hikari.domain.track.model.toDbTrack
+import app.hikari.domain.track.model.toDomainTrack
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.supervisorScope
-import app.hikari.domain.track.interactor.GetTracks
-import app.hikari.domain.track.interactor.UpsertTrack
 
 @Inject
 class RefreshTracks(

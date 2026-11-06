@@ -3,14 +3,14 @@ package app.hikari.ui.security
 import android.os.Bundle
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.i18n.MR
 import app.hikari.ui.base.activity.BaseActivity
 import app.hikari.ui.base.delegate.SecureActivityDelegate
 import app.hikari.util.system.AuthenticatorUtil
 import app.hikari.util.system.AuthenticatorUtil.startAuthentication
 import logcat.LogPriority
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.i18n.MR
 
 /**
  * Blank activity with a BiometricPrompt.

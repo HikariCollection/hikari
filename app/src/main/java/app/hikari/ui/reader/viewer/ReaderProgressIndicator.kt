@@ -13,9 +13,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.isVisible
-import com.google.android.material.progressindicator.CircularProgressIndicator
-import app.hikari.presentation.theme.HikariTheme
 import app.hikari.presentation.core.components.CombinedCircularProgressIndicator
+import app.hikari.presentation.theme.HikariTheme
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 /**
  * A wrapper for [CircularProgressIndicator] that always rotates.

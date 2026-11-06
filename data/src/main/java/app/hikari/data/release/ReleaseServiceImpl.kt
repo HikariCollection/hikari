@@ -1,20 +1,20 @@
 package app.hikari.data.release
 
 import android.os.Build
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.domain.release.interactor.GetApplicationRelease
+import app.hikari.domain.release.model.Release
+import app.hikari.domain.release.service.ReleaseService
 import app.hikari.network.GET
 import app.hikari.network.NetworkHelper
 import app.hikari.network.awaitSuccess
 import app.hikari.network.parseAs
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import app.hikari.domain.release.interactor.GetApplicationRelease
-import app.hikari.domain.release.model.Release
-import app.hikari.domain.release.service.ReleaseService
 
 @Inject
 @SingleIn(AppScope::class)

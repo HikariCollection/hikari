@@ -1,13 +1,13 @@
 package app.hikari.core.security
 
-import dev.icerock.moko.resources.StringResource
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.common.preference.getEnum
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
 @Inject
 @SingleIn(AppScope::class)

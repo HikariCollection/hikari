@@ -33,7 +33,7 @@
     <!--=======================-->
     <!--Widgets.MaterialDivider-->
     <!--=======================-->
-    <style name="Widget.Tachiyomi.MaterialDivider" parent="Widget.Material3.MaterialDivider">
+    <style name="Widget.Hikari.MaterialDivider" parent="Widget.Material3.MaterialDivider">
         <item name="dividerColor">@color/divider_default</item>
     </style>
 
@@ -41,7 +41,7 @@
     <!--==============-->
     <!--Widgets.Switch-->
     <!--==============-->
-    <style name="Widget.Tachiyomi.Switch" parent="Widget.Material3.CompoundButton.Switch">
+    <style name="Widget.Hikari.Switch" parent="Widget.Material3.CompoundButton.Switch">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Hikari.Switch</item>
     </style>
 

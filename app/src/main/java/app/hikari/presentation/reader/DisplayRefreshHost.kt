@@ -12,10 +12,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import app.hikari.ui.reader.setting.ReaderPreferences
-import kotlinx.coroutines.delay
 import app.hikari.app.di.appGraph
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.reader.setting.ReaderPreferences
+import kotlinx.coroutines.delay
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
 import kotlin.time.Duration.Companion.milliseconds

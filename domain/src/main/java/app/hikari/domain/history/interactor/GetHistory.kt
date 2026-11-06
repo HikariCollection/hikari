@@ -1,10 +1,10 @@
 package app.hikari.domain.history.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.history.model.History
 import app.hikari.domain.history.model.HistoryWithRelations
 import app.hikari.domain.history.repository.HistoryRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 
 @Inject
 class GetHistory(

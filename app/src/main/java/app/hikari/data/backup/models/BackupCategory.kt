@@ -1,8 +1,8 @@
 package app.hikari.data.backup.models
 
+import app.hikari.domain.category.model.Category
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.protobuf.ProtoNumber
-import app.hikari.domain.category.model.Category
 
 @Serializable
 class BackupCategory(

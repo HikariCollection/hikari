@@ -3,14 +3,14 @@ package app.hikari.ui.setting.track
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import dev.zacsweers.metro.HasMemberInjections
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.appGraph
 import app.hikari.data.track.TrackerManager
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.ui.base.activity.BaseActivity
 import app.hikari.ui.main.MainActivity
 import app.hikari.util.view.setComposeContent
-import app.hikari.app.di.appGraph
-import app.hikari.presentation.core.screens.LoadingScreen
+import dev.zacsweers.metro.HasMemberInjections
+import dev.zacsweers.metro.Inject
 
 @HasMemberInjections
 abstract class BaseOAuthLoginActivity : BaseActivity() {

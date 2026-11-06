@@ -1,12 +1,12 @@
 package app.hikari.data.backup.models
 
-import app.hikari.source.model.UpdateStrategy
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.protobuf.ProtoNumber
 import app.hikari.core.common.extensions.JsonObjectEmptyBytes
 import app.hikari.core.common.extensions.toInstantOrNull
 import app.hikari.core.common.extensions.toJsonObject
 import app.hikari.domain.manga.model.Manga
+import app.hikari.source.model.UpdateStrategy
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.protobuf.ProtoNumber
 import kotlin.time.Instant
 
 @Suppress("DEPRECATION")
@@ -42,7 +42,7 @@ class BackupManga(
     @ProtoNumber(105) var updateStrategy: UpdateStrategy = UpdateStrategy.ALWAYS_UPDATE,
     // @ProtoNumber(106) var lastModifiedAt: Long, artifact of the abandoned sync attempt
     @ProtoNumber(107) var favoriteModifiedAt: Long? = null,
-    // Mihon values start here
+    // Extended values start here
     @ProtoNumber(108) var excludedScanlators: List<String> = emptyList(),
     // @ProtoNumber(109) var version: Long, artifact of the abandoned sync attempt
     @ProtoNumber(110) var notes: String = "",

@@ -29,24 +29,24 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.relativeDateText
-import app.hikari.presentation.manga.components.ChapterDownloadAction
-import app.hikari.presentation.manga.components.ChapterDownloadIndicator
-import app.hikari.presentation.manga.components.DotSeparatorText
-import app.hikari.presentation.manga.components.MangaCover
-import app.hikari.presentation.util.relativeTimeSpanString
 import app.hikari.data.download.model.Download
-import app.hikari.ui.updates.UpdatesItem
+import app.hikari.domain.updates.model.UpdatesWithRelations
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.roundedfilled.Bookmark
 import app.hikari.icons.materialsymbols.roundedfilled.Circle
-import app.hikari.domain.updates.model.UpdatesWithRelations
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.relativeDateText
 import app.hikari.presentation.core.components.ListGroupHeader
 import app.hikari.presentation.core.components.material.DISABLED_ALPHA
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.selectedBackground
+import app.hikari.presentation.manga.components.ChapterDownloadAction
+import app.hikari.presentation.manga.components.ChapterDownloadIndicator
+import app.hikari.presentation.manga.components.DotSeparatorText
+import app.hikari.presentation.manga.components.MangaCover
+import app.hikari.presentation.util.relativeTimeSpanString
+import app.hikari.ui.updates.UpdatesItem
 
 internal fun LazyListScope.updatesLastUpdatedItem(
     lastUpdated: Long,

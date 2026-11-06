@@ -2,9 +2,8 @@ package app.hikari.data.backup.restore
 
 import android.content.Context
 import android.net.Uri
-import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.AssistedInject
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
 import app.hikari.data.backup.BackupDecoder
 import app.hikari.data.backup.BackupNotifier
 import app.hikari.data.backup.models.BackupCategory
@@ -17,7 +16,13 @@ import app.hikari.data.backup.restore.restorers.ExtensionStoreRestorer
 import app.hikari.data.backup.restore.restorers.MangaRestorer
 import app.hikari.data.backup.restore.restorers.PreferenceRestorer
 import app.hikari.data.download.DownloadCache
+import app.hikari.domain.source.repository.StubSourceRepository
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.i18n.MR
 import app.hikari.util.system.createFileInCacheDir
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
@@ -25,11 +30,6 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.chunked
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.source.repository.StubSourceRepository
-import app.hikari.domain.source.service.SourceManager
-import app.hikari.i18n.MR
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -279,7 +279,7 @@ class BackupRestorer(
     private fun writeErrorLog(): File {
         try {
             if (errors.isNotEmpty()) {
-                val file = context.createFileInCacheDir("mihon_restore_error.txt")
+                val file = context.createFileInCacheDir("hikari_restore_error.txt")
                 val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.getDefault())
 
                 file.bufferedWriter().use { out ->

@@ -2,18 +2,17 @@ package app.hikari.extension.util
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.base.BasePreferences
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.extension.installer.Installer
 import app.hikari.extension.model.Extension
 import app.hikari.extension.model.InstallStep
 import app.hikari.network.NetworkHelper
 import app.hikari.network.await
 import app.hikari.util.storage.getUriCompat
-import app.hikari.util.system.isPackageInstalled
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -25,10 +24,8 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runInterruptible
 import logcat.LogPriority
-import app.hikari.core.metro.AppCoroutineScope
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import app.hikari.core.common.util.system.logcat
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 
@@ -41,13 +38,11 @@ import java.util.concurrent.ConcurrentHashMap
 class ExtensionInstaller(
     @AppCoroutineScope private val scope: CoroutineScope,
     private val context: Context,
-    basePreferences: BasePreferences,
     networkHelper: NetworkHelper,
 ) {
 
     private val activeJobs = ConcurrentHashMap<String, Job>()
     private val activeSteps = ConcurrentHashMap<Long, MutableStateFlow<InstallStep>>()
-    private val extensionInstaller = basePreferences.extensionInstaller
 
     private val httpClient: OkHttpClient by lazy { networkHelper.client }
 
@@ -56,11 +51,9 @@ class ExtensionInstaller(
      * step in the installation process.
      *
      * @param extension The listing to install, whose apk must be signed with its store's key.
-     * @param isUpdateForPrivatelyInstalled If this is an update for a privately installed extension
      */
     fun downloadAndInstall(
         extension: Extension.Available,
-        isUpdateForPrivatelyInstalled: Boolean = false,
     ): Flow<InstallStep> {
         val downloadId = extension.pkgName.hashCode().toLong()
         cancelInstall(extension.pkgName)
@@ -97,7 +90,7 @@ class ExtensionInstaller(
 
                 ensureActive()
                 step.value = InstallStep.Installing
-                installApk(downloadId, tmpFile, packageInfo, isUpdateForPrivatelyInstalled)
+                installApk(downloadId, tmpFile)
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 logcat(LogPriority.INFO, e)
@@ -119,56 +112,17 @@ class ExtensionInstaller(
      * Starts an intent to install the extension at the given uri.
      *
      * @param tempFile The file of the extension to install. Delete after use.
-     * @param packageInfo The package info already read from [tempFile].
-     * @param isUpdateForPrivatelyInstalled If this install is an update for a privately installed extension
      */
     private fun installApk(
         downloadId: Long,
         tempFile: File,
-        packageInfo: PackageInfo,
-        isUpdateForPrivatelyInstalled: Boolean = false,
     ) {
-        if (isUpdateForPrivatelyInstalled) {
-            installApkPrivately(downloadId, tempFile, packageInfo)
-            return
-        }
-
-        when (val installer = extensionInstaller.get()) {
-            BasePreferences.ExtensionInstaller.LEGACY -> {
-                val intent = Intent(context, ExtensionInstallActivity::class.java)
-                    .setDataAndType(tempFile.getUriCompat(context), APK_MIME)
-                    .putExtra(EXTRA_DOWNLOAD_ID, downloadId)
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-                context.startActivity(intent)
-            }
-
-            BasePreferences.ExtensionInstaller.PRIVATE -> {
-                installApkPrivately(downloadId, tempFile, packageInfo)
-            }
-
-            else -> {
-                val intent = ExtensionInstallService.getIntent(
-                    context,
-                    downloadId,
-                    tempFile.getUriCompat(context),
-                    installer,
-                )
-                ContextCompat.startForegroundService(context, intent)
-            }
-        }
-    }
-
-    private fun installApkPrivately(downloadId: Long, tempFile: File, packageInfo: PackageInfo) {
-        try {
-            ExtensionLoader.installPrivateExtensionFile(context, tempFile, packageInfo)
-            updateInstallStep(downloadId, InstallStep.Installed)
-        } catch (e: Exception) {
-            logcat(LogPriority.INFO, e) { "Failed to install extension privately" }
-            updateInstallStep(downloadId, InstallStep.Error)
-        }
-
-        tempFile.delete()
+        val intent = ExtensionInstallService.getIntent(
+            context,
+            downloadId,
+            tempFile.getUriCompat(context),
+        )
+        ContextCompat.startForegroundService(context, intent)
     }
 
     /**
@@ -185,15 +139,10 @@ class ExtensionInstaller(
      * @param pkgName The package name of the extension to uninstall
      */
     fun uninstallApk(pkgName: String) {
-        if (context.isPackageInstalled(pkgName)) {
-            @Suppress("DEPRECATION")
-            val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, "package:$pkgName".toUri())
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)
-        } else {
-            ExtensionLoader.uninstallPrivateExtension(context, pkgName)
-            ExtensionInstallReceiver.notifyRemoved(context, pkgName)
-        }
+        @Suppress("DEPRECATION")
+        val intent = Intent(Intent.ACTION_UNINSTALL_PACKAGE, "package:$pkgName".toUri())
+            .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
     }
 
     /**

@@ -8,15 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import app.hikari.ui.reader.setting.ReaderOrientation
-import app.hikari.ui.reader.setting.ReadingMode
+import app.hikari.i18n.MR
 import app.hikari.icons.custommaterialsymbols.CustomMaterialSymbols
 import app.hikari.icons.custommaterialsymbols.rounded.CropOff
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Crop
 import app.hikari.icons.materialsymbols.rounded.Settings
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.ui.reader.setting.ReaderOrientation
+import app.hikari.ui.reader.setting.ReadingMode
 
 @Composable
 fun ReaderBottomBar(

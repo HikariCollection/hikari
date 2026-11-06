@@ -1,25 +1,25 @@
 package app.hikari.ui.reader.loader
 
 import android.content.Context
-import app.hikari.domain.chapter.model.toSChapter
+import app.hikari.core.archive.archiveReader
+import app.hikari.core.archive.epubReader
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.cache.ChapterCache
 import app.hikari.data.download.DownloadManager
 import app.hikari.data.download.DownloadProvider
+import app.hikari.domain.chapter.model.toSChapter
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.source.model.StubSource
+import app.hikari.i18n.MR
 import app.hikari.source.Source
+import app.hikari.source.local.LocalSource
+import app.hikari.source.local.io.Format
 import app.hikari.source.online.HttpSource
 import app.hikari.ui.reader.model.ReaderChapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.core.archive.archiveReader
-import app.hikari.core.archive.epubReader
-import app.hikari.data.cache.ChapterCache
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.model.StubSource
-import app.hikari.i18n.MR
-import app.hikari.source.local.LocalSource
-import app.hikari.source.local.io.Format
 
 /**
  * Loader used to retrieve the [PageLoader] for a given chapter.

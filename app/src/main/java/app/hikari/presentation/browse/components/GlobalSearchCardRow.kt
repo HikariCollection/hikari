@@ -14,14 +14,14 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.library.components.CommonMangaItemDefaults
-import app.hikari.presentation.library.components.MangaComfortableGridItem
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaCover
 import app.hikari.domain.manga.model.asMangaCover
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.library.components.CommonMangaItemDefaults
+import app.hikari.presentation.library.components.MangaComfortableGridItem
 
 @Composable
 fun GlobalSearchCardRow(

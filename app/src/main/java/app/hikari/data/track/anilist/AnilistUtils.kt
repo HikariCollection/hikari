@@ -1,13 +1,9 @@
 package app.hikari.data.track.anilist
 
-import app.hikari.domain.track.service.TrackPreferences
 import app.hikari.data.database.models.Track
 import app.hikari.data.track.anilist.dto.ALUser
 import app.hikari.data.track.model.TrackSearch
-import app.hikari.util.lang.htmlDecode
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
+import app.hikari.domain.track.service.TrackPreferences
 import app.hikari.graphql.anilist.AniListGetCurrentUserQuery
 import app.hikari.graphql.anilist.AniListGetLibMangaQuery
 import app.hikari.graphql.anilist.AniListGetMangaDetailsQuery
@@ -15,6 +11,10 @@ import app.hikari.graphql.anilist.AniListSearchMangaQuery
 import app.hikari.graphql.anilist.fragment.MangaFragment
 import app.hikari.graphql.anilist.type.MediaListStatus
 import app.hikari.graphql.anilist.type.ScoreFormat
+import app.hikari.util.lang.htmlDecode
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
 import app.hikari.domain.track.model.Track as DomainTrack
 
 internal fun AniListGetCurrentUserQuery.Viewer.toALUser(): ALUser {

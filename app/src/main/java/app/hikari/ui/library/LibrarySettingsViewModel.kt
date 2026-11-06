@@ -2,24 +2,24 @@ package app.hikari.ui.library
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.domain.base.BasePreferences
-import app.hikari.data.track.TrackerManager
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.TriState
 import app.hikari.core.common.preference.getAndSet
+import app.hikari.data.track.TrackerManager
+import app.hikari.domain.base.BasePreferences
 import app.hikari.domain.category.interactor.SetDisplayMode
 import app.hikari.domain.category.interactor.SetSortModeForCategory
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.library.model.LibraryDisplayMode
 import app.hikari.domain.library.model.LibrarySort
 import app.hikari.domain.library.service.LibraryPreferences
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metrox.viewmodel.ViewModelKey
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
 
 @Inject

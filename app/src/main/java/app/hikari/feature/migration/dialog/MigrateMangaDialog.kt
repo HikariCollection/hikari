@@ -19,6 +19,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.util.fastForEach
 import androidx.lifecycle.ViewModel
+import app.hikari.data.cache.CoverCache
+import app.hikari.data.download.DownloadManager
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.hasCustomCover
+import app.hikari.domain.migration.models.MigrationFlag
+import app.hikari.domain.migration.usecases.MigrateMangaUseCase
+import app.hikari.domain.source.service.SourcePreferences
+import app.hikari.feature.common.utils.getLabel
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.components.LabeledCheckbox
+import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.screens.LoadingScreen
 import cafe.adriel.voyager.core.screen.Screen
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
@@ -26,25 +39,12 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.domain.manga.model.hasCustomCover
-import app.hikari.domain.source.service.SourcePreferences
-import app.hikari.data.cache.CoverCache
-import app.hikari.data.download.DownloadManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import app.hikari.domain.migration.models.MigrationFlag
-import app.hikari.domain.migration.usecases.MigrateMangaUseCase
-import app.hikari.feature.common.utils.getLabel
-import app.hikari.domain.manga.model.Manga
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.LabeledCheckbox
-import app.hikari.presentation.core.components.material.padding
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.screens.LoadingScreen
 
 @Composable
 internal fun Screen.MigrateMangaDialog(

@@ -1,20 +1,20 @@
 package app.hikari.domain.ui
 
 import android.text.format.DateFormat
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.common.preference.Preference
+import app.hikari.core.common.preference.PreferenceStore
+import app.hikari.core.common.preference.getEnum
+import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.ui.model.AppTheme
 import app.hikari.domain.ui.model.TabletUiMode
 import app.hikari.domain.ui.model.ThemeMode
 import app.hikari.domain.ui.model.TimeFormat
 import app.hikari.util.system.DeviceUtil
 import app.hikari.util.system.isDynamicColorAvailable
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import logcat.LogPriority
-import app.hikari.core.common.preference.Preference
-import app.hikari.core.common.preference.PreferenceStore
-import app.hikari.core.common.preference.getEnum
-import app.hikari.core.common.util.system.logcat
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeFormatterBuilder
 import java.time.format.FormatStyle

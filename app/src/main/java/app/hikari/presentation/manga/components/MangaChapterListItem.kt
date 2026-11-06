@@ -27,7 +27,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.hikari.data.download.model.Download
-import me.saket.swipe.SwipeableActionsBox
+import app.hikari.domain.library.service.LibraryPreferences
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.BookmarkAdd
 import app.hikari.icons.materialsymbols.rounded.BookmarkRemove
@@ -38,12 +39,11 @@ import app.hikari.icons.materialsymbols.rounded.FileDownloadOff
 import app.hikari.icons.materialsymbols.rounded.RemoveDone
 import app.hikari.icons.materialsymbols.roundedfilled.Bookmark
 import app.hikari.icons.materialsymbols.roundedfilled.Circle
-import app.hikari.domain.library.service.LibraryPreferences
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.DISABLED_ALPHA
 import app.hikari.presentation.core.components.material.SECONDARY_ALPHA
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.selectedBackground
+import me.saket.swipe.SwipeableActionsBox
 
 @Composable
 fun MangaChapterListItem(

@@ -3,10 +3,10 @@ package app.hikari.presentation.core.i18n
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.platform.LocalContext
-import dev.icerock.moko.resources.PluralsResource
-import dev.icerock.moko.resources.StringResource
 import app.hikari.core.common.i18n.pluralStringResource
 import app.hikari.core.common.i18n.stringResource
+import app.hikari.i18n.PluralsResource
+import app.hikari.i18n.StringResource
 
 @Composable
 @ReadOnlyComposable

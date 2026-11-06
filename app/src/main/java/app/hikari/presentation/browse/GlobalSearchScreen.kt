@@ -5,18 +5,18 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import app.hikari.domain.manga.model.Manga
 import app.hikari.presentation.browse.components.GlobalSearchCardRow
 import app.hikari.presentation.browse.components.GlobalSearchErrorResultItem
 import app.hikari.presentation.browse.components.GlobalSearchLoadingResultItem
 import app.hikari.presentation.browse.components.GlobalSearchResultItem
 import app.hikari.presentation.browse.components.GlobalSearchToolbar
+import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.source.Source
 import app.hikari.ui.browse.source.globalsearch.SearchItemResult
 import app.hikari.ui.browse.source.globalsearch.SearchViewModel
 import app.hikari.ui.browse.source.globalsearch.SourceFilter
 import app.hikari.util.system.LocaleHelper
-import app.hikari.domain.manga.model.Manga
-import app.hikari.presentation.core.components.material.Scaffold
 
 @Composable
 fun GlobalSearchScreen(

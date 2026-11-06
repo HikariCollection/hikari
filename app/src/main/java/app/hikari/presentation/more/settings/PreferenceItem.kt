@@ -18,6 +18,11 @@ import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.data.track.RefreshResult
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.components.BaseSliderItem
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.settings.widget.EditTextPreferenceWidget
 import app.hikari.presentation.more.settings.widget.InfoWidget
 import app.hikari.presentation.more.settings.widget.ListPreferenceWidget
@@ -28,13 +33,8 @@ import app.hikari.presentation.more.settings.widget.SwitchPreferenceWidget
 import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
 import app.hikari.presentation.more.settings.widget.TitleFontSize
 import app.hikari.presentation.more.settings.widget.TrackingPreferenceWidget
-import app.hikari.data.track.RefreshResult
 import app.hikari.util.system.toast
 import kotlinx.coroutines.launch
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.BaseSliderItem
-import app.hikari.presentation.core.util.collectAsState
 
 val LocalPreferenceHighlighted = compositionLocalOf(structuralEqualityPolicy()) { false }
 val LocalPreferenceMinHeight = compositionLocalOf(structuralEqualityPolicy()) { 56.dp }

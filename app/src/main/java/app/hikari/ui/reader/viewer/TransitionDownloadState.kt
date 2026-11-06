@@ -4,10 +4,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import app.hikari.data.download.DownloadManager
-import app.hikari.source.Source
-import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.domain.manga.model.Manga
+import app.hikari.source.Source
 import app.hikari.source.local.isLocal
+import app.hikari.ui.reader.model.ChapterTransition
 
 class TransitionDownloadState(
     val currChapterDownloaded: Boolean,

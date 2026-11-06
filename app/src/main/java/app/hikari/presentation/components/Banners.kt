@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 import androidx.compose.ui.util.fastMaxBy
-import dev.icerock.moko.resources.StringResource
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.core.i18n.stringResource
 
 val DownloadedOnlyBannerBackgroundColor

@@ -5,19 +5,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.IBinder
-import app.hikari.domain.base.BasePreferences
 import app.hikari.R
+import app.hikari.core.common.i18n.stringResource
 import app.hikari.data.notification.Notifications
 import app.hikari.extension.installer.Installer
 import app.hikari.extension.installer.PackageInstallerInstaller
-import app.hikari.extension.installer.ShizukuInstaller
 import app.hikari.extension.util.ExtensionInstaller.Companion.EXTRA_DOWNLOAD_ID
-import app.hikari.util.system.getSerializableExtraCompat
-import app.hikari.util.system.notificationBuilder
-import logcat.LogPriority
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
 import app.hikari.i18n.MR
+import app.hikari.util.system.notificationBuilder
 
 class ExtensionInstallService : Service() {
 
@@ -25,7 +20,7 @@ class ExtensionInstallService : Service() {
 
     override fun onCreate() {
         val notification = notificationBuilder(Notifications.CHANNEL_EXTENSIONS_UPDATE) {
-            setSmallIcon(R.drawable.ic_mihon)
+            setSmallIcon(R.drawable.ic_hikari)
             setAutoCancel(false)
             setOngoing(true)
             setShowWhen(false)
@@ -38,22 +33,13 @@ class ExtensionInstallService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val uri = intent?.data
         val id = intent?.getLongExtra(EXTRA_DOWNLOAD_ID, -1)?.takeIf { it != -1L }
-        val installerUsed = intent?.getSerializableExtraCompat<BasePreferences.ExtensionInstaller>(EXTRA_INSTALLER)
-        if (uri == null || id == null || installerUsed == null) {
+        if (uri == null || id == null) {
             stopSelf()
             return START_NOT_STICKY
         }
 
         if (installer == null) {
-            installer = when (installerUsed) {
-                BasePreferences.ExtensionInstaller.PACKAGEINSTALLER -> PackageInstallerInstaller(this)
-                BasePreferences.ExtensionInstaller.SHIZUKU -> ShizukuInstaller(this)
-                else -> {
-                    logcat(LogPriority.ERROR) { "Not implemented for installer $installerUsed" }
-                    stopSelf()
-                    return START_NOT_STICKY
-                }
-            }
+            installer = PackageInstallerInstaller(this)
         }
         installer!!.addToQueue(id, uri)
         return START_NOT_STICKY
@@ -67,18 +53,14 @@ class ExtensionInstallService : Service() {
     override fun onBind(i: Intent?): IBinder? = null
 
     companion object {
-        private const val EXTRA_INSTALLER = "EXTRA_INSTALLER"
-
         fun getIntent(
             context: Context,
             downloadId: Long,
             uri: Uri,
-            installer: BasePreferences.ExtensionInstaller,
         ): Intent {
             return Intent(context, ExtensionInstallService::class.java)
                 .setDataAndType(uri, ExtensionInstaller.APK_MIME)
                 .putExtra(EXTRA_DOWNLOAD_ID, downloadId)
-                .putExtra(EXTRA_INSTALLER, installer)
         }
     }
 }

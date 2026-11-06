@@ -10,8 +10,6 @@ import androidx.core.graphics.alpha
 import androidx.core.graphics.blue
 import androidx.core.graphics.green
 import androidx.core.graphics.red
-import app.hikari.ui.reader.setting.ReaderPreferences.Companion.ColorFilterMode
-import app.hikari.ui.reader.setting.ReaderSettingsViewModel
 import app.hikari.core.common.preference.getAndSet
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.CheckboxItem
@@ -19,6 +17,8 @@ import app.hikari.presentation.core.components.SettingsChipRow
 import app.hikari.presentation.core.components.SliderItem
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.reader.setting.ReaderPreferences.Companion.ColorFilterMode
+import app.hikari.ui.reader.setting.ReaderSettingsViewModel
 
 @Composable
 internal fun ColumnScope.ColorFilterPage(viewModel: ReaderSettingsViewModel) {

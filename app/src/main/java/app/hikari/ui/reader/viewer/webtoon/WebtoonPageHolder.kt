@@ -7,7 +7,8 @@ import android.widget.FrameLayout
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updateMargins
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
+import app.hikari.core.common.util.system.ImageUtil
+import app.hikari.core.common.util.system.logcat
 import app.hikari.source.model.Page
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.ui.reader.viewer.ReaderPageErrorView
@@ -15,6 +16,7 @@ import app.hikari.ui.reader.viewer.ReaderPageImageView
 import app.hikari.ui.reader.viewer.ReaderProgressIndicator
 import app.hikari.ui.reader.viewer.processStripImage
 import app.hikari.util.system.dpToPx
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -24,8 +26,6 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
 import okio.Buffer
-import app.hikari.core.common.util.system.ImageUtil
-import app.hikari.core.common.util.system.logcat
 
 /**
  * Holder of the webtoon reader for a single page of a chapter.

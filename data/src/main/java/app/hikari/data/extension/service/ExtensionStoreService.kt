@@ -1,12 +1,18 @@
 package app.hikari.data.extension.service
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.extension.model.NetworkExtensionStore
+import app.hikari.data.extension.model.NetworkLegacyExtension
+import app.hikari.data.extension.model.NetworkLegacyExtensionRepo
+import app.hikari.data.extension.model.toAvailableExtensions
+import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.extension.model.Extension
 import app.hikari.network.GET
 import app.hikari.network.NetworkHelper
 import app.hikari.network.awaitSuccess
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromByteArray
@@ -14,15 +20,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.okio.decodeFromBufferedSource
 import kotlinx.serialization.protobuf.ProtoBuf
 import logcat.LogPriority
-import app.hikari.data.extension.model.NetworkExtensionStore
-import app.hikari.data.extension.model.NetworkLegacyExtension
-import app.hikari.data.extension.model.NetworkLegacyExtensionRepo
-import app.hikari.data.extension.model.toAvailableExtensions
-import app.hikari.domain.extension.model.ExtensionStore
 import okio.BufferedSource
 import okio.buffer
 import okio.gzip
-import app.hikari.core.common.util.system.logcat
 import kotlin.coroutines.cancellation.CancellationException
 
 @Inject

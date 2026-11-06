@@ -1,12 +1,12 @@
 package app.hikari.domain.manga.interactor
 
+import app.hikari.domain.chapter.model.Chapter
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.daysUntil
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
-import app.hikari.domain.chapter.model.Chapter
 import kotlin.time.Instant
 
 /** How often an entry releases, and so when to check it for the next release. */

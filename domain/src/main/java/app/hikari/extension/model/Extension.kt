@@ -1,9 +1,9 @@
 package app.hikari.extension.model
 
-import app.hikari.source.Source
 import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.domain.source.model.StubSource
+import app.hikari.source.Source
 
 sealed interface Extension {
 

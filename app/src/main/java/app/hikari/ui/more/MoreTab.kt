@@ -8,6 +8,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.R
+import app.hikari.core.preference.asState
+import app.hikari.data.download.DownloadManager
+import app.hikari.domain.base.BasePreferences
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.MoreScreen
+import app.hikari.presentation.util.Tab
+import app.hikari.presentation.util.rememberAnimatedVectorPainter
+import app.hikari.ui.category.CategoryScreen
+import app.hikari.ui.download.DownloadQueueScreen
+import app.hikari.ui.setting.SettingsScreen
+import app.hikari.ui.stats.StatsScreen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -18,25 +31,12 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.core.preference.asState
-import app.hikari.domain.base.BasePreferences
-import app.hikari.presentation.more.MoreScreen
-import app.hikari.presentation.util.Tab
-import app.hikari.presentation.util.rememberAnimatedVectorPainter
-import app.hikari.R
-import app.hikari.data.download.DownloadManager
-import app.hikari.ui.category.CategoryScreen
-import app.hikari.ui.download.DownloadQueueScreen
-import app.hikari.ui.setting.SettingsScreen
-import app.hikari.ui.stats.StatsScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 
 data object MoreTab : Tab {
 

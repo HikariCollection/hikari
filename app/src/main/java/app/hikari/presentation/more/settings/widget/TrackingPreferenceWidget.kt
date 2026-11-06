@@ -20,17 +20,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.more.settings.LocalPreferenceHighlighted
-import app.hikari.presentation.track.components.TrackLogoIcon
 import app.hikari.data.track.EnhancedTracker
 import app.hikari.data.track.Tracker
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Check
 import app.hikari.icons.materialsymbols.rounded.Refresh
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.settings.LocalPreferenceHighlighted
+import app.hikari.presentation.track.components.TrackLogoIcon
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun TrackingPreferenceWidget(

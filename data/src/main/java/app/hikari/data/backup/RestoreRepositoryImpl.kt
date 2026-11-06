@@ -3,13 +3,6 @@ package app.hikari.data.backup
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOne
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import kotlinx.coroutines.currentCoroutineContext
-import kotlinx.coroutines.ensureActive
-import kotlinx.serialization.json.JsonObject
 import app.hikari.data.Database
 import app.hikari.domain.backup.model.RestoredHistory
 import app.hikari.domain.backup.model.RestoredManga
@@ -21,6 +14,13 @@ import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.repository.MangaRepository
 import app.hikari.domain.track.model.Track
 import app.hikari.domain.track.repository.TrackRepository
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
+import kotlinx.serialization.json.JsonObject
 import kotlin.math.max
 import kotlin.time.Instant
 

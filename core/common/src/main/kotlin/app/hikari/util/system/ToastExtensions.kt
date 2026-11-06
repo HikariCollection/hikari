@@ -2,8 +2,8 @@ package app.hikari.util.system
 
 import android.content.Context
 import android.widget.Toast
-import dev.icerock.moko.resources.StringResource
 import app.hikari.core.common.i18n.stringResource
+import app.hikari.i18n.StringResource
 
 /**
  * Display a toast in this context.

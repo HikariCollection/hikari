@@ -1,7 +1,7 @@
 package app.hikari.domain.track.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.track.model.Track
+import kotlinx.coroutines.flow.Flow
 
 interface TrackRepository {
 

@@ -20,17 +20,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import app.hikari.BuildConfig
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.Constants
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.updater.RELEASE_URL
+import app.hikari.domain.release.interactor.GetApplicationRelease
 import app.hikari.domain.ui.UiPreferences
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.simpleicons.Github
+import app.hikari.icons.simpleicons.SimpleIcons
 import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.core.components.LinkIcon
+import app.hikari.presentation.core.components.ScrollbarLazyColumn
+import app.hikari.presentation.core.components.material.Scaffold
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.more.LogoHeader
 import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
 import app.hikari.presentation.util.LocalBackPress
 import app.hikari.presentation.util.Screen
 import app.hikari.presentation.util.rememberIs24HourSystem
-import app.hikari.BuildConfig
-import app.hikari.data.updater.RELEASE_URL
 import app.hikari.ui.more.NewUpdateScreen
 import app.hikari.util.lang.toDateTimestampString
 import app.hikari.util.system.copyToClipboard
@@ -38,29 +48,14 @@ import app.hikari.util.system.isFossBuildType
 import app.hikari.util.system.isNightlyBuildType
 import app.hikari.util.system.toast
 import app.hikari.util.system.updaterEnabled
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.Public
-import app.hikari.icons.simpleicons.Discord
-import app.hikari.icons.simpleicons.Facebook
-import app.hikari.icons.simpleicons.Github
-import app.hikari.icons.simpleicons.Reddit
-import app.hikari.icons.simpleicons.SimpleIcons
-import app.hikari.icons.simpleicons.X
-import app.hikari.core.common.Constants
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.release.interactor.GetApplicationRelease
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.LinkIcon
-import app.hikari.presentation.core.components.ScrollbarLazyColumn
-import app.hikari.presentation.core.components.material.Scaffold
-import app.hikari.presentation.core.i18n.stringResource
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
 import java.util.Locale
@@ -170,6 +165,21 @@ object AboutScreen : Screen() {
                         title = stringResource(MR.strings.privacy_policy),
                         onPreferenceClick = { },
                     )
+                }
+
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        LinkIcon(
+                            label = "GitHub",
+                            icon = SimpleIcons.Github,
+                            url = "https://github.com/HikariCollection/hikari",
+                        )
+                    }
                 }
             }
         }

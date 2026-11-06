@@ -6,39 +6,26 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.pm.PackageInfoCompat
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.dalvik.DelegateLastClassLoaderCompat
 import app.hikari.domain.extension.interactor.TrustExtension
+import app.hikari.domain.extension.model.ContentWarning
+import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.extension.model.Extension
 import app.hikari.source.Source
 import app.hikari.source.SourceFactory
 import app.hikari.util.lang.Hash
-import app.hikari.util.storage.copyAndSetReadOnlyTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
-import app.hikari.data.dalvik.DelegateLastClassLoaderCompat
-import app.hikari.domain.extension.model.ContentWarning
-import app.hikari.domain.extension.model.ExtensionStore
-import app.hikari.core.common.util.system.logcat
 import java.io.File
-import java.io.IOException
 
 /**
- * Class that handles the loading of the extensions. Supports two kinds of extensions:
- *
- * 1. Shared extension: This extension is installed to the system with package
- * installer, so other variants of Tachiyomi and its forks can also use this extension.
- *
- * 2. Private extension: This extension is put inside private data directory of the
- * running app, so this extension can only be used by the running app and not shared
- * with other apps.
- *
- * When both kinds of extensions are installed with a same package name, shared
- * extension will be used unless the version codes are different. In that case the
- * one with higher version code will be used.
+ * Class that handles the loading of installed extensions.
  */
 internal object ExtensionLoader {
 
@@ -58,46 +45,6 @@ internal object ExtensionLoader {
         PackageManager.GET_META_DATA or
         PackageManager.GET_SIGNATURES or
         (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) PackageManager.GET_SIGNING_CERTIFICATES else 0)
-
-    private const val PRIVATE_EXTENSION_EXTENSION = "ext"
-
-    private fun getPrivateExtensionDir(context: Context) = File(context.filesDir, "exts")
-
-    fun installPrivateExtensionFile(context: Context, file: File, extension: PackageInfo) {
-        check(isPackageAnExtension(extension)) { "${extension.packageName} isn't an extension" }
-        val currentExtension = getExtensionPackageInfoFromPkgName(context, extension.packageName)
-
-        if (currentExtension != null) {
-            check(
-                PackageInfoCompat.getLongVersionCode(extension) >=
-                    PackageInfoCompat.getLongVersionCode(currentExtension),
-            ) { "The installed version is newer, and downgrading isn't allowed" }
-
-            val extensionSignatures = getSignatures(extension)
-            check(!extensionSignatures.isNullOrEmpty()) { "The extension isn't signed" }
-            check(extensionSignatures.containsAll(getSignatures(currentExtension)!!)) {
-                "It isn't signed with the same key as the installed extension"
-            }
-        }
-
-        val target = File(getPrivateExtensionDir(context), "${extension.packageName}.$PRIVATE_EXTENSION_EXTENSION")
-        val staged = File(target.parentFile, "${target.name}.part")
-        try {
-            file.copyAndSetReadOnlyTo(staged, overwrite = true)
-            if (!staged.renameTo(target)) throw IOException("Unable to replace ${target.name}")
-        } finally {
-            staged.delete()
-        }
-        if (currentExtension != null) {
-            ExtensionInstallReceiver.notifyReplaced(context, extension.packageName)
-        } else {
-            ExtensionInstallReceiver.notifyAdded(context, extension.packageName)
-        }
-    }
-
-    fun uninstallPrivateExtension(context: Context, pkgName: String) {
-        File(getPrivateExtensionDir(context), "$pkgName.$PRIVATE_EXTENSION_EXTENSION").delete()
-    }
 
     fun getArchivePackageInfo(context: Context, file: File): PackageInfo? {
         return context.packageManager.getPackageArchiveInfo(file.absolutePath, PACKAGE_FLAGS)
@@ -129,39 +76,10 @@ internal object ExtensionLoader {
             pkgManager.getInstalledPackages(PACKAGE_FLAGS)
         }
 
-        val sharedExtPkgs = installedPkgs
+        val extPkgs = installedPkgs
             .asSequence()
             .filter { isPackageAnExtension(it) }
             .map { ExtensionInfo(packageInfo = it, isShared = true) }
-
-        val privateExtPkgs = getPrivateExtensionDir(context)
-            .listFiles()
-            ?.asSequence()
-            ?.filter { it.isFile && it.extension == PRIVATE_EXTENSION_EXTENSION }
-            ?.mapNotNull {
-                // Just in case, since Android 14+ requires them to be read-only
-                if (it.canWrite()) {
-                    it.setReadOnly()
-                }
-
-                val path = it.absolutePath
-                pkgManager.getPackageArchiveInfo(path, PACKAGE_FLAGS)
-                    ?.also { pkg -> pkg.applicationInfo?.fixBasePaths(path) }
-            }
-            ?.filter { isPackageAnExtension(it) }
-            ?.map { ExtensionInfo(packageInfo = it, isShared = false) }
-            ?.toList()
-            .orEmpty()
-        val privateExtPkgsByName = privateExtPkgs.groupBy { it.packageInfo.packageName }
-
-        val extPkgs = (sharedExtPkgs + privateExtPkgs)
-            // Remove duplicates. Shared takes priority than private by default
-            .distinctBy { it.packageInfo.packageName }
-            // Compare version number
-            .mapNotNull { sharedPkg ->
-                val privatePkg = privateExtPkgsByName[sharedPkg.packageInfo.packageName]?.singleOrNull()
-                selectExtensionPackage(sharedPkg, privatePkg)
-            }
             .toList()
 
         if (extPkgs.isEmpty()) return emptyList()
@@ -213,22 +131,7 @@ internal object ExtensionLoader {
     }
 
     private fun getExtensionInfoFromPkgName(context: Context, pkgName: String): ExtensionInfo? {
-        val privateExtensionFile = File(getPrivateExtensionDir(context), "$pkgName.$PRIVATE_EXTENSION_EXTENSION")
-        val privatePkg = if (privateExtensionFile.isFile) {
-            context.packageManager.getPackageArchiveInfo(privateExtensionFile.absolutePath, PACKAGE_FLAGS)
-                ?.takeIf { isPackageAnExtension(it) }
-                ?.let {
-                    it.applicationInfo?.fixBasePaths(privateExtensionFile.absolutePath)
-                    ExtensionInfo(
-                        packageInfo = it,
-                        isShared = false,
-                    )
-                }
-        } else {
-            null
-        }
-
-        val sharedPkg = try {
+        return try {
             context.packageManager.getPackageInfo(pkgName, PACKAGE_FLAGS)
                 .takeIf { isPackageAnExtension(it) }
                 ?.let {
@@ -240,8 +143,6 @@ internal object ExtensionLoader {
         } catch (_: PackageManager.NameNotFoundException) {
             null
         }
-
-        return selectExtensionPackage(sharedPkg, privatePkg)
     }
 
     /**
@@ -308,7 +209,9 @@ internal object ExtensionLoader {
         val pkgName = pkgInfo.packageName
 
         val extName = metaData?.getString(METADATA_NAME)
-            ?: appInfo?.let { pkgManager.getApplicationLabel(it).toString().substringAfter("Tachiyomi: ") }
+            ?: appInfo?.let {
+                pkgManager.getApplicationLabel(it).toString().removePrefix("Hikari: ").removePrefix("Tachiyomi: ")
+            }
             ?: pkgName
         val versionName = pkgInfo.versionName
         val versionCode = PackageInfoCompat.getLongVersionCode(pkgInfo)
@@ -451,28 +354,6 @@ internal object ExtensionLoader {
     }
 
     /**
-     * Choose which extension package to use based on version code
-     *
-     * @param shared extension installed to system
-     * @param private extension installed to data directory
-     */
-    private fun selectExtensionPackage(shared: ExtensionInfo?, private: ExtensionInfo?): ExtensionInfo? {
-        when {
-            private == null && shared != null -> return shared
-            shared == null && private != null -> return private
-            shared == null && private == null -> return null
-        }
-
-        return if (PackageInfoCompat.getLongVersionCode(shared!!.packageInfo) >=
-            PackageInfoCompat.getLongVersionCode(private!!.packageInfo)
-        ) {
-            shared
-        } else {
-            private
-        }
-    }
-
-    /**
      * Returns true if the given package is an extension.
      *
      * @param pkgInfo The package info of the application.
@@ -501,19 +382,6 @@ internal object ExtensionLoader {
         }
             ?.map { Hash.sha256(it.toByteArray()) }
             ?.toList()
-    }
-
-    /**
-     * On Android 13+ the ApplicationInfo generated by getPackageArchiveInfo doesn't
-     * have sourceDir which breaks assets loading (used for getting icon here).
-     */
-    private fun ApplicationInfo.fixBasePaths(apkPath: String) {
-        if (sourceDir == null) {
-            sourceDir = apkPath
-        }
-        if (publicSourceDir == null) {
-            publicSourceDir = apkPath
-        }
     }
 
     private data class ExtensionInfo(

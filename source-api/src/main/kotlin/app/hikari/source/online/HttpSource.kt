@@ -1,5 +1,6 @@
 package app.hikari.source.online
 
+import app.hikari.core.common.util.lang.awaitSingle
 import app.hikari.network.GET
 import app.hikari.network.NetworkHelper
 import app.hikari.network.asObservableSuccess
@@ -16,7 +17,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import rx.Observable
-import app.hikari.core.common.util.lang.awaitSingle
 import uy.kohesive.injekt.injectLazy
 import java.net.URI
 import java.net.URISyntaxException

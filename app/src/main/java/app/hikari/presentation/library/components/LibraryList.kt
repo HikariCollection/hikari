@@ -7,11 +7,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hikari.ui.library.LibraryItem
 import app.hikari.domain.library.model.LibraryManga
 import app.hikari.domain.manga.model.MangaCover
 import app.hikari.presentation.core.components.FastScrollLazyColumn
 import app.hikari.presentation.core.util.plus
+import app.hikari.ui.library.LibraryItem
 
 @Composable
 internal fun LibraryList(

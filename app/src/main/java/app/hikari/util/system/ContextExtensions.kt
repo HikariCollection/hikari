@@ -14,19 +14,17 @@ import android.provider.Settings
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
-import com.hippo.unifile.UniFile
-import app.hikari.domain.ui.model.ThemeMode
 import app.hikari.R
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.ui.model.ThemeMode
+import app.hikari.i18n.MR
 import app.hikari.ui.base.delegate.ThemingDelegate
 import app.hikari.ui.reader.setting.ReaderPreferences
 import app.hikari.util.lang.truncateCenter
+import com.hippo.unifile.UniFile
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
-import rikka.shizuku.ShizukuProvider
-import rikka.sui.Sui
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.i18n.MR
 import java.io.File
 
 /**
@@ -63,7 +61,7 @@ fun Context.openInBrowser(url: String, forceDefaultBrowser: Boolean = false) {
 fun Context.openInBrowser(uri: Uri, forceDefaultBrowser: Boolean = false) {
     try {
         val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-            // Force default browser so that verified extensions don't re-open Tachiyomi
+            // Force default browser so that verified extensions don't re-open Hikari
             if (forceDefaultBrowser) {
                 defaultBrowserPackageName()?.let { setPackage(it) }
             }
@@ -167,17 +165,6 @@ fun Context.isPackageInstalled(packageName: String): Boolean {
         false
     }
 }
-
-val Context.hasMiuiPackageInstaller get() = isPackageInstalled("com.miui.packageinstaller")
-
-val Context.isShizukuInstalled: Boolean
-    get() = Sui.isSui() ||
-        try {
-            packageManager.getPermissionInfo(ShizukuProvider.PERMISSION, 0)
-            true
-        } catch (e: PackageManager.NameNotFoundException) {
-            false
-        }
 
 fun Context.launchRequestPackageInstallsPermission() {
     Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES).apply {

@@ -1,15 +1,15 @@
 package app.hikari.data.track.anilist
 
-import dev.icerock.moko.resources.StringResource
-import app.hikari.domain.track.model.toDbTrack
 import app.hikari.R
 import app.hikari.data.database.models.Track
 import app.hikari.data.track.BaseTracker
 import app.hikari.data.track.DeletableTracker
 import app.hikari.data.track.anilist.dto.ALOAuth
 import app.hikari.data.track.model.TrackSearch
-import kotlinx.serialization.json.Json
+import app.hikari.domain.track.model.toDbTrack
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
+import kotlinx.serialization.json.Json
 import app.hikari.domain.track.model.Track as DomainTrack
 
 class Anilist(id: Long) : BaseTracker(id, "AniList"), DeletableTracker {

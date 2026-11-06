@@ -1,7 +1,7 @@
 package app.hikari.domain.chapter.model
 
-import kotlinx.serialization.json.JsonObject
 import app.hikari.core.common.extensions.EMPTY
+import kotlinx.serialization.json.JsonObject
 import kotlin.time.Instant
 
 data class Chapter(

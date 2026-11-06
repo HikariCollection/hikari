@@ -14,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.manga.components.MangaCover
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.asMangaCover
 import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.manga.components.MangaCover
 
 private val UpcomingItemHeight = 96.dp
 

@@ -15,6 +15,8 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.WebtoonLayoutManager
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
 import app.hikari.ui.reader.ReaderActivity
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.ReaderPage
@@ -27,8 +29,6 @@ import app.hikari.ui.reader.viewer.Viewer
 import app.hikari.ui.reader.viewer.collectChanges
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import app.hikari.app.di.appGraph
-import app.hikari.core.common.util.system.logcat
 import java.util.Collections
 import java.util.WeakHashMap
 import kotlin.math.max

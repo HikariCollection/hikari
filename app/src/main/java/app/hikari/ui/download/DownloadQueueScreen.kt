@@ -29,24 +29,24 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.components.DropdownMenu
-import app.hikari.presentation.components.NestedMenuItem
-import app.hikari.presentation.download.DownloadQueueList
-import app.hikari.presentation.util.Screen
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.Sort
 import app.hikari.icons.materialsymbols.roundedfilled.Pause
 import app.hikari.icons.materialsymbols.roundedfilled.PlayArrow
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
+import app.hikari.presentation.components.DropdownMenu
+import app.hikari.presentation.components.NestedMenuItem
 import app.hikari.presentation.core.components.Pill
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
+import app.hikari.presentation.download.DownloadQueueList
+import app.hikari.presentation.util.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 
 object DownloadQueueScreen : Screen() {
 

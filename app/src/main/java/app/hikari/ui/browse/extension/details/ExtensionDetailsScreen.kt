@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.hikari.i18n.MR
+import app.hikari.presentation.browse.ExtensionDetailsScreen
+import app.hikari.presentation.core.screens.EmptyScreen
+import app.hikari.presentation.core.screens.LoadingScreen
+import app.hikari.presentation.util.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
-import app.hikari.presentation.browse.ExtensionDetailsScreen
-import app.hikari.presentation.util.Screen
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.screens.EmptyScreen
-import app.hikari.presentation.core.screens.LoadingScreen
 
 data class ExtensionDetailsScreen(
     private val pkgName: String,

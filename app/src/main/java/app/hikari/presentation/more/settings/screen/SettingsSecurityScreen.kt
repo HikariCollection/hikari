@@ -6,18 +6,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.FragmentActivity
-import app.hikari.presentation.more.settings.Preference
-import app.hikari.core.security.PrivacyPreferences
-import app.hikari.core.security.SecurityPreferences
-import app.hikari.util.system.AuthenticatorUtil.authenticate
-import app.hikari.util.system.AuthenticatorUtil.isAuthenticationSupported
-import app.hikari.util.system.telemetryIncluded
 import app.hikari.app.di.appGraph
 import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.security.PrivacyPreferences
+import app.hikari.core.security.SecurityPreferences
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.more.settings.Preference
+import app.hikari.util.system.AuthenticatorUtil.authenticate
+import app.hikari.util.system.AuthenticatorUtil.isAuthenticationSupported
+import app.hikari.util.system.telemetryIncluded
 
 object SettingsSecurityScreen : SearchableSettings {
 

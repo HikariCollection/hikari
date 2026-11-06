@@ -2,11 +2,15 @@ package app.hikari.data.cache
 
 import android.content.Context
 import android.text.format.Formatter
+import app.hikari.core.common.cache.TtlDiskCache
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.source.model.Page
+import app.hikari.ui.reader.model.DownloadStream
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import app.hikari.source.model.Page
-import app.hikari.ui.reader.model.DownloadStream
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import logcat.LogPriority
-import app.hikari.core.common.cache.TtlDiskCache
-import app.hikari.core.metro.AppCoroutineScope
 import okhttp3.Response
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.chapter.model.Chapter
 import java.io.File
 import java.io.IOException
 import java.io.InputStream

@@ -34,16 +34,16 @@ import androidx.core.net.toUri
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import app.hikari.presentation.util.rememberRequestPackageInstallsPermissionState
-import app.hikari.util.system.launchRequestPackageInstallsPermission
-import app.hikari.util.system.telemetryIncluded
 import app.hikari.app.di.appGraph
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Check
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.presentation.util.rememberRequestPackageInstallsPermissionState
+import app.hikari.util.system.launchRequestPackageInstallsPermission
+import app.hikari.util.system.telemetryIncluded
 
 internal class PermissionStep : OnboardingStep {
 

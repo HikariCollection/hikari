@@ -10,13 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import app.hikari.presentation.theme.HikariPreviewTheme
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Info
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 internal fun InfoWidget(text: String) {

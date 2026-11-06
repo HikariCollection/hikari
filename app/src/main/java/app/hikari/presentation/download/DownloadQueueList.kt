@@ -43,24 +43,24 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.DropdownMenu
 import app.hikari.data.download.model.Download
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.DragHandle
+import app.hikari.icons.materialsymbols.rounded.MoreVert
+import app.hikari.presentation.components.DropdownMenu
+import app.hikari.presentation.core.components.ListGroupHeader
+import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.source.model.Page
 import app.hikari.ui.download.DownloadQueueSection
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.DragHandle
-import app.hikari.icons.materialsymbols.rounded.MoreVert
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import sh.calvin.reorderable.rememberScroller
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.ListGroupHeader
-import app.hikari.presentation.core.components.material.padding
-import app.hikari.presentation.core.i18n.stringResource
 
 @Composable
 fun DownloadQueueList(

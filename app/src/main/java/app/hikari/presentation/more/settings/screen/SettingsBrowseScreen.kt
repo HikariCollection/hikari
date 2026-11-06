@@ -7,17 +7,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.FragmentActivity
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import app.hikari.presentation.more.settings.Preference
-import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
-import app.hikari.util.system.AuthenticatorUtil.authenticate
 import app.hikari.app.di.appGraph
-import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.core.common.i18n.stringResource
+import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.settings.Preference
+import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
+import app.hikari.util.system.AuthenticatorUtil.authenticate
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 
 object SettingsBrowseScreen : SearchableSettings {
 

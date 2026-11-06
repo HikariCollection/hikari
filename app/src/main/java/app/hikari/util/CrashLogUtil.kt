@@ -2,9 +2,8 @@ package app.hikari.util
 
 import android.content.Context
 import android.os.Build
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.base.BasePreferences
 import app.hikari.BuildConfig
+import app.hikari.domain.base.BasePreferences
 import app.hikari.extension.ExtensionManager
 import app.hikari.extension.model.Extension
 import app.hikari.network.NetworkPreferences
@@ -13,6 +12,7 @@ import app.hikari.util.system.WebViewUtil
 import app.hikari.util.system.createFileInCacheDir
 import app.hikari.util.system.toShareIntent
 import app.hikari.util.system.toast
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.TimeZone
@@ -30,7 +30,7 @@ class CrashLogUtil(
 
     suspend fun dumpLogs(exception: Throwable? = null) = withContext(Dispatchers.IO) {
         try {
-            val file = context.createFileInCacheDir("mihon_crash_logs.txt")
+            val file = context.createFileInCacheDir("hikari_crash_logs.txt")
 
             file.appendText(getDebugInfo() + "\n\n")
             getExtensionsInfo()?.let { file.appendText("$it\n\n") }

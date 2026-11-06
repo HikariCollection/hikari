@@ -1,9 +1,9 @@
 package app.hikari.domain.source.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.base.BasePreferences
 import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.ExtensionManager
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged

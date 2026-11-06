@@ -7,14 +7,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import app.hikari.presentation.browse.GlobalSearchScreen
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.util.Screen
 import app.hikari.ui.browse.source.browse.BrowseSourceScreen
 import app.hikari.ui.manga.MangaScreen
-import app.hikari.presentation.core.screens.LoadingScreen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 
 class GlobalSearchScreen(
     val searchQuery: String = "",

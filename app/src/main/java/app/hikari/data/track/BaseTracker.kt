@@ -2,10 +2,13 @@ package app.hikari.data.track
 
 import android.content.Context
 import androidx.annotation.CallSuper
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.database.models.Track
 import app.hikari.domain.track.interactor.AddTracks
+import app.hikari.domain.track.interactor.UpsertTrack
 import app.hikari.domain.track.model.toDomainTrack
 import app.hikari.domain.track.service.TrackPreferences
-import app.hikari.data.database.models.Track
 import app.hikari.network.NetworkHelper
 import app.hikari.util.system.toast
 import kotlinx.coroutines.CancellationException
@@ -18,10 +21,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
 import okhttp3.OkHttpClient
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.track.interactor.UpsertTrack
 import uy.kohesive.injekt.Injekt
 import uy.kohesive.injekt.api.get
 import app.hikari.domain.track.model.Track as DomainTrack

@@ -1,9 +1,9 @@
 package app.hikari.ui.reader.viewer
 
+import app.hikari.core.common.util.system.ImageUtil
 import app.hikari.ui.reader.model.InsertPage
 import app.hikari.ui.reader.model.ReaderPage
 import okio.BufferedSource
-import app.hikari.core.common.util.system.ImageUtil
 
 /**
  * The image of [page] as a pager shows it: a wide page rotated to fit or split in two, the half on the reading

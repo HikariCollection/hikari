@@ -1,12 +1,12 @@
 package app.hikari.data.backup
 
 import android.net.Uri
-import dev.zacsweers.metro.Inject
 import app.hikari.data.backup.models.BackupTracking
 import app.hikari.data.track.TrackerManager
+import app.hikari.domain.source.service.SourceManager
+import dev.zacsweers.metro.Inject
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.protobuf.ProtoNumber
-import app.hikari.domain.source.service.SourceManager
 
 @Inject
 class BackupFileValidator(

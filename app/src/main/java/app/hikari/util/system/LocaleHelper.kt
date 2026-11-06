@@ -2,9 +2,9 @@ package app.hikari.util.system
 
 import android.content.Context
 import androidx.core.os.LocaleListCompat
-import app.hikari.ui.browse.source.SourcesViewModel
 import app.hikari.core.common.i18n.stringResource
 import app.hikari.i18n.MR
+import app.hikari.ui.browse.source.SourcesViewModel
 import java.util.Locale
 
 /**

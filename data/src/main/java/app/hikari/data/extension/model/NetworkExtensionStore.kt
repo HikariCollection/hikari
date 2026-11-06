@@ -1,13 +1,13 @@
 package app.hikari.data.extension.model
 
 import android.annotation.SuppressLint
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNames
-import kotlinx.serialization.protobuf.ProtoNumber
 import app.hikari.data.extension.model.NetworkExtensionStore.ContentWarning
 import app.hikari.data.extension.model.NetworkExtensionStore.ExtensionList
 import app.hikari.domain.extension.model.ExtensionStore
-import app.hikari.extension.model.Extension as TachiyomiExtension
+import app.hikari.extension.model.Extension
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
+import kotlinx.serialization.protobuf.ProtoNumber
 import app.hikari.domain.extension.model.ContentWarning as DomainContentWarning
 
 @SuppressLint("UnsafeOptInUsageError")
@@ -93,10 +93,10 @@ data class NetworkExtensionStore(
     }
 }
 
-fun ExtensionList.toAvailableExtensions(store: ExtensionStore): List<TachiyomiExtension.Available> {
+fun ExtensionList.toAvailableExtensions(store: ExtensionStore): List<Extension.Available> {
     return extensions.map { extension ->
         val lang = extension.sources.map { it.language }.toSet()
-        TachiyomiExtension.Available(
+        Extension.Available(
             name = extension.name,
             pkgName = extension.packageName,
             apkUrl = extension.resources.apkUrl,
@@ -112,7 +112,7 @@ fun ExtensionList.toAvailableExtensions(store: ExtensionStore): List<TachiyomiEx
                 else -> DomainContentWarning.SAFE
             },
             sources = extension.sources.map { source ->
-                TachiyomiExtension.Available.Source(
+                Extension.Available.Source(
                     id = source.id,
                     name = source.name,
                     lang = source.language,

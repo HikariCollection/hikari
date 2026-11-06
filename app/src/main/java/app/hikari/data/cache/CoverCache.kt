@@ -1,14 +1,14 @@
 package app.hikari.data.cache
 
 import android.content.Context
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.domain.manga.model.Manga
+import app.hikari.util.storage.DiskUtil
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import app.hikari.util.storage.DiskUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.domain.manga.model.Manga
 import java.io.File
 import java.io.IOException
 import java.io.InputStream

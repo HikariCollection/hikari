@@ -1,9 +1,9 @@
 package app.hikari.data.track
 
 import app.hikari.data.track.model.TrackSearch
-import app.hikari.source.Source
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.track.model.Track
+import app.hikari.source.Source
 
 /**
  * A tracker that will never prompt the user to manually bind an entry.

@@ -1,9 +1,9 @@
 package app.hikari.domain.source.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.source.model.SourceWithCount
 import app.hikari.domain.source.repository.SourceRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 
 @Inject
 class GetSourcesWithNonLibraryManga(

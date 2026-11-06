@@ -1,15 +1,15 @@
 package app.hikari.domain.chapter.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.download.interactor.DeleteDownload
-import logcat.LogPriority
 import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterUpdate
 import app.hikari.domain.chapter.repository.ChapterRepository
+import app.hikari.domain.download.interactor.DeleteDownload
 import app.hikari.domain.download.service.DownloadPreferences
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.repository.MangaRepository
+import dev.zacsweers.metro.Inject
+import logcat.LogPriority
 
 @Inject
 class SetReadStatus(

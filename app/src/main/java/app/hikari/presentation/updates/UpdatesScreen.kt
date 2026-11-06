@@ -19,23 +19,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.util.fastAll
 import androidx.compose.ui.util.fastAny
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.manga.components.ChapterDownloadAction
-import app.hikari.presentation.manga.components.MangaBottomActionMenu
 import app.hikari.data.download.model.Download
-import app.hikari.ui.updates.UpdatesItem
-import app.hikari.ui.updates.UpdatesViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.CalendarMonth
 import app.hikari.icons.materialsymbols.rounded.FilterList
 import app.hikari.icons.materialsymbols.rounded.FlipToBack
 import app.hikari.icons.materialsymbols.rounded.Refresh
 import app.hikari.icons.materialsymbols.rounded.SelectAll
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.core.components.FastScrollLazyColumn
 import app.hikari.presentation.core.components.material.PullRefresh
 import app.hikari.presentation.core.components.material.Scaffold
@@ -43,6 +36,13 @@ import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.theme.active
+import app.hikari.presentation.manga.components.ChapterDownloadAction
+import app.hikari.presentation.manga.components.MangaBottomActionMenu
+import app.hikari.ui.updates.UpdatesItem
+import app.hikari.ui.updates.UpdatesViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 import kotlin.time.Duration.Companion.seconds
 
 @Composable

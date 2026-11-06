@@ -13,10 +13,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 internal class GuidesStep(
     private val onRestoreBackup: () -> Unit,
@@ -56,7 +56,7 @@ internal class GuidesStep(
     }
 }
 
-const val GETTING_STARTED_URL = ""
+const val GETTING_STARTED_URL = "https://github.com/HikariCollection/hikari"
 
 @PreviewLightDark
 @Composable

@@ -7,13 +7,13 @@ import android.content.IntentFilter
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import app.hikari.BuildConfig
+import app.hikari.core.common.util.system.logcat
 import app.hikari.extension.model.Extension
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
 
 /**
  * Broadcast receiver that listens for the system's packages installed, updated or removed, and only

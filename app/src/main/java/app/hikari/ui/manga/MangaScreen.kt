@@ -17,15 +17,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.hasCustomCover
 import app.hikari.domain.manga.model.toSManga
+import app.hikari.feature.migration.config.MigrationConfigScreen
+import app.hikari.feature.migration.dialog.MigrateMangaDialog
 import app.hikari.presentation.browse.components.RemoveMangaDialog
 import app.hikari.presentation.category.components.ChangeCategoryDialog
 import app.hikari.presentation.components.NavigatorAdaptiveSheet
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.manga.ChapterSettingsDialog
 import app.hikari.presentation.manga.DuplicateMangaDialog
 import app.hikari.presentation.manga.EditCoverAction
@@ -52,16 +54,14 @@ import app.hikari.ui.webview.WebViewScreen
 import app.hikari.util.system.copyToClipboard
 import app.hikari.util.system.toShareIntent
 import app.hikari.util.system.toast
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.feature.migration.config.MigrationConfigScreen
-import app.hikari.feature.migration.dialog.MigrateMangaDialog
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.manga.model.Manga
-import app.hikari.presentation.core.screens.LoadingScreen
 
 class MangaScreen(
     private val mangaId: Long,

@@ -1,7 +1,7 @@
 package app.hikari.gradle.configurations
 
-import com.gradleup.tapmoc.configureJavaCompatibility
 import app.hikari.gradle.extensions.hikarix
+import com.gradleup.tapmoc.configureJavaCompatibility
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions

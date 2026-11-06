@@ -2,6 +2,7 @@ package app.hikari.ui.reader.setting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.preference.Preference
 import app.hikari.domain.base.BasePreferences
 import app.hikari.domain.manga.model.readingMode
 import app.hikari.ui.reader.ReaderViewModel
@@ -29,7 +30,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.stateIn
-import app.hikari.core.common.preference.Preference
 import kotlin.time.Duration.Companion.seconds
 
 /**

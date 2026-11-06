@@ -17,13 +17,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.view.inputmethod.EditorInfoCompat
-import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
+import app.hikari.app.di.appGraph
 import app.hikari.domain.base.BasePreferences
 import app.hikari.presentation.theme.HikariTheme
+import dev.zacsweers.metrox.viewmodel.LocalMetroViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import app.hikari.app.di.appGraph
 
 inline fun ComponentActivity.setComposeContent(
     parent: CompositionContext? = null,

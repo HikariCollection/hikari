@@ -17,16 +17,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.browse.components.BaseSourceItem
-import app.hikari.ui.browse.source.SourcesViewModel
-import app.hikari.ui.browse.source.browse.BrowseSourceViewModel.Listing
-import app.hikari.util.system.LocaleHelper
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.Keep
-import app.hikari.icons.materialsymbols.roundedfilled.Keep
 import app.hikari.domain.source.model.Pin
 import app.hikari.domain.source.model.Source
 import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.Keep
+import app.hikari.icons.materialsymbols.roundedfilled.Keep
+import app.hikari.presentation.browse.components.BaseSourceItem
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
 import app.hikari.presentation.core.components.material.SECONDARY_ALPHA
 import app.hikari.presentation.core.components.material.padding
@@ -37,6 +34,9 @@ import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.theme.header
 import app.hikari.presentation.core.util.plus
 import app.hikari.source.local.isLocal
+import app.hikari.ui.browse.source.SourcesViewModel
+import app.hikari.ui.browse.source.browse.BrowseSourceViewModel.Listing
+import app.hikari.util.system.LocaleHelper
 
 @Composable
 fun SourcesScreen(

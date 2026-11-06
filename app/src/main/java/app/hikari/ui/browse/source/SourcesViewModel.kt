@@ -3,15 +3,18 @@ package app.hikari.ui.browse.source
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.source.interactor.GetEnabledSources
+import app.hikari.domain.source.interactor.ToggleSource
+import app.hikari.domain.source.interactor.ToggleSourcePin
+import app.hikari.domain.source.model.Pin
+import app.hikari.domain.source.model.Source
+import app.hikari.presentation.browse.SourceUiModel
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.domain.source.interactor.GetEnabledSources
-import app.hikari.domain.source.interactor.ToggleSource
-import app.hikari.domain.source.interactor.ToggleSourcePin
-import app.hikari.presentation.browse.SourceUiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,9 +29,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.source.model.Pin
-import app.hikari.domain.source.model.Source
 import java.util.TreeMap
 import kotlin.time.Duration.Companion.seconds
 

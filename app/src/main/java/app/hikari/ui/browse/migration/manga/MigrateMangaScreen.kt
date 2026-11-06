@@ -17,20 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.manga.components.BaseMangaListItem
-import app.hikari.presentation.util.Screen
-import app.hikari.ui.manga.MangaScreen
-import app.hikari.util.system.toast
-import kotlinx.coroutines.flow.collectLatest
+import app.hikari.domain.manga.model.Manga
 import app.hikari.feature.migration.config.MigrationConfigScreen
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.ArrowForward
-import app.hikari.domain.manga.model.Manga
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.core.components.FastScrollLazyColumn
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
@@ -38,6 +30,14 @@ import app.hikari.presentation.core.screens.EmptyScreen
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.selectedBackground
 import app.hikari.presentation.core.util.shouldExpandFAB
+import app.hikari.presentation.manga.components.BaseMangaListItem
+import app.hikari.presentation.util.Screen
+import app.hikari.ui.manga.MangaScreen
+import app.hikari.util.system.toast
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 data class MigrateMangaScreen(
     private val sourceId: Long,

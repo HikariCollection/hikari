@@ -1,11 +1,11 @@
 package app.hikari.presentation.history
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import app.hikari.domain.history.model.HistoryWithRelations
+import app.hikari.domain.manga.model.MangaCover
 import app.hikari.ui.history.HistoryViewModel
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import app.hikari.domain.history.model.HistoryWithRelations
-import app.hikari.domain.manga.model.MangaCover
 import kotlin.random.Random
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days

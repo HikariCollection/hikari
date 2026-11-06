@@ -23,15 +23,15 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import app.hikari.presentation.components.SearchToolbar
-import app.hikari.ui.browse.source.globalsearch.SourceFilter
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.DoneAll
 import app.hikari.icons.materialsymbols.rounded.FilterList
 import app.hikari.icons.materialsymbols.rounded.Keep
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.SearchToolbar
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.ui.browse.source.globalsearch.SourceFilter
 
 @Composable
 fun GlobalSearchToolbar(

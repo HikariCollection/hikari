@@ -1,11 +1,11 @@
 package app.hikari.feature.migration.list.search
 
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.toDomainManga
 import app.hikari.source.Source
 import app.hikari.source.model.SManga
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.domain.manga.model.toDomainManga
-import app.hikari.domain.manga.model.Manga
 
 class SmartSourceSearchEngine(extraSearchParams: String?) : BaseSmartSearchEngine<SManga>(extraSearchParams) {
 

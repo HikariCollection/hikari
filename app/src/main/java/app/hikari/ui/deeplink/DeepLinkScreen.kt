@@ -6,18 +6,18 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import app.hikari.i18n.MR
 import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.core.components.material.Scaffold
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.util.Screen
 import app.hikari.ui.browse.source.globalsearch.GlobalSearchScreen
 import app.hikari.ui.manga.MangaScreen
 import app.hikari.ui.reader.ReaderActivity
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.material.Scaffold
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.screens.LoadingScreen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 
 class DeepLinkScreen(
     val query: String = "",

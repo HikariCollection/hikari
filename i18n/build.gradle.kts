@@ -1,48 +1,26 @@
-import app.hikari.gradle.tasks.GenerateLocalesConfigTask
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import app.hikari.gradle.tasks.GenerateMRTask
 
 plugins {
-    alias(hikarix.plugins.kotlin.multiplatform)
+    alias(hikarix.plugins.android.library)
     alias(hikarix.plugins.spotless)
-
-    alias(libs.plugins.moko.resources)
 }
 
-kotlin {
-    android {
-        namespace = "app.hikari.i18n"
-
-        // TODO(antsy): Remove when https://youtrack.jetbrains.com/issue/KT-83319 is resolved
-        withHostTest { }
-    }
-
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    dependencies {
-        api(libs.moko.resources)
-    }
-
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
-    }
+android {
+    namespace = "app.hikari.i18n"
 }
 
 androidComponents {
     onVariants { variant ->
-        val resSource = variant.sources.res ?: return@onVariants
-
+        val javaSource = variant.sources.java ?: return@onVariants
         val variantName = variant.name.replaceFirstChar { it.uppercase() }
-        val task = tasks.register<GenerateLocalesConfigTask>("generate${variantName}LocalesConfig") {
-            localeFiles.from(
-                layout.projectDirectory.dir("src/commonMain/moko-resources").asFileTree.matching {
-                    include("**/strings.xml", "**/plurals.xml")
-                },
-            )
+        val task = tasks.register<GenerateMRTask>("generate${variantName}MR") {
+            stringsFile.set(layout.projectDirectory.file("src/main/res/values/strings.xml"))
+            pluralsFile.set(layout.projectDirectory.file("src/main/res/values/plurals.xml"))
         }
-        resSource.addGeneratedSourceDirectory(task) { it.outputDir }
+        javaSource.addGeneratedSourceDirectory(task) { it.outputDir }
     }
 }
 
-multiplatformResources {
-    resourcesPackage.set("app.hikari.i18n")
+dependencies {
+    api(libs.androidx.annotation)
 }

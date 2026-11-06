@@ -12,16 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.util.fastMap
 import androidx.core.content.ContextCompat
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import app.hikari.presentation.category.visualName
-import app.hikari.presentation.more.settings.Preference
-import app.hikari.presentation.more.settings.widget.TriStateListDialog
-import app.hikari.data.library.LibraryUpdateWorker
-import app.hikari.ui.category.CategoryScreen
-import kotlinx.coroutines.launch
 import app.hikari.app.di.appGraph
+import app.hikari.data.library.LibraryUpdateWorker
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.library.service.LibraryPreferences.Companion.DEVICE_CHARGING
@@ -34,9 +26,17 @@ import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_OUTS
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MARK_DUPLICATE_CHAPTER_READ_EXISTING
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MARK_DUPLICATE_CHAPTER_READ_NEW
 import app.hikari.i18n.MR
+import app.hikari.presentation.category.visualName
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.more.settings.Preference
+import app.hikari.presentation.more.settings.widget.TriStateListDialog
+import app.hikari.ui.category.CategoryScreen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.coroutines.launch
 
 object SettingsLibraryScreen : SearchableSettings {
 

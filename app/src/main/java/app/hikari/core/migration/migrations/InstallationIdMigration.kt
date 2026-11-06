@@ -1,12 +1,12 @@
 package app.hikari.core.migration.migrations
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoSet
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.base.BasePreferences
 import app.hikari.core.common.FeatureFlags
 import app.hikari.core.migration.Migration
 import app.hikari.core.migration.MigrationContext
+import app.hikari.domain.base.BasePreferences
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoSet
+import dev.zacsweers.metro.Inject
 import kotlin.uuid.ExperimentalUuidApi
 
 @Inject

@@ -63,8 +63,18 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import dev.zacsweers.metro.Inject
+import app.hikari.R
+import app.hikari.app.di.AppGraph
+import app.hikari.core.common.Constants
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.metroGraph
+import app.hikari.data.notification.NotificationReceiver
+import app.hikari.data.notification.Notifications
 import app.hikari.domain.base.BasePreferences
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.screens.LoadingScreen
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.reader.DisplayRefreshHost
 import app.hikari.presentation.reader.OrientationSelectDialog
 import app.hikari.presentation.reader.ReaderContentOverlay
@@ -76,9 +86,6 @@ import app.hikari.presentation.reader.ReadingModeSelectDialog
 import app.hikari.presentation.reader.appbars.ReaderAppBars
 import app.hikari.presentation.reader.components.ChapterNavigatorType
 import app.hikari.presentation.reader.settings.ReaderSettingsDialog
-import app.hikari.R
-import app.hikari.data.notification.NotificationReceiver
-import app.hikari.data.notification.Notifications
 import app.hikari.source.online.HttpSource
 import app.hikari.ui.base.activity.BaseActivity
 import app.hikari.ui.main.MainActivity
@@ -102,6 +109,7 @@ import app.hikari.util.system.readerBackgroundColor
 import app.hikari.util.system.toShareIntent
 import app.hikari.util.system.toast
 import app.hikari.util.view.setComposeContent
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -112,14 +120,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.app.di.AppGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.core.common.Constants
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.screens.LoadingScreen
-import app.hikari.presentation.core.util.collectAsState
 
 class ReaderActivity : BaseActivity() {
 

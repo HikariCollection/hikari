@@ -1,10 +1,12 @@
 package app.hikari.test
 
-import dev.icerock.moko.resources.StringResource
 import app.hikari.R
 import app.hikari.data.track.RefreshResult
 import app.hikari.data.track.Tracker
 import app.hikari.data.track.model.TrackSearch
+import app.hikari.domain.track.model.Track
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,8 +15,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.OkHttpClient
-import app.hikari.domain.track.model.Track
-import app.hikari.i18n.MR
 
 data class DummyTracker(
     override val id: Long,

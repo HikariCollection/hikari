@@ -1,11 +1,11 @@
 package app.hikari.domain.storage.service
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.common.storage.FolderProvider
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
 @Inject
 @SingleIn(AppScope::class)

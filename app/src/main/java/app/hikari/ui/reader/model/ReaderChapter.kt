@@ -1,9 +1,9 @@
 package app.hikari.ui.reader.model
 
-import app.hikari.ui.reader.loader.PageLoader
-import kotlinx.coroutines.flow.MutableStateFlow
 import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.ui.reader.loader.PageLoader
+import kotlinx.coroutines.flow.MutableStateFlow
 
 data class ReaderChapter(private val loadedChapter: Chapter) {
 

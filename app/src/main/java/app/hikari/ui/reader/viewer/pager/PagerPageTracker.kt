@@ -1,11 +1,11 @@
 package app.hikari.ui.reader.viewer.pager
 
+import app.hikari.core.common.util.system.logcat
 import app.hikari.ui.reader.ReaderActivity
 import app.hikari.ui.reader.model.ChapterTransition
 import app.hikari.ui.reader.model.InsertPage
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.ui.reader.model.ViewerChapters
-import app.hikari.core.common.util.system.logcat
 
 /**
  * The item a pager of [items] is on, shared by the view and Compose pagers. It tells [activity] of each new page,

@@ -1,9 +1,9 @@
 package app.hikari.domain.source.service
 
+import app.hikari.domain.source.model.StubSource
 import app.hikari.source.Source
 import app.hikari.source.online.HttpSource
 import kotlinx.coroutines.flow.Flow
-import app.hikari.domain.source.model.StubSource
 
 interface SourceManager {
 

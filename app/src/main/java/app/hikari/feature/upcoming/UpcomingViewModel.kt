@@ -5,12 +5,19 @@ import androidx.compose.ui.util.fastMap
 import androidx.compose.ui.util.fastMapIndexedNotNull
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.preference.getAndSet
+import app.hikari.core.common.util.lang.SubscriberGate
+import app.hikari.core.util.insertSeparatorsReversed
+import app.hikari.domain.category.interactor.GetCategories
+import app.hikari.domain.category.model.Category
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.upcoming.interactor.GetUpcomingManga
+import app.hikari.domain.upcoming.service.UpcomingPreferences
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.core.util.insertSeparatorsReversed
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,13 +36,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.yearMonth
-import app.hikari.domain.upcoming.interactor.GetUpcomingManga
-import app.hikari.core.common.preference.getAndSet
-import app.hikari.core.common.util.lang.SubscriberGate
-import app.hikari.domain.category.interactor.GetCategories
-import app.hikari.domain.category.model.Category
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.upcoming.service.UpcomingPreferences
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 

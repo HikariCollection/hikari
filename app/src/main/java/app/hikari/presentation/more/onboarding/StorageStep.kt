@@ -18,14 +18,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.more.settings.screen.SettingsDataScreen
-import app.hikari.util.system.toast
-import kotlinx.coroutines.flow.collectLatest
 import app.hikari.app.di.appGraph
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.Button
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.settings.screen.SettingsDataScreen
+import app.hikari.util.system.toast
+import kotlinx.coroutines.flow.collectLatest
 
 internal class StorageStep : OnboardingStep {
 

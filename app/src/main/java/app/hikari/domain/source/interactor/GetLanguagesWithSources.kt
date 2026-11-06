@@ -1,12 +1,12 @@
 package app.hikari.domain.source.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.source.service.SourcePreferences
-import app.hikari.util.system.LocaleHelper
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
 import app.hikari.domain.source.model.Source
 import app.hikari.domain.source.repository.SourceRepository
+import app.hikari.domain.source.service.SourcePreferences
+import app.hikari.util.system.LocaleHelper
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import java.util.SortedMap
 
 @Inject

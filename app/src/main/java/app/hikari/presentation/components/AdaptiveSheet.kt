@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import app.hikari.presentation.util.ScreenTransition
+import app.hikari.presentation.util.isTabletUi
 import cafe.adriel.voyager.core.annotation.InternalVoyagerApi
 import cafe.adriel.voyager.core.lifecycle.DisposableEffectIgnoringConfiguration
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
-import app.hikari.presentation.util.ScreenTransition
-import app.hikari.presentation.util.isTabletUi
 import app.hikari.presentation.core.components.AdaptiveSheet as AdaptiveSheetImpl
 
 @OptIn(InternalVoyagerApi::class)

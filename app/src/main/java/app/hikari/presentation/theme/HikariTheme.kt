@@ -7,24 +7,11 @@ import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import app.hikari.app.di.appGraph
 import app.hikari.domain.ui.model.AppTheme
 import app.hikari.presentation.theme.colorscheme.BaseColorScheme
-import app.hikari.presentation.theme.colorscheme.CatppuccinColorScheme
-import app.hikari.presentation.theme.colorscheme.GreenAppleColorScheme
-import app.hikari.presentation.theme.colorscheme.LavenderColorScheme
-import app.hikari.presentation.theme.colorscheme.MidnightDuskColorScheme
+import app.hikari.presentation.theme.colorscheme.HikariColorScheme
 import app.hikari.presentation.theme.colorscheme.MonetColorScheme
-import app.hikari.presentation.theme.colorscheme.MonochromeColorScheme
-import app.hikari.presentation.theme.colorscheme.NordColorScheme
-import app.hikari.presentation.theme.colorscheme.StrawberryColorScheme
-import app.hikari.presentation.theme.colorscheme.TachiyomiColorScheme
-import app.hikari.presentation.theme.colorscheme.TakoColorScheme
-import app.hikari.presentation.theme.colorscheme.TealTurqoiseColorScheme
-import app.hikari.presentation.theme.colorscheme.TidalWaveColorScheme
-import app.hikari.presentation.theme.colorscheme.TokyoNightColorScheme
-import app.hikari.presentation.theme.colorscheme.YinYangColorScheme
-import app.hikari.presentation.theme.colorscheme.YotsubaColorScheme
-import app.hikari.app.di.appGraph
 
 @Composable
 fun HikariTheme(
@@ -78,7 +65,7 @@ private fun getThemeColorScheme(
     val colorScheme = if (appTheme == AppTheme.MONET) {
         MonetColorScheme(context)
     } else {
-        colorSchemes.getOrDefault(appTheme, TachiyomiColorScheme)
+        colorSchemes.getOrDefault(appTheme, HikariColorScheme)
     }
     return colorScheme.getColorScheme(
         isDark = isDark,
@@ -88,18 +75,5 @@ private fun getThemeColorScheme(
 }
 
 private val colorSchemes: Map<AppTheme, BaseColorScheme> = mapOf(
-    AppTheme.DEFAULT to TachiyomiColorScheme,
-    AppTheme.CATPPUCCIN to CatppuccinColorScheme,
-    AppTheme.TOKYONIGHT to TokyoNightColorScheme,
-    AppTheme.GREEN_APPLE to GreenAppleColorScheme,
-    AppTheme.LAVENDER to LavenderColorScheme,
-    AppTheme.MIDNIGHT_DUSK to MidnightDuskColorScheme,
-    AppTheme.MONOCHROME to MonochromeColorScheme,
-    AppTheme.NORD to NordColorScheme,
-    AppTheme.STRAWBERRY_DAIQUIRI to StrawberryColorScheme,
-    AppTheme.TAKO to TakoColorScheme,
-    AppTheme.TEALTURQUOISE to TealTurqoiseColorScheme,
-    AppTheme.TIDAL_WAVE to TidalWaveColorScheme,
-    AppTheme.YINYANG to YinYangColorScheme,
-    AppTheme.YOTSUBA to YotsubaColorScheme,
+    AppTheme.DEFAULT to HikariColorScheme,
 )

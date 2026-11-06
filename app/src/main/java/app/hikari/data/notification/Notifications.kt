@@ -5,10 +5,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_HIGH
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_LOW
-import app.hikari.util.system.buildNotificationChannel
-import app.hikari.util.system.buildNotificationChannelGroup
 import app.hikari.core.common.i18n.stringResource
 import app.hikari.i18n.MR
+import app.hikari.util.system.buildNotificationChannel
+import app.hikari.util.system.buildNotificationChannelGroup
 
 /**
  * Class to manage the basic information of all the notifications used in the app.

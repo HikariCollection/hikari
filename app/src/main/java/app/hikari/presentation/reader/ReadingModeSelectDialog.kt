@@ -12,17 +12,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import dev.icerock.moko.resources.StringResource
 import app.hikari.domain.manga.model.readingMode
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.components.AdaptiveSheet
+import app.hikari.presentation.core.components.SettingsIconGrid
+import app.hikari.presentation.core.components.material.IconToggleButton
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.reader.components.ModeSelectionDialog
 import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.ui.reader.setting.ReaderSettingsViewModel
 import app.hikari.ui.reader.setting.ReadingMode
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.SettingsIconGrid
-import app.hikari.presentation.core.components.material.IconToggleButton
-import app.hikari.presentation.core.i18n.stringResource
 
 private val ReadingModesWithoutDefault = ReadingMode.entries - ReadingMode.DEFAULT
 

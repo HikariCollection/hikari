@@ -43,13 +43,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.theme.HikariPreviewTheme
-import app.hikari.presentation.util.isTabletUi
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.SkipNext
 import app.hikari.icons.materialsymbols.rounded.SkipPrevious
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.theme.HikariPreviewTheme
+import app.hikari.presentation.util.isTabletUi
 import kotlin.math.roundToInt
 
 enum class ChapterNavigatorType {

@@ -1,13 +1,13 @@
 package app.hikari.domain.release.interactor
 
+import app.hikari.domain.release.model.Release
+import app.hikari.domain.release.service.ReleaseService
 import io.kotest.matchers.shouldBe
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import app.hikari.domain.release.model.Release
-import app.hikari.domain.release.service.ReleaseService
 
 class GetApplicationReleaseTest {
 

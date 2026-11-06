@@ -1,11 +1,11 @@
 package app.hikari.data.backup.restore.restorers
 
-import dev.zacsweers.metro.Inject
 import app.hikari.data.backup.models.BackupCategory
 import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.category.model.NewCategory
 import app.hikari.domain.category.repository.CategoryRepository
 import app.hikari.domain.library.service.LibraryPreferences
+import dev.zacsweers.metro.Inject
 
 @Inject
 class CategoriesRestorer(

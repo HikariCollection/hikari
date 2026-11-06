@@ -5,10 +5,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpOffset
-import app.hikari.presentation.manga.DownloadAction
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.manga.DownloadAction
 
 @Composable
 fun DownloadDropdownMenu(

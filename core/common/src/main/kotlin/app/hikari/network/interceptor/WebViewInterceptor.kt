@@ -5,6 +5,7 @@ import android.os.Build
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.widget.Toast
+import app.hikari.i18n.MR
 import app.hikari.util.system.DeviceUtil
 import app.hikari.util.system.WebViewUtil
 import app.hikari.util.system.setDefaultSettings
@@ -16,7 +17,6 @@ import kotlinx.coroutines.launch
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
-import app.hikari.i18n.MR
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 

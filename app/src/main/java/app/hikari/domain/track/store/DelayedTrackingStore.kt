@@ -2,11 +2,11 @@ package app.hikari.domain.track.store
 
 import android.content.Context
 import androidx.core.content.edit
+import app.hikari.core.common.util.system.logcat
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
 
 @Inject
 @SingleIn(AppScope::class)

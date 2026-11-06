@@ -5,19 +5,19 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.SystemClock
 import androidx.core.app.NotificationCompat
-import dev.zacsweers.metro.Inject
 import app.hikari.R
+import app.hikari.core.common.i18n.stringResource
 import app.hikari.core.security.SecurityPreferences
 import app.hikari.data.download.model.Download
 import app.hikari.data.notification.NotificationHandler
 import app.hikari.data.notification.NotificationReceiver
 import app.hikari.data.notification.Notifications
+import app.hikari.i18n.MR
 import app.hikari.util.lang.chop
 import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.notificationBuilder
 import app.hikari.util.system.notify
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
+import dev.zacsweers.metro.Inject
 import java.util.regex.Pattern
 import app.hikari.icons.materialsymbols.R as MaterialSymbolsR
 

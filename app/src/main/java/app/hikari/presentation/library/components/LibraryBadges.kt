@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Folder
 import app.hikari.presentation.core.components.Badge
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 internal fun DownloadsBadge(count: Int) {

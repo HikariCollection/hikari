@@ -2,12 +2,12 @@ package app.hikari.presentation.browse
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import app.hikari.domain.manga.model.Manga
 import app.hikari.presentation.browse.components.GlobalSearchToolbar
+import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.source.Source
 import app.hikari.ui.browse.source.globalsearch.SearchViewModel
 import app.hikari.ui.browse.source.globalsearch.SourceFilter
-import app.hikari.domain.manga.model.Manga
-import app.hikari.presentation.core.components.material.Scaffold
 
 @Composable
 fun MigrateSearchScreen(

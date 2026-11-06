@@ -1,10 +1,10 @@
 package app.hikari.util.chapter
 
-import app.hikari.domain.chapter.model.applyFilters
 import app.hikari.data.download.DownloadManager
-import app.hikari.ui.manga.ChapterList
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.chapter.model.applyFilters
 import app.hikari.domain.manga.model.Manga
+import app.hikari.ui.manga.ChapterList
 
 /**
  * Gets next unread chapter with filters and sorting applied

@@ -6,6 +6,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.domain.manga.interactor.UpdateMangaNotes
+import app.hikari.domain.manga.model.Manga
+import app.hikari.presentation.manga.MangaNotesScreen
+import app.hikari.presentation.util.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.zacsweers.metro.AppScope
@@ -16,17 +21,12 @@ import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
-import app.hikari.presentation.manga.MangaNotesScreen
-import app.hikari.presentation.util.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.domain.manga.interactor.UpdateMangaNotes
-import app.hikari.domain.manga.model.Manga
 
 class MangaNotesScreen(
     private val manga: Manga,

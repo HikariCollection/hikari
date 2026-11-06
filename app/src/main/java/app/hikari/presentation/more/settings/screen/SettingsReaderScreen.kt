@@ -6,16 +6,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import app.hikari.presentation.more.settings.Preference
-import app.hikari.ui.reader.setting.ReaderOrientation
-import app.hikari.ui.reader.setting.ReaderPreferences
-import app.hikari.ui.reader.setting.ReadingMode
-import app.hikari.util.system.hasDisplayCutout
 import app.hikari.app.di.appGraph
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.more.settings.Preference
+import app.hikari.ui.reader.setting.ReaderOrientation
+import app.hikari.ui.reader.setting.ReaderPreferences
+import app.hikari.ui.reader.setting.ReadingMode
+import app.hikari.util.system.hasDisplayCutout
 import java.text.NumberFormat
 
 object SettingsReaderScreen : SearchableSettings {

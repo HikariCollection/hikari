@@ -1,14 +1,14 @@
 package app.hikari.domain.manga.interactor
 
+import app.hikari.domain.chapter.interactor.GetChaptersByMangaId
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.MangaUpdate
 import dev.zacsweers.metro.Inject
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.toLocalDateTime
-import app.hikari.domain.chapter.interactor.GetChaptersByMangaId
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.manga.model.MangaUpdate
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.milliseconds

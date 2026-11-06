@@ -1,7 +1,7 @@
-import com.diffplug.gradle.spotless.SpotlessExtension
 import app.hikari.gradle.extensions.alias
 import app.hikari.gradle.extensions.libs
 import app.hikari.gradle.extensions.plugins
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -28,7 +28,7 @@ class PluginSpotless : Plugin<Project> {
                 )
                 forbidRegex(
                     "materialSymbolsRQualified",
-                    "(?m)^(?!import ).*\\bmihon\\.icons\\.materialsymbols\\.R\\.",
+                    "(?m)^(?!import ).*\\bapp\\.hikari\\.icons\\.materialsymbols\\.R\\.",
                     "Use the MaterialSymbolsR import alias instead of the qualified name",
                 )
                 forbidRegex(
@@ -38,7 +38,7 @@ class PluginSpotless : Plugin<Project> {
                 )
                 forbidRegex(
                     "customMaterialSymbolsRQualified",
-                    "(?m)^(?!import ).*\\bmihon\\.icons\\.custommaterialsymbols\\.R\\.",
+                    "(?m)^(?!import ).*\\bapp\\.hikari\\.icons\\.custommaterialsymbols\\.R\\.",
                     "Use the CustomMaterialSymbolsR import alias instead of the qualified name",
                 )
             }

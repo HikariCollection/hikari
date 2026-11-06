@@ -5,9 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.metroViewModel
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.more.settings.screen.browse.components.ExtensionStoreConfirmDialog
 import app.hikari.presentation.more.settings.screen.browse.components.ExtensionStoreCreateDialog
 import app.hikari.presentation.more.settings.screen.browse.components.ExtensionStoreDeleteDialog
@@ -15,7 +13,9 @@ import app.hikari.presentation.more.settings.screen.browse.components.ExtensionS
 import app.hikari.presentation.util.Screen
 import app.hikari.util.system.copyToClipboard
 import app.hikari.util.system.openInBrowser
-import app.hikari.presentation.core.screens.LoadingScreen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 
 class ExtensionStoresScreen(
     private val url: String? = null,

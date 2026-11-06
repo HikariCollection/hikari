@@ -31,15 +31,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.StringResource
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
 import app.hikari.presentation.core.components.WheelNumberPicker
 import app.hikari.presentation.core.components.WheelTextPicker
 import app.hikari.presentation.core.components.material.AlertDialogContent
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 fun TrackStatusSelector(

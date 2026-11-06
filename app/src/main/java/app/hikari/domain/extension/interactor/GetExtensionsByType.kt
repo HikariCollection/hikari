@@ -1,10 +1,10 @@
 package app.hikari.domain.extension.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.extension.model.Extensions
 import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.ExtensionManager
 import app.hikari.extension.model.Extension
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 

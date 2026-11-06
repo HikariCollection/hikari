@@ -1,12 +1,12 @@
 package app.hikari.data.updater
 
-import dev.zacsweers.metro.Inject
 import app.hikari.BuildConfig
+import app.hikari.domain.release.interactor.GetApplicationRelease
 import app.hikari.util.system.isFossBuildType
 import app.hikari.util.system.isNightlyBuildType
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.domain.release.interactor.GetApplicationRelease
 
 @Inject
 class AppUpdateChecker(
@@ -18,13 +18,7 @@ class AppUpdateChecker(
     }
 }
 
-val GITHUB_REPO: String by lazy {
-    if (isNightlyBuildType) {
-        "mihonapp/app.hikari-preview"
-    } else {
-        "mihonapp/app.hikari"
-    }
-}
+val GITHUB_REPO = "HikariCollection/hikari"
 
 val RELEASE_TAG: String by lazy {
     if (isNightlyBuildType) {

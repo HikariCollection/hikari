@@ -5,6 +5,20 @@ import android.net.Uri
 import androidx.compose.material3.SnackbarHostState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.cache.CoverCache
+import app.hikari.data.saver.Image
+import app.hikari.data.saver.ImageSaver
+import app.hikari.data.saver.Location
+import app.hikari.domain.manga.interactor.GetManga
+import app.hikari.domain.manga.interactor.UpdateManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.i18n.MR
+import app.hikari.source.local.image.LocalCoverManager
+import app.hikari.util.editCover
+import app.hikari.util.system.getBitmapOrNull
+import app.hikari.util.system.toShareIntent
 import coil3.asDrawable
 import coil3.imageLoader
 import coil3.request.ImageRequest
@@ -16,14 +30,6 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
-import app.hikari.domain.manga.interactor.UpdateManga
-import app.hikari.data.cache.CoverCache
-import app.hikari.data.saver.Image
-import app.hikari.data.saver.ImageSaver
-import app.hikari.data.saver.Location
-import app.hikari.util.editCover
-import app.hikari.util.system.getBitmapOrNull
-import app.hikari.util.system.toShareIntent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -33,12 +39,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.manga.interactor.GetManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.i18n.MR
-import app.hikari.source.local.image.LocalCoverManager
 import kotlin.time.Duration.Companion.seconds
 
 @AssistedInject

@@ -29,19 +29,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import app.hikari.presentation.theme.HikariPreviewTheme
-import app.hikari.ui.reader.model.ChapterTransition
-import app.hikari.ui.reader.model.ReaderChapter
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.chapter.service.calculateChapterGap
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Info
 import app.hikari.icons.materialsymbols.roundedfilled.CheckCircle
 import app.hikari.icons.materialsymbols.roundedfilled.Warning
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.chapter.service.calculateChapterGap
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.presentation.theme.HikariPreviewTheme
+import app.hikari.ui.reader.model.ChapterTransition
+import app.hikari.ui.reader.model.ReaderChapter
 
 @Composable
 fun ChapterTransition(

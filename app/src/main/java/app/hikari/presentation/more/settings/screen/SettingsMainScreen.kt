@@ -22,16 +22,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.icerock.moko.resources.StringResource
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.more.settings.screen.about.AboutScreen
-import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
-import app.hikari.presentation.util.LocalBackPress
-import app.hikari.presentation.util.Screen
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.ChromeReaderMode
 import app.hikari.icons.materialsymbols.rounded.Code
@@ -44,9 +36,17 @@ import app.hikari.icons.materialsymbols.rounded.Search
 import app.hikari.icons.materialsymbols.rounded.Security
 import app.hikari.icons.materialsymbols.rounded.Storage
 import app.hikari.icons.materialsymbols.rounded.Sync
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.settings.screen.about.AboutScreen
+import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
+import app.hikari.presentation.util.LocalBackPress
+import app.hikari.presentation.util.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
 
 object SettingsMainScreen : Screen() {

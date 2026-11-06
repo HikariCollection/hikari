@@ -1,11 +1,11 @@
 package app.hikari.domain.manga.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.library.model.LibraryManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaRemoteUpdate
 import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.model.MangaWithChapterCount
+import kotlinx.coroutines.flow.Flow
 
 interface MangaRepository {
 

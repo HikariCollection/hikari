@@ -1,6 +1,7 @@
 package app.hikari.data.backup.create.creators
 
-import dev.zacsweers.metro.Inject
+import app.hikari.core.common.preference.Preference
+import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.data.backup.models.BackupPreference
 import app.hikari.data.backup.models.BackupSourcePreferences
 import app.hikari.data.backup.models.BooleanPreferenceValue
@@ -9,12 +10,11 @@ import app.hikari.data.backup.models.IntPreferenceValue
 import app.hikari.data.backup.models.LongPreferenceValue
 import app.hikari.data.backup.models.StringPreferenceValue
 import app.hikari.data.backup.models.StringSetPreferenceValue
+import app.hikari.domain.source.service.SourceManager
 import app.hikari.source.ConfigurableSource
 import app.hikari.source.preferenceKey
 import app.hikari.source.sourcePreferences
-import app.hikari.core.common.preference.Preference
-import app.hikari.core.common.preference.PreferenceStore
-import app.hikari.domain.source.service.SourceManager
+import dev.zacsweers.metro.Inject
 
 @Inject
 class PreferenceBackupCreator(

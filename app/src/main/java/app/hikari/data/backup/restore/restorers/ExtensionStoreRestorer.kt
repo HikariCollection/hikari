@@ -1,9 +1,9 @@
 package app.hikari.data.backup.restore.restorers
 
-import dev.zacsweers.metro.Inject
 import app.hikari.data.backup.models.BackupExtensionStore
 import app.hikari.domain.extension.model.ExtensionStore
 import app.hikari.domain.extension.repository.ExtensionStoreRepository
+import dev.zacsweers.metro.Inject
 
 @Inject
 class ExtensionStoreRestorer(

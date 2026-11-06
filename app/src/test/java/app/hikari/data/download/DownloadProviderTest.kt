@@ -1,5 +1,7 @@
 package app.hikari.data.download
 
+import app.hikari.core.common.preference.InMemoryPreferenceStore
+import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.util.lang.Hash.md5
 import app.hikari.util.storage.DiskUtil
 import io.kotest.matchers.collections.shouldContain
@@ -8,8 +10,6 @@ import io.mockk.mockk
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import app.hikari.core.common.preference.InMemoryPreferenceStore
-import app.hikari.domain.library.service.LibraryPreferences
 
 class DownloadProviderTest {
 

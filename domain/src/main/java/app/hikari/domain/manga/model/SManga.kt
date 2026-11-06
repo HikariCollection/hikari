@@ -1,7 +1,7 @@
 package app.hikari.domain.manga.model
 
-import app.hikari.source.model.SManga
 import app.hikari.domain.manga.model.Manga
+import app.hikari.source.model.SManga
 
 fun SManga.toDomainManga(sourceId: Long): Manga {
     return Manga.create().copy(

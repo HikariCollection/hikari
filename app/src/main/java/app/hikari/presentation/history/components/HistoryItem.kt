@@ -20,17 +20,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import app.hikari.domain.history.model.HistoryWithRelations
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.Delete
+import app.hikari.icons.materialsymbols.rounded.Favorite
+import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.manga.components.MangaCover
 import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.presentation.util.formatChapterNumber
 import app.hikari.util.lang.toTimestampString
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.Delete
-import app.hikari.icons.materialsymbols.rounded.Favorite
-import app.hikari.domain.history.model.HistoryWithRelations
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.material.padding
-import app.hikari.presentation.core.i18n.stringResource
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 

@@ -1,7 +1,7 @@
 package app.hikari.domain.extension.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.extension.repository.ExtensionStoreRepository
+import dev.zacsweers.metro.Inject
 
 @Inject
 class UpdateExtensionStores(

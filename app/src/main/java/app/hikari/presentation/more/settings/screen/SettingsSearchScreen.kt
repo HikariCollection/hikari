@@ -44,19 +44,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import app.hikari.presentation.components.UpIcon
-import app.hikari.presentation.more.settings.Preference
-import app.hikari.presentation.util.Screen
-import kotlinx.coroutines.flow.collectLatest
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Close
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.UpIcon
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
 import app.hikari.presentation.core.util.runOnEnterKeyPressed
+import app.hikari.presentation.more.settings.Preference
+import app.hikari.presentation.util.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.coroutines.flow.collectLatest
 import cafe.adriel.voyager.core.screen.Screen as VoyagerScreen
 
 class SettingsSearchScreen : Screen() {

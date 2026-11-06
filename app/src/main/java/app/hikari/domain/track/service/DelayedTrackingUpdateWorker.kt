@@ -8,17 +8,17 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.AppGraph
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.metroGraph
+import app.hikari.domain.track.interactor.GetTracks
 import app.hikari.domain.track.interactor.TrackChapter
 import app.hikari.domain.track.store.DelayedTrackingStore
 import app.hikari.util.system.workManager
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.app.di.AppGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.track.interactor.GetTracks
 import java.util.concurrent.TimeUnit
 
 class DelayedTrackingUpdateWorker(private val context: Context, workerParams: WorkerParameters) :

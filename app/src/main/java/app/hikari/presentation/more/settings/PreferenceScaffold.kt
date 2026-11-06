@@ -2,7 +2,7 @@ package app.hikari.presentation.more.settings
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
-import dev.icerock.moko.resources.StringResource
+import app.hikari.i18n.StringResource
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource

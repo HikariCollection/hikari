@@ -14,7 +14,7 @@ fun SManga.getComicInfo() = ComicInfo(
     writer = author?.let { ComicInfo.Writer(it) },
     penciller = artist?.let { ComicInfo.Penciller(it) },
     genre = genre?.let { ComicInfo.Genre(it) },
-    publishingStatus = ComicInfo.PublishingStatusTachiyomi(
+    publishingStatus = ComicInfo.PublishingStatusHikari(
         ComicInfoPublishingStatus.toComicInfoValue(status.toLong()),
     ),
     title = null,
@@ -86,9 +86,9 @@ data class ComicInfo(
     val year: Year?,
     val month: Month?,
     val day: Day?,
-    val publishingStatus: PublishingStatusTachiyomi?,
-    val categories: CategoriesTachiyomi?,
-    val source: SourceMihon?,
+    val publishingStatus: PublishingStatusHikari?,
+    val categories: CategoriesHikari?,
+    val source: SourceHikari?,
 ) {
     @XmlElement(false)
     @XmlSerialName("xmlns:xsd", "", "")
@@ -168,16 +168,16 @@ data class ComicInfo(
 
     // The spec doesn't have a good field for this
     @Serializable
-    @XmlSerialName("PublishingStatusTachiyomi", "http://www.w3.org/2001/XMLSchema", "ty")
-    data class PublishingStatusTachiyomi(@XmlValue(true) val value: String = "")
+    @XmlSerialName("PublishingStatusHikari", "http://www.w3.org/2001/XMLSchema", "hk")
+    data class PublishingStatusHikari(@XmlValue(true) val value: String = "")
 
     @Serializable
-    @XmlSerialName("Categories", "http://www.w3.org/2001/XMLSchema", "ty")
-    data class CategoriesTachiyomi(@XmlValue(true) val value: String = "")
+    @XmlSerialName("Categories", "http://www.w3.org/2001/XMLSchema", "hk")
+    data class CategoriesHikari(@XmlValue(true) val value: String = "")
 
     @Serializable
-    @XmlSerialName("SourceMihon", "http://www.w3.org/2001/XMLSchema", "mh")
-    data class SourceMihon(@XmlValue(true) val value: String = "")
+    @XmlSerialName("SourceHikari", "http://www.w3.org/2001/XMLSchema", "hk")
+    data class SourceHikari(@XmlValue(true) val value: String = "")
 }
 
 enum class ComicInfoPublishingStatus(

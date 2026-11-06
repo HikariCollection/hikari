@@ -2,19 +2,6 @@ package app.hikari.data.download
 
 import android.content.ContentResolver
 import android.content.Context
-import com.hippo.unifile.UniFile
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import app.hikari.source.Source
-import app.hikari.util.lang.Hash.md5
-import app.hikari.util.storage.DiskUtil
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
-import logcat.LogPriority
 import app.hikari.core.common.i18n.stringResource
 import app.hikari.core.common.storage.displayablePath
 import app.hikari.core.common.util.system.logcat
@@ -23,6 +10,19 @@ import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.storage.service.StorageManager
 import app.hikari.i18n.MR
+import app.hikari.source.Source
+import app.hikari.util.lang.Hash.md5
+import app.hikari.util.storage.DiskUtil
+import com.hippo.unifile.UniFile
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
+import logcat.LogPriority
 import java.io.IOException
 
 /**

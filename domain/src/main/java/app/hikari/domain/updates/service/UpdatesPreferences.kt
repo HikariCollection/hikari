@@ -1,13 +1,13 @@
 package app.hikari.domain.updates.service
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.common.preference.TriState
 import app.hikari.core.common.preference.getEnum
 import app.hikari.core.common.preference.getLongArray
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
 @Inject
 @SingleIn(AppScope::class)

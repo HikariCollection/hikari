@@ -4,9 +4,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.graphics.Color
-import dev.icerock.moko.resources.StringResource
 import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 
 internal data class ContentWarningLabel(
     val title: StringResource,

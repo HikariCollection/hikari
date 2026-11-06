@@ -1,7 +1,7 @@
 package app.hikari.domain.ui.model
 
-import dev.icerock.moko.resources.StringResource
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 
 enum class TimeFormat(val titleRes: StringResource) {
     FOLLOW_LANGUAGE(MR.strings.follow_language),

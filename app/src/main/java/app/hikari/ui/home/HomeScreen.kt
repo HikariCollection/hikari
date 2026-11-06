@@ -27,10 +27,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
-import cafe.adriel.voyager.navigator.tab.TabNavigator
+import app.hikari.app.di.appGraph
+import app.hikari.i18n.MR
+import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.util.Screen
 import app.hikari.presentation.util.isTabletUi
 import app.hikari.ui.browse.BrowseTab
@@ -40,16 +39,17 @@ import app.hikari.ui.library.LibraryTab
 import app.hikari.ui.manga.MangaScreen
 import app.hikari.ui.more.MoreTab
 import app.hikari.ui.updates.UpdatesTab
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import app.hikari.app.di.appGraph
 import soup.compose.material.motion.animation.materialFadeThroughIn
 import soup.compose.material.motion.animation.materialFadeThroughOut
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.pluralStringResource
 
 object HomeScreen : Screen() {
 

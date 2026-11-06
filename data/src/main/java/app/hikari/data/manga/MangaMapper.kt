@@ -1,10 +1,10 @@
 package app.hikari.data.manga
 
-import app.hikari.source.model.UpdateStrategy
-import kotlinx.serialization.json.JsonObject
 import app.hikari.domain.library.model.LibraryManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaWithChapterCount
+import app.hikari.source.model.UpdateStrategy
+import kotlinx.serialization.json.JsonObject
 import kotlin.time.Instant
 
 object MangaMapper {

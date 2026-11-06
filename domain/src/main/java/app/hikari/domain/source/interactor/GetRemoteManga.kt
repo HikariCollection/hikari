@@ -1,9 +1,9 @@
 package app.hikari.domain.source.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.source.model.FilterList
 import app.hikari.domain.source.repository.SourcePagingSource
 import app.hikari.domain.source.repository.SourceRepository
+import app.hikari.source.model.FilterList
+import dev.zacsweers.metro.Inject
 
 @Inject
 class GetRemoteManga(

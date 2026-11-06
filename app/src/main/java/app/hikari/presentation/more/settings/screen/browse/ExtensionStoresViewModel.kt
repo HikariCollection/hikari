@@ -3,12 +3,17 @@ package app.hikari.presentation.more.settings.screen.browse
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.domain.extension.interactor.AddExtensionStore
+import app.hikari.domain.extension.interactor.GetExtensionStores
+import app.hikari.domain.extension.interactor.RemoveExtensionStore
+import app.hikari.domain.extension.interactor.UpdateExtensionStores
+import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.extension.ExtensionManager
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.extension.ExtensionManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,11 +24,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import app.hikari.domain.extension.interactor.AddExtensionStore
-import app.hikari.domain.extension.interactor.GetExtensionStores
-import app.hikari.domain.extension.interactor.RemoveExtensionStore
-import app.hikari.domain.extension.interactor.UpdateExtensionStores
-import app.hikari.domain.extension.model.ExtensionStore
 import kotlin.time.Duration.Companion.seconds
 
 @Inject

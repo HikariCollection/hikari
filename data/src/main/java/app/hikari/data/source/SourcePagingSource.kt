@@ -1,16 +1,16 @@
 package app.hikari.data.source
 
 import androidx.paging.PagingState
+import app.hikari.domain.manga.interactor.NetworkToLocalManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.toDomainManga
+import app.hikari.domain.source.repository.SourcePagingSource
 import app.hikari.source.Source
 import app.hikari.source.model.FilterList
 import app.hikari.source.model.MangasPage
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.domain.manga.model.toDomainManga
-import app.hikari.domain.manga.interactor.NetworkToLocalManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.repository.SourcePagingSource
 
 class SourceSearchPagingSource(
     source: suspend () -> Source,

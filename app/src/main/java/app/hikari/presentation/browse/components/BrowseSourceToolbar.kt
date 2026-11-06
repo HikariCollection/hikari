@@ -7,21 +7,21 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import app.hikari.domain.library.model.LibraryDisplayMode
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.automirroredroundedfilled.ViewList
+import app.hikari.icons.materialsymbols.roundedfilled.ViewCompact
+import app.hikari.icons.materialsymbols.roundedfilled.ViewModule
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.components.AppBarTitle
 import app.hikari.presentation.components.DropdownMenu
 import app.hikari.presentation.components.RadioMenuItem
 import app.hikari.presentation.components.SearchToolbar
+import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.source.ConfigurableSource
 import app.hikari.source.Source
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.automirroredroundedfilled.ViewList
-import app.hikari.icons.materialsymbols.roundedfilled.ViewCompact
-import app.hikari.icons.materialsymbols.roundedfilled.ViewModule
-import app.hikari.domain.library.model.LibraryDisplayMode
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.source.local.LocalSource
 
 @Composable

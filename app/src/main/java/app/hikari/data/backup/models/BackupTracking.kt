@@ -1,10 +1,10 @@
 package app.hikari.data.backup.models
 
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.protobuf.ProtoNumber
 import app.hikari.core.common.extensions.toEpochMillisOrZero
 import app.hikari.core.common.extensions.toInstantOrNull
 import app.hikari.domain.track.model.Track
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.protobuf.ProtoNumber
 
 @Serializable
 data class BackupTracking(

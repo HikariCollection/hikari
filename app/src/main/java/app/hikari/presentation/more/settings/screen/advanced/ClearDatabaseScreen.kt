@@ -29,6 +29,28 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.metro.AppCoroutineScope
+import app.hikari.domain.history.repository.HistoryRepository
+import app.hikari.domain.manga.repository.MangaRepository
+import app.hikari.domain.source.interactor.GetSourcesWithNonLibraryManga
+import app.hikari.domain.source.model.Source
+import app.hikari.domain.source.model.SourceWithCount
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.FlipToBack
+import app.hikari.icons.materialsymbols.rounded.SelectAll
+import app.hikari.presentation.browse.components.SourceIcon
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
+import app.hikari.presentation.core.components.LazyColumnWithAction
+import app.hikari.presentation.core.components.material.Scaffold
+import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.screens.EmptyScreen
+import app.hikari.presentation.core.screens.LoadingScreen
+import app.hikari.presentation.core.util.selectedBackground
+import app.hikari.presentation.util.Screen
+import app.hikari.util.system.toast
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.zacsweers.metro.AppScope
@@ -37,11 +59,6 @@ import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.presentation.browse.components.SourceIcon
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.util.Screen
-import app.hikari.util.system.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,23 +66,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import app.hikari.core.metro.AppCoroutineScope
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.FlipToBack
-import app.hikari.icons.materialsymbols.rounded.SelectAll
-import app.hikari.domain.history.repository.HistoryRepository
-import app.hikari.domain.manga.repository.MangaRepository
-import app.hikari.domain.source.interactor.GetSourcesWithNonLibraryManga
-import app.hikari.domain.source.model.Source
-import app.hikari.domain.source.model.SourceWithCount
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.LazyColumnWithAction
-import app.hikari.presentation.core.components.material.Scaffold
-import app.hikari.presentation.core.components.material.padding
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.screens.EmptyScreen
-import app.hikari.presentation.core.screens.LoadingScreen
-import app.hikari.presentation.core.util.selectedBackground
 
 class ClearDatabaseScreen : Screen() {
 

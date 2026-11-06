@@ -1,12 +1,29 @@
 package app.hikari.source.local
 
 import android.content.Context
-import com.hippo.unifile.UniFile
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.archive.archiveReader
+import app.hikari.core.archive.epubReader
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.storage.extension
+import app.hikari.core.common.storage.nameWithoutExtension
+import app.hikari.core.common.util.system.ImageUtil
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metadata.app.hikari.MangaDetails
+import app.hikari.core.metadata.comicinfo.COMIC_INFO_FILE
+import app.hikari.core.metadata.comicinfo.ComicInfo
+import app.hikari.core.metadata.comicinfo.copyFromComicInfo
+import app.hikari.core.metadata.comicinfo.getComicInfo
+import app.hikari.domain.chapter.service.ChapterRecognition
+import app.hikari.domain.manga.model.Manga
+import app.hikari.i18n.MR
 import app.hikari.source.Source
 import app.hikari.source.UnmeteredSource
+import app.hikari.source.local.filter.OrderBy
+import app.hikari.source.local.image.LocalCoverManager
+import app.hikari.source.local.io.Archive
+import app.hikari.source.local.io.Format
+import app.hikari.source.local.io.LocalSourceFileSystem
+import app.hikari.source.local.metadata.fillMetadata
 import app.hikari.source.model.FilterList
 import app.hikari.source.model.MangasPage
 import app.hikari.source.model.Page
@@ -14,6 +31,10 @@ import app.hikari.source.model.SChapter
 import app.hikari.source.model.SManga
 import app.hikari.source.model.SMangaUpdate
 import app.hikari.util.lang.compareToCaseInsensitiveNaturalOrder
+import com.hippo.unifile.UniFile
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -26,29 +47,8 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import logcat.LogPriority
-import app.hikari.core.archive.archiveReader
-import app.hikari.core.archive.epubReader
 import nl.adaptivity.xmlutil.core.AndroidXmlReader
 import nl.adaptivity.xmlutil.serialization.XML
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.storage.extension
-import app.hikari.core.common.storage.nameWithoutExtension
-import app.hikari.core.common.util.system.ImageUtil
-import app.hikari.core.common.util.system.logcat
-import app.hikari.core.metadata.comicinfo.COMIC_INFO_FILE
-import app.hikari.core.metadata.comicinfo.ComicInfo
-import app.hikari.core.metadata.comicinfo.copyFromComicInfo
-import app.hikari.core.metadata.comicinfo.getComicInfo
-import app.hikari.core.metadata.app.hikari.MangaDetails
-import app.hikari.domain.chapter.service.ChapterRecognition
-import app.hikari.domain.manga.model.Manga
-import app.hikari.i18n.MR
-import app.hikari.source.local.filter.OrderBy
-import app.hikari.source.local.image.LocalCoverManager
-import app.hikari.source.local.io.Archive
-import app.hikari.source.local.io.Format
-import app.hikari.source.local.io.LocalSourceFileSystem
-import app.hikari.source.local.metadata.fillMetadata
 import uy.kohesive.injekt.injectLazy
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
@@ -404,7 +404,7 @@ class LocalSource(
 
     companion object {
         const val ID = 0L
-        const val HELP_URL = "https://app.hikari.app/docs/guides/local-source/"
+        const val HELP_URL = "https://github.com/HikariCollection/hikari"
 
         private val LATEST_THRESHOLD = 7.days.inWholeMilliseconds
     }

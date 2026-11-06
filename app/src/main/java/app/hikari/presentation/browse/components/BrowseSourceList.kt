@@ -8,12 +8,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import app.hikari.presentation.library.components.CommonMangaItemDefaults
-import app.hikari.presentation.library.components.MangaListItem
-import kotlinx.coroutines.flow.StateFlow
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaCover
 import app.hikari.presentation.core.util.plus
+import app.hikari.presentation.library.components.CommonMangaItemDefaults
+import app.hikari.presentation.library.components.MangaListItem
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun BrowseSourceList(

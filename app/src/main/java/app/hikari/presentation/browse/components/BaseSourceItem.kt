@@ -11,10 +11,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import app.hikari.util.system.LocaleHelper
 import app.hikari.domain.source.model.Source
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.util.system.LocaleHelper
 
 @Composable
 fun BaseSourceItem(

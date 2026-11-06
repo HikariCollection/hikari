@@ -11,11 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 fun MissingChapterCountListItem(

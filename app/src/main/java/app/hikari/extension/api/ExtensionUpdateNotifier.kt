@@ -2,16 +2,16 @@ package app.hikari.extension.api
 
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
+import app.hikari.core.common.i18n.pluralStringResource
 import app.hikari.core.security.SecurityPreferences
 import app.hikari.data.notification.NotificationReceiver
 import app.hikari.data.notification.Notifications
+import app.hikari.i18n.MR
 import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.notify
-import app.hikari.core.common.i18n.pluralStringResource
-import app.hikari.i18n.MR
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 import app.hikari.icons.materialsymbols.R as MaterialSymbolsR
 
 @Inject

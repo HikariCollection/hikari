@@ -10,19 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.util.Screen
 import app.hikari.data.backup.models.Backup
-import app.hikari.util.system.copyToClipboard
-import kotlinx.serialization.protobuf.schema.ProtoBufSchemaGenerator
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.ContentCopy
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.util.Screen
+import app.hikari.util.system.copyToClipboard
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import kotlinx.serialization.protobuf.schema.ProtoBufSchemaGenerator
 
 class BackupSchemaScreen : Screen() {
 

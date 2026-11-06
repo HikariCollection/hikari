@@ -3,6 +3,20 @@ package app.hikari.feature.migration.list
 import androidx.annotation.FloatRange
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.core.common.util.system.logcat
+import app.hikari.domain.chapter.interactor.GetChapterSummaryByMangaId
+import app.hikari.domain.manga.interactor.GetManga
+import app.hikari.domain.manga.interactor.NetworkToLocalManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.migration.usecases.MigrateMangaUseCase
+import app.hikari.domain.source.interactor.UpdateMangaFromRemote
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.domain.source.service.SourcePreferences
+import app.hikari.feature.migration.list.models.MigratingManga
+import app.hikari.feature.migration.list.models.MigratingManga.SearchResult
+import app.hikari.feature.migration.list.search.SmartSourceSearchEngine
+import app.hikari.source.Source
+import app.hikari.source.getNameForMangaInfo
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
@@ -10,9 +24,6 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
-import app.hikari.domain.source.service.SourcePreferences
-import app.hikari.source.Source
-import app.hikari.source.getNameForMangaInfo
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,17 +43,6 @@ import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
-import app.hikari.domain.migration.usecases.MigrateMangaUseCase
-import app.hikari.domain.source.interactor.UpdateMangaFromRemote
-import app.hikari.feature.migration.list.models.MigratingManga
-import app.hikari.feature.migration.list.models.MigratingManga.SearchResult
-import app.hikari.feature.migration.list.search.SmartSourceSearchEngine
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.chapter.interactor.GetChapterSummaryByMangaId
-import app.hikari.domain.manga.interactor.GetManga
-import app.hikari.domain.manga.interactor.NetworkToLocalManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.service.SourceManager
 
 @AssistedInject
 class MigrationListViewModel(

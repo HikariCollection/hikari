@@ -40,13 +40,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.manga.components.MangaCover
-import app.hikari.presentation.util.formatChapterNumber
-import app.hikari.presentation.util.rememberResourceBitmapPainter
 import app.hikari.R
+import app.hikari.domain.manga.model.Manga
 import app.hikari.feature.migration.list.models.MigratingManga
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.ArrowForward
 import app.hikari.icons.materialsymbols.rounded.Check
@@ -55,8 +52,8 @@ import app.hikari.icons.materialsymbols.rounded.ContentCopy
 import app.hikari.icons.materialsymbols.rounded.CopyAll
 import app.hikari.icons.materialsymbols.rounded.DoneAll
 import app.hikari.icons.materialsymbols.rounded.MoreVert
-import app.hikari.domain.manga.model.Manga
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.core.components.Badge
 import app.hikari.presentation.core.components.BadgeGroup
 import app.hikari.presentation.core.components.FastScrollLazyColumn
@@ -65,6 +62,9 @@ import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.components.material.topSmallPaddingValues
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.plus
+import app.hikari.presentation.manga.components.MangaCover
+import app.hikari.presentation.util.formatChapterNumber
+import app.hikari.presentation.util.rememberResourceBitmapPainter
 
 @Composable
 fun MigrationListScreenContent(

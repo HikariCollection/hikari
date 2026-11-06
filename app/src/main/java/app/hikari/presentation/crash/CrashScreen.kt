@@ -13,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import app.hikari.presentation.theme.HikariPreviewTheme
-import kotlinx.coroutines.launch
 import app.hikari.app.di.appGraph
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.BugReport
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.InfoScreen
+import app.hikari.presentation.theme.HikariPreviewTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun CrashScreen(

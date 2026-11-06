@@ -15,12 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import app.hikari.presentation.components.TabbedDialog
-import app.hikari.presentation.components.TabbedDialogPaddings
-import app.hikari.ui.library.LibrarySettingsViewModel
-import app.hikari.util.system.isReleaseBuildType
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.Refresh
 import app.hikari.core.common.preference.TriState
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.library.model.LibraryDisplayMode
@@ -28,6 +22,10 @@ import app.hikari.domain.library.model.LibrarySort
 import app.hikari.domain.library.model.sort
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.Refresh
+import app.hikari.presentation.components.TabbedDialog
+import app.hikari.presentation.components.TabbedDialogPaddings
 import app.hikari.presentation.core.components.BaseSortItem
 import app.hikari.presentation.core.components.CheckboxItem
 import app.hikari.presentation.core.components.HeadingItem
@@ -37,6 +35,8 @@ import app.hikari.presentation.core.components.SortItem
 import app.hikari.presentation.core.components.TriStateItem
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.library.LibrarySettingsViewModel
+import app.hikari.util.system.isReleaseBuildType
 
 @Composable
 fun LibrarySettingsDialog(

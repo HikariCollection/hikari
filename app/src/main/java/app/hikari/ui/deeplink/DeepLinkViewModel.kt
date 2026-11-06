@@ -3,6 +3,17 @@ package app.hikari.ui.deeplink
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.domain.chapter.interactor.GetChapterByUrlAndMangaId
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.manga.interactor.NetworkToLocalManga
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.toDomainManga
+import app.hikari.domain.source.interactor.UpdateMangaFromRemote
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.source.Source
+import app.hikari.source.model.SChapter
+import app.hikari.source.online.ResolvableSource
+import app.hikari.source.online.UriType
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
@@ -10,22 +21,11 @@ import dev.zacsweers.metro.AssistedInject
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
-import app.hikari.source.Source
-import app.hikari.source.model.SChapter
-import app.hikari.source.online.ResolvableSource
-import app.hikari.source.online.UriType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import app.hikari.domain.manga.model.toDomainManga
-import app.hikari.domain.source.interactor.UpdateMangaFromRemote
-import app.hikari.domain.chapter.interactor.GetChapterByUrlAndMangaId
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.manga.interactor.NetworkToLocalManga
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.source.service.SourceManager
 
 @AssistedInject
 class DeepLinkViewModel(

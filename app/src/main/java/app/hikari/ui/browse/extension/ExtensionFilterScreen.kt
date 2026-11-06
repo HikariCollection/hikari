@@ -5,15 +5,15 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.i18n.MR
+import app.hikari.presentation.browse.ExtensionFilterScreen
+import app.hikari.presentation.core.screens.LoadingScreen
+import app.hikari.presentation.util.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.presentation.browse.ExtensionFilterScreen
-import app.hikari.presentation.util.Screen
 import kotlinx.coroutines.flow.collectLatest
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.screens.LoadingScreen
 
 class ExtensionFilterScreen : Screen() {
 

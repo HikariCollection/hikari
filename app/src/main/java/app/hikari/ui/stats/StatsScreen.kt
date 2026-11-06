@@ -3,17 +3,17 @@ package app.hikari.ui.stats
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.metroViewModel
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.more.stats.StatsScreenContent
-import app.hikari.presentation.more.stats.StatsScreenState
-import app.hikari.presentation.util.Screen
 import app.hikari.i18n.MR
+import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.LoadingScreen
+import app.hikari.presentation.more.stats.StatsScreenContent
+import app.hikari.presentation.more.stats.StatsScreenState
+import app.hikari.presentation.util.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 
 class StatsScreen : Screen() {
 

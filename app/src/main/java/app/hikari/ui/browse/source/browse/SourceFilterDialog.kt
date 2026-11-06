@@ -15,11 +15,9 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.AdaptiveSheet
-import app.hikari.source.model.Filter
-import app.hikari.source.model.FilterList
 import app.hikari.core.common.preference.TriState
 import app.hikari.i18n.MR
+import app.hikari.presentation.components.AdaptiveSheet
 import app.hikari.presentation.core.components.CheckboxItem
 import app.hikari.presentation.core.components.CollapsibleBox
 import app.hikari.presentation.core.components.HeadingItem
@@ -29,6 +27,8 @@ import app.hikari.presentation.core.components.TextItem
 import app.hikari.presentation.core.components.TriStateItem
 import app.hikari.presentation.core.components.material.Button
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.source.model.Filter
+import app.hikari.source.model.FilterList
 
 @Composable
 fun SourceFilterDialog(

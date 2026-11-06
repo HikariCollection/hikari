@@ -39,29 +39,29 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import dev.icerock.moko.resources.StringResource
 import app.hikari.domain.extension.interactor.ExtensionSourceItem
+import app.hikari.extension.model.Extension
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.Eyeglasses2
+import app.hikari.icons.materialsymbols.rounded.Settings
 import app.hikari.presentation.browse.components.ExtensionIcon
 import app.hikari.presentation.browse.components.ExtensionPill
 import app.hikari.presentation.browse.components.label
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.components.WarningBanner
-import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
-import app.hikari.presentation.more.settings.widget.TrailingWidgetBuffer
-import app.hikari.extension.model.Extension
-import app.hikari.source.ConfigurableSource
-import app.hikari.ui.browse.extension.details.ExtensionDetailsViewModel
-import app.hikari.util.system.LocaleHelper
-import app.hikari.util.system.copyToClipboard
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.Eyeglasses2
-import app.hikari.icons.materialsymbols.rounded.Settings
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
+import app.hikari.presentation.more.settings.widget.TrailingWidgetBuffer
+import app.hikari.source.ConfigurableSource
+import app.hikari.ui.browse.extension.details.ExtensionDetailsViewModel
+import app.hikari.util.system.LocaleHelper
+import app.hikari.util.system.copyToClipboard
 
 @Composable
 fun ExtensionDetailsScreen(
@@ -274,13 +274,6 @@ private fun DetailsHeader(
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
-                )
-            }
-
-            if ((extension as? Extension.Loaded)?.isShared == false) {
-                ExtensionPill(
-                    text = stringResource(MR.strings.ext_installer_private),
-                    modifier = Modifier.padding(top = MaterialTheme.padding.small),
                 )
             }
         }

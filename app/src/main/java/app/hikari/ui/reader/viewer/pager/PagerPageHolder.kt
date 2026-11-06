@@ -2,6 +2,8 @@ package app.hikari.ui.reader.viewer.pager
 
 import android.annotation.SuppressLint
 import android.content.Context
+import app.hikari.core.common.util.system.ImageUtil
+import app.hikari.core.common.util.system.logcat
 import app.hikari.source.model.Page
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.ui.reader.viewer.ReaderPageErrorView
@@ -18,8 +20,6 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
 import okio.Buffer
-import app.hikari.core.common.util.system.ImageUtil
-import app.hikari.core.common.util.system.logcat
 
 /**
  * View of the ViewPager that contains a page of a chapter.

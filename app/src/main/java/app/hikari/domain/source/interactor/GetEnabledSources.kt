@@ -1,15 +1,15 @@
 package app.hikari.domain.source.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.source.service.SourcePreferences
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.distinctUntilChanged
 import app.hikari.domain.source.model.Pin
 import app.hikari.domain.source.model.Pins
 import app.hikari.domain.source.model.Source
 import app.hikari.domain.source.repository.SourceRepository
+import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.source.local.isLocal
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Inject
 class GetEnabledSources(

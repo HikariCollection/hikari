@@ -2,17 +2,17 @@ package app.hikari.data.download
 
 import android.content.Context
 import androidx.core.content.edit
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
 import app.hikari.data.download.model.Download
-import app.hikari.source.online.HttpSource
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import app.hikari.domain.chapter.interactor.GetChapter
 import app.hikari.domain.manga.interactor.GetManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.source.service.SourceManager
+import app.hikari.source.online.HttpSource
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 /**
  * This class is used to persist active downloads across application restarts.

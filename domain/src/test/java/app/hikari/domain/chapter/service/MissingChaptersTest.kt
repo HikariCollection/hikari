@@ -1,10 +1,10 @@
 package app.hikari.domain.chapter.service
 
+import app.hikari.domain.chapter.model.Chapter
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.parallel.Execution
 import org.junit.jupiter.api.parallel.ExecutionMode
-import app.hikari.domain.chapter.model.Chapter
 
 @Execution(ExecutionMode.CONCURRENT)
 class MissingChaptersTest {

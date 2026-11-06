@@ -1,11 +1,11 @@
 package app.hikari.domain.track.interactor
 
-import dev.zacsweers.metro.Inject
-import kotlinx.coroutines.flow.Flow
-import logcat.LogPriority
 import app.hikari.core.common.util.system.logcat
 import app.hikari.domain.track.model.Track
 import app.hikari.domain.track.repository.TrackRepository
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
+import logcat.LogPriority
 
 @Inject
 class GetTracks(

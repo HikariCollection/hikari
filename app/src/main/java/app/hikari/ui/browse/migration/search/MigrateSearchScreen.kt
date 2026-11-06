@@ -3,15 +3,15 @@ package app.hikari.ui.browse.migration.search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
+import app.hikari.feature.migration.dialog.MigrateMangaDialog
+import app.hikari.feature.migration.list.MigrationListScreen
 import app.hikari.presentation.browse.MigrateSearchScreen
 import app.hikari.presentation.util.Screen
 import app.hikari.ui.browse.source.globalsearch.SearchViewModel
 import app.hikari.ui.manga.MangaScreen
-import app.hikari.feature.migration.dialog.MigrateMangaDialog
-import app.hikari.feature.migration.list.MigrationListScreen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.assistedMetroViewModel
 
 class MigrateSearchScreen(private val mangaId: Long) : Screen() {
 

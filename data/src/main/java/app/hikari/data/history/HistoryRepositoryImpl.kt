@@ -3,12 +3,6 @@ package app.hikari.data.history
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.cash.sqldelight.async.coroutines.awaitAsOne
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import kotlinx.coroutines.flow.Flow
-import logcat.LogPriority
 import app.hikari.core.common.util.system.logcat
 import app.hikari.data.Database
 import app.hikari.data.subscribeToList
@@ -16,6 +10,12 @@ import app.hikari.domain.history.model.History
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.model.HistoryWithRelations
 import app.hikari.domain.history.repository.HistoryRepository
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlinx.coroutines.flow.Flow
+import logcat.LogPriority
 
 @Inject
 @SingleIn(AppScope::class)

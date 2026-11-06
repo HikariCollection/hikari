@@ -17,9 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.EditNote
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.material.Button
 import app.hikari.presentation.core.components.material.ButtonDefaults
 import app.hikari.presentation.core.components.material.padding

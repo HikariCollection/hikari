@@ -28,15 +28,15 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.DropdownMenu
 import app.hikari.data.download.model.Download
+import app.hikari.i18n.MR
 import app.hikari.icons.custommaterialsymbols.CustomMaterialSymbols
 import app.hikari.icons.custommaterialsymbols.rounded.DownloadArrow
 import app.hikari.icons.custommaterialsymbols.rounded.DownloadCircle
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Error
 import app.hikari.icons.materialsymbols.roundedfilled.CheckCircle
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.DropdownMenu
 import app.hikari.presentation.core.components.material.IconButtonTokens
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.secondaryItemAlpha

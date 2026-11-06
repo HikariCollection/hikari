@@ -2,11 +2,9 @@ package app.hikari.data.backup.create
 
 import android.content.Context
 import android.net.Uri
-import com.hippo.unifile.UniFile
-import dev.zacsweers.metro.Assisted
-import dev.zacsweers.metro.AssistedFactory
-import dev.zacsweers.metro.AssistedInject
 import app.hikari.BuildConfig
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.util.system.logcat
 import app.hikari.data.backup.BackupFileValidator
 import app.hikari.data.backup.BackupWriter
 import app.hikari.data.backup.create.creators.CategoriesBackupCreator
@@ -21,6 +19,15 @@ import app.hikari.data.backup.models.BackupManga
 import app.hikari.data.backup.models.BackupPreference
 import app.hikari.data.backup.models.BackupSource
 import app.hikari.data.backup.models.BackupSourcePreferences
+import app.hikari.domain.backup.service.BackupPreferences
+import app.hikari.domain.manga.interactor.GetFavorites
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.repository.MangaRepository
+import app.hikari.i18n.MR
+import com.hippo.unifile.UniFile
+import dev.zacsweers.metro.Assisted
+import dev.zacsweers.metro.AssistedFactory
+import dev.zacsweers.metro.AssistedInject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.serialization.protobuf.ProtoBuf
@@ -28,13 +35,6 @@ import logcat.LogPriority
 import okio.buffer
 import okio.gzip
 import okio.sink
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.backup.service.BackupPreferences
-import app.hikari.domain.manga.interactor.GetFavorites
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.manga.repository.MangaRepository
-import app.hikari.i18n.MR
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -167,7 +167,8 @@ class BackupCreator(
 
     companion object {
         private const val MAX_AUTO_BACKUPS: Int = 4
-        private val FILENAME_REGEX = """${BuildConfig.APPLICATION_ID}_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.(hkbackup|tachibk)""".toRegex()
+        private val FILENAME_REGEX =
+            """${BuildConfig.APPLICATION_ID}_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}\.(hkbackup|tachibk)""".toRegex()
 
         fun getFilename(): String {
             val date = SimpleDateFormat("yyyy-MM-dd_HH-mm", Locale.ENGLISH).format(Date())

@@ -2,12 +2,12 @@ package app.hikari.ui.reader.viewer.webgpu
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ca.mpreg.webgpuviewer.viewer.ImagePage
-import ca.mpreg.webgpuviewer.viewer.ImageViewerContinuous
-import ca.mpreg.webgpuviewer.viewer.ImageViewerContinuousState
 import app.hikari.ui.reader.ReaderActivity
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.ui.reader.viewer.mouseWheelPaging
+import ca.mpreg.webgpuviewer.viewer.ImagePage
+import ca.mpreg.webgpuviewer.viewer.ImageViewerContinuous
+import ca.mpreg.webgpuviewer.viewer.ImageViewerContinuousState
 import kotlinx.coroutines.launch
 import kotlin.math.max
 

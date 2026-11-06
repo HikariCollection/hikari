@@ -19,39 +19,16 @@ import androidx.work.WorkManager
 import androidx.work.WorkQuery
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import dev.zacsweers.metro.Inject
-import app.hikari.data.download.DownloadManager
-import app.hikari.data.notification.Notifications
-import app.hikari.source.model.SManga
-import app.hikari.source.model.UpdateStrategy
-import app.hikari.util.storage.getUriCompat
-import app.hikari.util.system.createFileInCacheDir
-import app.hikari.util.system.isConnectedToWifi
-import app.hikari.util.system.isRunning
-import app.hikari.util.system.setForegroundSafely
-import app.hikari.util.system.workManager
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.sync.Semaphore
-import kotlinx.coroutines.sync.withPermit
-import kotlinx.coroutines.withContext
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import logcat.LogPriority
 import app.hikari.app.di.AppGraph
 import app.hikari.app.di.appGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.domain.chapter.interactor.FilterChaptersForDownload
-import app.hikari.domain.source.interactor.UpdateMangaFromRemote
 import app.hikari.core.common.i18n.stringResource
 import app.hikari.core.common.preference.getAndSet
 import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.metroGraph
+import app.hikari.data.download.DownloadManager
+import app.hikari.data.notification.Notifications
 import app.hikari.domain.category.model.Category
+import app.hikari.domain.chapter.interactor.FilterChaptersForDownload
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.NoChaptersException
 import app.hikari.domain.library.model.LibraryManga
@@ -67,9 +44,32 @@ import app.hikari.domain.manga.interactor.FetchInterval
 import app.hikari.domain.manga.interactor.GetLibraryManga
 import app.hikari.domain.manga.interactor.GetManga
 import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.source.interactor.UpdateMangaFromRemote
 import app.hikari.domain.source.model.SourceNotInstalledException
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.i18n.MR
+import app.hikari.source.model.SManga
+import app.hikari.source.model.UpdateStrategy
+import app.hikari.util.storage.getUriCompat
+import app.hikari.util.system.createFileInCacheDir
+import app.hikari.util.system.isConnectedToWifi
+import app.hikari.util.system.isRunning
+import app.hikari.util.system.setForegroundSafely
+import app.hikari.util.system.workManager
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
+import kotlinx.coroutines.withContext
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import logcat.LogPriority
 import java.io.File
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.TimeUnit
@@ -398,7 +398,7 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
     private suspend fun writeErrorFile(errors: List<Pair<Manga, String?>>): File {
         try {
             if (errors.isNotEmpty()) {
-                val file = context.createFileInCacheDir("mihon_update_errors.txt")
+                val file = context.createFileInCacheDir("hikari_update_errors.txt")
                 file.bufferedWriter().use { out ->
                     out.write(context.stringResource(MR.strings.library_errors_help, ERROR_LOG_HELP_URL) + "\n\n")
                     // Error file format:
@@ -427,7 +427,7 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
         private const val WORK_NAME_AUTO = "LibraryUpdate-auto"
         private const val WORK_NAME_MANUAL = "LibraryUpdate-manual"
 
-        private const val ERROR_LOG_HELP_URL = ""
+        private const val ERROR_LOG_HELP_URL = "https://github.com/HikariCollection/hikari"
 
         private const val MANGA_PER_SOURCE_QUEUE_WARNING_THRESHOLD = 60
 

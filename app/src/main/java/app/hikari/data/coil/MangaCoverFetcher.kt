@@ -1,6 +1,14 @@
 package app.hikari.data.coil
 
 import androidx.core.net.toUri
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.cache.CoverCache
+import app.hikari.data.coil.MangaCoverFetcher.Companion.USE_CUSTOM_COVER_KEY
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.MangaCover
+import app.hikari.domain.source.service.SourceManager
+import app.hikari.network.await
+import app.hikari.source.online.HttpSource
 import coil3.Extras
 import coil3.ImageLoader
 import coil3.decode.DataSource
@@ -12,10 +20,6 @@ import coil3.fetch.SourceFetchResult
 import coil3.getOrDefault
 import coil3.request.Options
 import com.hippo.unifile.UniFile
-import app.hikari.data.cache.CoverCache
-import app.hikari.data.coil.MangaCoverFetcher.Companion.USE_CUSTOM_COVER_KEY
-import app.hikari.network.await
-import app.hikari.source.online.HttpSource
 import logcat.LogPriority
 import okhttp3.CacheControl
 import okhttp3.Call
@@ -27,10 +31,6 @@ import okio.Source
 import okio.buffer
 import okio.sink
 import okio.source
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.manga.model.MangaCover
-import app.hikari.domain.source.service.SourceManager
 import java.io.File
 import java.io.IOException
 

@@ -63,26 +63,39 @@ import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.Navigator
-import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metro.Inject
+import app.hikari.app.di.AppGraph
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.Constants
+import app.hikari.core.common.util.system.logcat
+import app.hikari.core.metro.metroGraph
+import app.hikari.core.migration.Migrator
+import app.hikari.data.cache.ChapterCache
+import app.hikari.data.download.DownloadCache
+import app.hikari.data.notification.NotificationReceiver
 import app.hikari.domain.base.BasePreferences
+import app.hikari.domain.database.repository.DatabaseRepository
+import app.hikari.domain.library.service.LibraryPreferences
+import app.hikari.domain.release.interactor.GetApplicationRelease
 import app.hikari.domain.source.interactor.GetIncognitoState
+import app.hikari.extension.ExtensionManager
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.automirroredrounded.OpenInNew
+import app.hikari.icons.materialsymbols.roundedfilled.VolunteerActivism
 import app.hikari.presentation.components.AdaptiveSheet
 import app.hikari.presentation.components.AppStateBanners
 import app.hikari.presentation.components.DownloadedOnlyBannerBackgroundColor
 import app.hikari.presentation.components.IncognitoModeBannerBackgroundColor
 import app.hikari.presentation.components.IndexingBannerBackgroundColor
+import app.hikari.presentation.core.components.material.Scaffold
+import app.hikari.presentation.core.components.material.padding
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.AppMigratingScreen
 import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
 import app.hikari.presentation.more.settings.screen.data.RestoreBackupScreen
 import app.hikari.presentation.util.AssistContentScreen
 import app.hikari.presentation.util.DefaultNavigatorScreenTransition
-import app.hikari.data.download.DownloadCache
-import app.hikari.data.notification.NotificationReceiver
-import app.hikari.extension.ExtensionManager
 import app.hikari.ui.base.activity.BaseActivity
 import app.hikari.ui.browse.source.browse.BrowseSourceScreen
 import app.hikari.ui.browse.source.globalsearch.GlobalSearchScreen
@@ -97,6 +110,11 @@ import app.hikari.util.system.isBenchmarkBuildType
 import app.hikari.util.system.isNavigationBarNeedsScrim
 import app.hikari.util.system.updaterEnabled
 import app.hikari.util.view.setComposeContent
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.NavigatorDisposeBehavior
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -109,24 +127,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.app.di.AppGraph
-import app.hikari.app.di.appGraph
-import app.hikari.core.metro.metroGraph
-import app.hikari.core.migration.Migrator
-import app.hikari.data.cache.ChapterCache
-import app.hikari.domain.database.repository.DatabaseRepository
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.automirroredrounded.OpenInNew
-import app.hikari.icons.materialsymbols.roundedfilled.VolunteerActivism
-import app.hikari.core.common.Constants
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.library.service.LibraryPreferences
-import app.hikari.domain.release.interactor.GetApplicationRelease
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.material.Scaffold
-import app.hikari.presentation.core.components.material.padding
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.util.collectAsState
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -496,7 +496,7 @@ class MainActivity : BaseActivity() {
             }
             Intent.ACTION_SEARCH, Intent.ACTION_SEND, "com.google.android.gms.actions.SEARCH_ACTION" -> {
                 // If the intent match the "standard" Android search intent
-                // or the Google-specific search intent (triggered by saying or typing "search *query* on *Tachiyomi*" in Google Search/Google Assistant)
+                // or the Google-specific search intent (triggered by saying or typing "search *query* on *Hikari*" in Google Search/Google Assistant)
 
                 // Get the search query provided in extras, and if not null, perform a global search with it.
                 val query = intent.getStringExtra(SearchManager.QUERY) ?: intent.getStringExtra(Intent.EXTRA_TEXT)

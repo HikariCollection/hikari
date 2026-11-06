@@ -1,8 +1,8 @@
 package app.hikari.domain.source.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.core.common.preference.getAndSet
+import app.hikari.domain.source.service.SourcePreferences
+import dev.zacsweers.metro.Inject
 
 @Inject
 class ToggleIncognito(

@@ -4,20 +4,20 @@ import android.content.Context
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dev.icerock.moko.resources.StringResource
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesIntoMap
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.binding
-import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.domain.base.BasePreferences
 import app.hikari.domain.extension.interactor.GetExtensionsByType
 import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.ExtensionManager
 import app.hikari.extension.model.Extension
 import app.hikari.extension.model.InstallStep
+import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 import app.hikari.source.online.HttpSource
 import app.hikari.util.system.LocaleHelper
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesIntoMap
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.binding
+import dev.zacsweers.metrox.viewmodel.ViewModelKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -36,7 +36,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import app.hikari.i18n.MR
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
 
@@ -45,7 +44,6 @@ import kotlin.time.Duration.Companion.seconds
 @ContributesIntoMap(AppScope::class, binding = binding<ViewModel>())
 class ExtensionsViewModel(
     private val preferences: SourcePreferences,
-    basePreferences: BasePreferences,
     private val extensionManager: ExtensionManager,
     private val getExtensions: GetExtensionsByType,
     private val context: Context,
@@ -113,14 +111,12 @@ class ExtensionsViewModel(
         searchQuery,
         isRefreshing,
         preferences.extensionUpdatesCount.changes(),
-        basePreferences.extensionInstaller.changes(),
-    ) { items, searchQuery, isRefreshing, updates, installer ->
+    ) { items, searchQuery, isRefreshing, updates ->
         State(
             isLoading = items == null,
             isRefreshing = isRefreshing,
             items = items.orEmpty(),
             updates = updates,
-            installer = installer,
             searchQuery = searchQuery,
         )
     }
@@ -234,7 +230,6 @@ class ExtensionsViewModel(
         val isRefreshing: Boolean = false,
         val items: ItemGroups = mutableMapOf(),
         val updates: Int = 0,
-        val installer: BasePreferences.ExtensionInstaller? = null,
         val searchQuery: String? = null,
     ) {
         val isEmpty = items.isEmpty()

@@ -1,11 +1,11 @@
 package app.hikari.domain.source.repository
 
 import androidx.paging.PagingSource
-import app.hikari.source.model.FilterList
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.source.model.Source
 import app.hikari.domain.source.model.SourceWithCount
+import app.hikari.source.model.FilterList
+import kotlinx.coroutines.flow.Flow
 
 typealias SourcePagingSource = PagingSource<Long, Manga>
 

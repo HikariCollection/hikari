@@ -12,8 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.profileinstaller.ProfileVerifier
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.FeatureFlags
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.Autorenew
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.settings.Preference
 import app.hikari.presentation.more.settings.PreferenceScaffold
 import app.hikari.presentation.more.settings.screen.about.AboutScreen
@@ -22,14 +26,10 @@ import app.hikari.presentation.util.rememberIs24HourSystem
 import app.hikari.util.system.DeviceUtil
 import app.hikari.util.system.WebViewUtil
 import app.hikari.util.system.copyToClipboard
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.launch
-import app.hikari.app.di.appGraph
-import app.hikari.core.common.FeatureFlags
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.Autorenew
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.util.collectAsState
 
 class DebugInfoScreen : Screen() {
 

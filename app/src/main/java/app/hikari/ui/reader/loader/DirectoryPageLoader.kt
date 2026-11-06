@@ -1,10 +1,10 @@
 package app.hikari.ui.reader.loader
 
-import com.hippo.unifile.UniFile
+import app.hikari.core.common.util.system.ImageUtil
 import app.hikari.source.model.Page
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.util.lang.compareToCaseInsensitiveNaturalOrder
-import app.hikari.core.common.util.system.ImageUtil
+import com.hippo.unifile.UniFile
 
 /**
  * Loader used to load a chapter from a directory given on [file].

@@ -8,19 +8,19 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import app.hikari.presentation.category.components.CategoryFloatingActionButton
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.more.settings.screen.browse.ExtensionStoreScreenState
 import app.hikari.domain.extension.model.ExtensionStore
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.Refresh
-import app.hikari.i18n.MR
+import app.hikari.presentation.category.components.CategoryFloatingActionButton
+import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.components.material.topSmallPaddingValues
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
 import app.hikari.presentation.core.util.plus
+import app.hikari.presentation.more.settings.screen.browse.ExtensionStoreScreenState
 
 @Composable
 fun ExtensionStoresScreen(

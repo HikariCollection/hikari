@@ -1,5 +1,7 @@
 package app.hikari.data.download.model
 
+import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.manga.model.Manga
 import app.hikari.source.model.Page
 import app.hikari.source.online.HttpSource
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,8 +11,6 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
-import app.hikari.domain.chapter.model.Chapter
-import app.hikari.domain.manga.model.Manga
 import kotlin.time.Duration.Companion.milliseconds
 
 data class Download(

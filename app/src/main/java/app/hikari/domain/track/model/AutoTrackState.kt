@@ -1,7 +1,7 @@
 package app.hikari.domain.track.model
 
-import dev.icerock.moko.resources.StringResource
 import app.hikari.i18n.MR
+import app.hikari.i18n.StringResource
 
 enum class AutoTrackState(val titleRes: StringResource) {
     ALWAYS(MR.strings.lock_always),

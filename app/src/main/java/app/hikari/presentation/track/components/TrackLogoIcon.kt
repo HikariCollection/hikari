@@ -10,9 +10,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.data.track.Tracker
 import app.hikari.presentation.core.util.clickableNoIndication
+import app.hikari.presentation.theme.HikariPreviewTheme
 
 @Composable
 fun TrackLogoIcon(

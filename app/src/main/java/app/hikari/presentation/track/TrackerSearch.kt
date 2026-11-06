@@ -65,18 +65,14 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import app.hikari.presentation.components.DropdownMenu
-import app.hikari.presentation.manga.components.MangaCover
-import app.hikari.presentation.theme.HikariPreviewTheme
 import app.hikari.data.track.model.TrackSearch
-import app.hikari.util.system.openInBrowser
-import kotlinx.coroutines.launch
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.ArrowBack
 import app.hikari.icons.materialsymbols.rounded.Close
 import app.hikari.icons.materialsymbols.roundedfilled.CheckCircle
 import app.hikari.icons.materialsymbols.roundedfilled.VisibilityOff
-import app.hikari.i18n.MR
+import app.hikari.presentation.components.DropdownMenu
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.components.material.padding
@@ -86,6 +82,10 @@ import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.plus
 import app.hikari.presentation.core.util.runOnEnterKeyPressed
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.presentation.manga.components.MangaCover
+import app.hikari.presentation.theme.HikariPreviewTheme
+import app.hikari.util.system.openInBrowser
+import kotlinx.coroutines.launch
 
 @Composable
 fun TrackerSearch(

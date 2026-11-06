@@ -33,6 +33,23 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import app.hikari.BuildConfig
+import app.hikari.core.common.util.system.logcat
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.automirroredrounded.ArrowBack
+import app.hikari.icons.materialsymbols.automirroredrounded.ArrowForward
+import app.hikari.icons.materialsymbols.rounded.Close
+import app.hikari.icons.materialsymbols.rounded.TabClose
+import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.components.AppBarActions
+import app.hikari.presentation.components.WarningBanner
+import app.hikari.presentation.core.components.material.Scaffold
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.util.system.getHtml
+import app.hikari.util.system.setDefaultSettings
+import app.hikari.util.system.setUserAgent
+import app.hikari.util.system.toast
 import cafe.adriel.voyager.core.stack.mutableStateStackOf
 import com.kevinnzou.web.AccompanistWebChromeClient
 import com.kevinnzou.web.AccompanistWebViewClient
@@ -41,25 +58,8 @@ import com.kevinnzou.web.WebContent
 import com.kevinnzou.web.WebView
 import com.kevinnzou.web.WebViewNavigator
 import com.kevinnzou.web.WebViewState
-import app.hikari.presentation.components.AppBar
-import app.hikari.presentation.components.AppBarActions
-import app.hikari.presentation.components.WarningBanner
-import app.hikari.BuildConfig
-import app.hikari.util.system.getHtml
-import app.hikari.util.system.setDefaultSettings
-import app.hikari.util.system.setUserAgent
-import app.hikari.util.system.toast
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.automirroredrounded.ArrowBack
-import app.hikari.icons.materialsymbols.automirroredrounded.ArrowForward
-import app.hikari.icons.materialsymbols.rounded.Close
-import app.hikari.icons.materialsymbols.rounded.TabClose
-import app.hikari.core.common.util.system.logcat
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.material.Scaffold
-import app.hikari.presentation.core.i18n.stringResource
 
 class WebViewWindow(webContent: WebContent, val navigator: WebViewNavigator) {
     var state by mutableStateOf(WebViewState(webContent))

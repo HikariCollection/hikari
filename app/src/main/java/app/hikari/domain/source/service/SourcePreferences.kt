@@ -1,18 +1,18 @@
 package app.hikari.domain.source.service
 
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import app.hikari.domain.source.interactor.SetMigrateSorting
-import app.hikari.util.system.LocaleHelper
-import app.hikari.domain.extension.model.ContentWarning
-import app.hikari.domain.migration.models.MigrationFlag
 import app.hikari.core.common.preference.Preference
 import app.hikari.core.common.preference.PreferenceStore
 import app.hikari.core.common.preference.getEnum
 import app.hikari.core.common.preference.getEnumSet
 import app.hikari.core.common.preference.getLongArray
+import app.hikari.domain.extension.model.ContentWarning
 import app.hikari.domain.library.model.LibraryDisplayMode
+import app.hikari.domain.migration.models.MigrationFlag
+import app.hikari.domain.source.interactor.SetMigrateSorting
+import app.hikari.util.system.LocaleHelper
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
 
 @Inject
 @SingleIn(AppScope::class)

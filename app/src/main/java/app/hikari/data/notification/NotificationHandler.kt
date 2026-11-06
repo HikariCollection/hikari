@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.core.net.toUri
+import app.hikari.core.common.Constants
 import app.hikari.extension.util.ExtensionInstaller
 import app.hikari.ui.main.MainActivity
-import app.hikari.core.common.Constants
 
 /**
  * Class that manages [PendingIntent] of activity's

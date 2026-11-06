@@ -1,10 +1,10 @@
 package app.hikari.data
 
 import app.cash.sqldelight.ColumnAdapter
-import app.hikari.source.model.UpdateStrategy
-import kotlinx.serialization.json.JsonObject
 import app.hikari.core.common.extensions.toByteArray
 import app.hikari.core.common.extensions.toJsonObject
+import app.hikari.source.model.UpdateStrategy
+import kotlinx.serialization.json.JsonObject
 import kotlin.time.Instant
 
 object InstantColumnAdapter : ColumnAdapter<Instant, Long> {

@@ -1,10 +1,10 @@
 package app.hikari.domain.download.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.data.download.DownloadManager
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.source.service.SourceManager
+import dev.zacsweers.metro.Inject
 
 @Inject
 class DeleteDownload(

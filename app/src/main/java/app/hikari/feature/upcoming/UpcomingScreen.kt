@@ -18,22 +18,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import dev.zacsweers.metrox.viewmodel.metroViewModel
+import app.hikari.core.common.preference.TriState
+import app.hikari.i18n.MR
 import app.hikari.presentation.category.visualName
 import app.hikari.presentation.components.TabbedDialog
 import app.hikari.presentation.components.TabbedDialogPaddings
-import app.hikari.presentation.util.Screen
-import app.hikari.ui.manga.MangaScreen
-import app.hikari.core.common.preference.TriState
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.SettingsItemsPaddings
 import app.hikari.presentation.core.components.TriStateItem
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.util.Screen
+import app.hikari.ui.manga.MangaScreen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import dev.zacsweers.metrox.viewmodel.metroViewModel
 
 class UpcomingScreen : Screen() {
 

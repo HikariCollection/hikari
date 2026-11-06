@@ -1,10 +1,10 @@
 package app.hikari.data.coil
 
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.manga.model.MangaCover
 import coil3.intercept.Interceptor
 import coil3.request.ImageResult
 import coil3.request.SuccessResult
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.manga.model.MangaCover
 
 /**
  * De-duplicates concurrent requests for the same cover at the same size. Lists like updates show an entry's cover on

@@ -3,15 +3,16 @@ package app.hikari.ui.browse.source
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.hikari.domain.source.interactor.GetLanguagesWithSources
+import app.hikari.domain.source.interactor.ToggleLanguage
+import app.hikari.domain.source.interactor.ToggleSource
+import app.hikari.domain.source.model.Source
+import app.hikari.domain.source.service.SourcePreferences
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.binding
 import dev.zacsweers.metrox.viewmodel.ViewModelKey
-import app.hikari.domain.source.interactor.GetLanguagesWithSources
-import app.hikari.domain.source.interactor.ToggleLanguage
-import app.hikari.domain.source.interactor.ToggleSource
-import app.hikari.domain.source.service.SourcePreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
-import app.hikari.domain.source.model.Source
 import java.util.SortedMap
 import kotlin.time.Duration.Companion.seconds
 

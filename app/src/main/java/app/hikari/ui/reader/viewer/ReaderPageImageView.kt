@@ -22,6 +22,12 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.os.postDelayed
 import androidx.core.view.isVisible
+import app.hikari.data.coil.ImageDecoder
+import app.hikari.data.coil.cropBorders
+import app.hikari.data.coil.webtoonStrips
+import app.hikari.ui.reader.viewer.webtoon.WebtoonStripImageView
+import app.hikari.util.system.animatorDurationScale
+import app.hikari.util.view.isVisibleOnScreen
 import coil3.asDrawable
 import coil3.dispose
 import coil3.imageLoader
@@ -37,12 +43,6 @@ import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.EASE_IN_OUT
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.EASE_OUT_QUAD
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView.SCALE_TYPE_CENTER_INSIDE
 import com.github.chrisbanes.photoview.PhotoView
-import app.hikari.data.coil.ImageDecoder
-import app.hikari.data.coil.cropBorders
-import app.hikari.data.coil.webtoonStrips
-import app.hikari.ui.reader.viewer.webtoon.WebtoonStripImageView
-import app.hikari.util.system.animatorDurationScale
-import app.hikari.util.view.isVisibleOnScreen
 import okio.BufferedSource
 
 /**

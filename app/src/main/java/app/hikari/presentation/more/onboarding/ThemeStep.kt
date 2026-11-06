@@ -5,11 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import app.hikari.app.di.appGraph
 import app.hikari.domain.ui.model.setAppCompatDelegateThemeMode
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.settings.widget.AppThemeModePreferenceWidget
 import app.hikari.presentation.more.settings.widget.AppThemePreferenceWidget
-import app.hikari.app.di.appGraph
-import app.hikari.presentation.core.util.collectAsState
 
 internal class ThemeStep : OnboardingStep {
 

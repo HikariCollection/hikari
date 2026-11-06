@@ -1,8 +1,8 @@
 package app.hikari.domain.chapter.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.repository.ChapterRepository
+import dev.zacsweers.metro.Inject
 
 @Inject
 class GetChapterByUrlAndMangaId(

@@ -22,20 +22,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEachIndexed
-import app.hikari.presentation.category.visualName
-import app.hikari.presentation.components.TabbedDialog
-import app.hikari.presentation.components.TabbedDialogPaddings
-import app.hikari.ui.updates.UpdatesSettingsViewModel
 import app.hikari.core.common.preference.TriState
 import app.hikari.core.common.preference.getAndSet
 import app.hikari.domain.updates.service.UpdatesPreferences
 import app.hikari.i18n.MR
+import app.hikari.presentation.category.visualName
+import app.hikari.presentation.components.TabbedDialog
+import app.hikari.presentation.components.TabbedDialogPaddings
 import app.hikari.presentation.core.components.SettingsItemsPaddings
 import app.hikari.presentation.core.components.TriStateItem
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.updates.UpdatesSettingsViewModel
 
 @Composable
 fun UpdatesFilterDialog(

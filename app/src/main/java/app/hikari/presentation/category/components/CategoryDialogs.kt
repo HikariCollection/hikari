@@ -25,11 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import app.hikari.core.preference.asToggleableState
-import app.hikari.presentation.category.visualName
 import app.hikari.core.common.preference.CheckboxState
+import app.hikari.core.preference.asToggleableState
 import app.hikari.domain.category.model.Category
 import app.hikari.i18n.MR
+import app.hikari.presentation.category.visualName
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
 

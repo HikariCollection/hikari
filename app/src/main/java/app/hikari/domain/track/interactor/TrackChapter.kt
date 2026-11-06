@@ -1,19 +1,19 @@
 package app.hikari.domain.track.interactor
 
 import android.content.Context
-import dev.zacsweers.metro.Inject
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.track.TrackerManager
+import app.hikari.domain.track.interactor.GetTracks
+import app.hikari.domain.track.interactor.UpsertTrack
 import app.hikari.domain.track.model.toDbTrack
 import app.hikari.domain.track.model.toDomainTrack
 import app.hikari.domain.track.service.DelayedTrackingUpdateWorker
 import app.hikari.domain.track.store.DelayedTrackingStore
-import app.hikari.data.track.TrackerManager
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import logcat.LogPriority
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.track.interactor.GetTracks
-import app.hikari.domain.track.interactor.UpsertTrack
 
 @Inject
 class TrackChapter(

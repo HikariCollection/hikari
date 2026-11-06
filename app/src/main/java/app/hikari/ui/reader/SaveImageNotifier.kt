@@ -4,20 +4,20 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.core.app.NotificationCompat
-import coil3.asDrawable
-import coil3.imageLoader
-import coil3.request.CachePolicy
-import coil3.request.ImageRequest
 import app.hikari.R
+import app.hikari.core.common.i18n.stringResource
 import app.hikari.data.notification.NotificationHandler
 import app.hikari.data.notification.NotificationReceiver
 import app.hikari.data.notification.Notifications
+import app.hikari.i18n.MR
 import app.hikari.util.system.cancelNotification
 import app.hikari.util.system.getBitmapOrNull
 import app.hikari.util.system.notificationBuilder
 import app.hikari.util.system.notify
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
+import coil3.asDrawable
+import coil3.imageLoader
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
 import app.hikari.icons.materialsymbols.R as MaterialSymbolsR
 
 /**

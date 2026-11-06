@@ -2,17 +2,17 @@ package app.hikari.data.updates
 
 import app.cash.sqldelight.Query
 import app.cash.sqldelight.async.coroutines.awaitAsList
-import dev.zacsweers.metro.AppScope
-import dev.zacsweers.metro.ContributesBinding
-import dev.zacsweers.metro.Inject
-import dev.zacsweers.metro.SingleIn
-import kotlinx.coroutines.flow.Flow
 import app.hikari.core.common.util.lang.toLong
 import app.hikari.data.Database
 import app.hikari.data.subscribeToList
 import app.hikari.domain.manga.model.MangaCover
 import app.hikari.domain.updates.model.UpdatesWithRelations
 import app.hikari.domain.updates.repository.UpdatesRepository
+import dev.zacsweers.metro.AppScope
+import dev.zacsweers.metro.ContributesBinding
+import dev.zacsweers.metro.Inject
+import dev.zacsweers.metro.SingleIn
+import kotlinx.coroutines.flow.Flow
 import kotlin.time.Instant
 
 @Inject

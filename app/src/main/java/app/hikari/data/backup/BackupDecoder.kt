@@ -2,9 +2,11 @@ package app.hikari.data.backup
 
 import android.content.Context
 import android.net.Uri
-import dev.zacsweers.metro.Inject
+import app.hikari.core.common.i18n.stringResource
 import app.hikari.data.backup.models.Backup
 import app.hikari.data.backup.models.BackupManga
+import app.hikari.i18n.MR
+import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.DeserializationStrategy
@@ -13,8 +15,6 @@ import okio.BufferedSource
 import okio.buffer
 import okio.gzip
 import okio.source
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.i18n.MR
 import java.io.IOException
 
 @Inject

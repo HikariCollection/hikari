@@ -37,9 +37,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.core.net.toUri
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
-import com.hippo.unifile.UniFile
+import app.hikari.app.di.appGraph
+import app.hikari.core.common.i18n.stringResource
+import app.hikari.core.common.storage.displayablePath
+import app.hikari.core.common.util.system.logcat
+import app.hikari.data.backup.create.BackupCreateWorker
+import app.hikari.data.backup.restore.BackupRestoreWorker
+import app.hikari.data.export.LibraryExporter
+import app.hikari.data.export.LibraryExporter.ExportOptions
+import app.hikari.domain.backup.service.BackupPreferences
+import app.hikari.domain.manga.model.Manga
+import app.hikari.domain.storage.service.StoragePreferences
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.automirroredrounded.Help
+import app.hikari.presentation.core.components.material.TextButton
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.settings.Preference
 import app.hikari.presentation.more.settings.screen.data.CreateBackupScreen
 import app.hikari.presentation.more.settings.screen.data.RestoreBackupScreen
@@ -47,35 +61,21 @@ import app.hikari.presentation.more.settings.screen.data.StorageInfo
 import app.hikari.presentation.more.settings.widget.BasePreferenceWidget
 import app.hikari.presentation.more.settings.widget.PrefsHorizontalPadding
 import app.hikari.presentation.util.relativeTimeSpanString
-import app.hikari.data.backup.create.BackupCreateWorker
-import app.hikari.data.backup.restore.BackupRestoreWorker
-import app.hikari.data.export.LibraryExporter
-import app.hikari.data.export.LibraryExporter.ExportOptions
 import app.hikari.util.system.DeviceUtil
 import app.hikari.util.system.toast
 import app.hikari.util.system.workManager
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
+import com.hippo.unifile.UniFile
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import logcat.LogPriority
-import app.hikari.app.di.appGraph
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.automirroredrounded.Help
-import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.common.storage.displayablePath
-import app.hikari.core.common.util.system.logcat
-import app.hikari.domain.backup.service.BackupPreferences
-import app.hikari.domain.manga.model.Manga
-import app.hikari.domain.storage.service.StoragePreferences
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.material.TextButton
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.util.collectAsState
 
 object SettingsDataScreen : SearchableSettings {
 
     val restorePreferenceKeyString = MR.strings.label_backup
-    const val HELP_URL = ""
+    const val HELP_URL = "https://github.com/HikariCollection/hikari"
 
     @ReadOnlyComposable
     @Composable
@@ -375,7 +375,7 @@ object SettingsDataScreen : SearchableSettings {
                 options = exportOptions,
                 onConfirm = { options ->
                     exportOptions = options
-                    saveFileLauncher.launch("mihon_library.csv")
+                    saveFileLauncher.launch("hikari_library.csv")
                 },
                 onDismissRequest = { showDialog = false },
             )

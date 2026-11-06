@@ -19,17 +19,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.hikari.domain.source.interactor.SetMigrateSorting
-import app.hikari.presentation.browse.components.BaseSourceItem
-import app.hikari.presentation.browse.components.SourceIcon
-import app.hikari.ui.browse.migration.sources.MigrateSourceViewModel
-import app.hikari.util.system.copyToClipboard
+import app.hikari.domain.source.model.Source
+import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.ArrowDownward
 import app.hikari.icons.materialsymbols.rounded.ArrowUpward
 import app.hikari.icons.materialsymbols.rounded.Numbers
 import app.hikari.icons.materialsymbols.rounded.SortByAlpha
-import app.hikari.domain.source.model.Source
-import app.hikari.i18n.MR
+import app.hikari.presentation.browse.components.BaseSourceItem
+import app.hikari.presentation.browse.components.SourceIcon
 import app.hikari.presentation.core.components.Badge
 import app.hikari.presentation.core.components.BadgeGroup
 import app.hikari.presentation.core.components.ScrollbarLazyColumn
@@ -42,6 +40,8 @@ import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.theme.header
 import app.hikari.presentation.core.util.plus
 import app.hikari.presentation.core.util.secondaryItemAlpha
+import app.hikari.ui.browse.migration.sources.MigrateSourceViewModel
+import app.hikari.util.system.copyToClipboard
 
 @Composable
 fun MigrateSourceScreen(

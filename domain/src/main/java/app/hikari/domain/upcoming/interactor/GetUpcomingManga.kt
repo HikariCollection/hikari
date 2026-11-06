@@ -1,10 +1,10 @@
 package app.hikari.domain.upcoming.interactor
 
-import dev.zacsweers.metro.Inject
-import app.hikari.source.model.SManga
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.repository.MangaRepository
+import app.hikari.source.model.SManga
+import dev.zacsweers.metro.Inject
+import kotlinx.coroutines.flow.Flow
 
 @Inject
 class GetUpcomingManga(

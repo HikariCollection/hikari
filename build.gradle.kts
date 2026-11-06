@@ -7,14 +7,12 @@ buildscript {
 plugins {
     alias(libs.plugins.aboutLibraries) apply false
     alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.android.kmp.library) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.test) apply false
     alias(libs.plugins.androidx.baselineProfile) apply false
     alias(libs.plugins.kotlin.compose.compiler) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.metro) apply false
-    alias(libs.plugins.moko.resources) apply false
     alias(libs.plugins.sqldelight) apply false
 
     alias(hikarix.plugins.spotless)

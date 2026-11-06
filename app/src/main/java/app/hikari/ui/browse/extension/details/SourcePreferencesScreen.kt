@@ -45,9 +45,14 @@ import androidx.preference.PreferenceScreen
 import androidx.preference.TwoStatePreference
 import androidx.preference.getOnBindEditTextListener
 import androidx.preference.setOnStateChangeListener
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
+import app.hikari.app.di.appGraph
+import app.hikari.data.preference.SharedPreferencesDataStore
+import app.hikari.i18n.MR
 import app.hikari.presentation.components.AppBar
+import app.hikari.presentation.core.components.ScrollbarLazyColumn
+import app.hikari.presentation.core.components.material.Scaffold
+import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.more.settings.widget.CheckboxPreferenceWidget
 import app.hikari.presentation.more.settings.widget.ListPreferenceDialog
 import app.hikari.presentation.more.settings.widget.MultiSelectListPreferenceDialog
@@ -56,19 +61,14 @@ import app.hikari.presentation.more.settings.widget.PreferenceGroupHeader
 import app.hikari.presentation.more.settings.widget.SwitchPreferenceWidget
 import app.hikari.presentation.more.settings.widget.TextPreferenceWidget
 import app.hikari.presentation.util.Screen
-import app.hikari.data.preference.SharedPreferencesDataStore
 import app.hikari.source.ConfigurableSource
 import app.hikari.source.Source
 import app.hikari.source.sourcePreferences
 import app.hikari.util.view.setIncognito
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import app.hikari.app.di.appGraph
-import app.hikari.i18n.MR
-import app.hikari.presentation.core.components.ScrollbarLazyColumn
-import app.hikari.presentation.core.components.material.Scaffold
-import app.hikari.presentation.core.i18n.stringResource
-import app.hikari.presentation.core.screens.LoadingScreen
 
 class SourcePreferencesScreen(val sourceId: Long) : Screen() {
 

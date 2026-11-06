@@ -1,8 +1,8 @@
 package app.hikari.domain.history.interactor
 
-import dev.zacsweers.metro.Inject
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.repository.HistoryRepository
+import dev.zacsweers.metro.Inject
 
 @Inject
 class UpsertHistory(

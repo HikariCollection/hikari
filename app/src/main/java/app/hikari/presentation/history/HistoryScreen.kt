@@ -13,22 +13,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import app.hikari.app.di.appGraph
+import app.hikari.domain.history.model.HistoryWithRelations
 import app.hikari.domain.ui.UiPreferences
+import app.hikari.i18n.MR
+import app.hikari.icons.materialsymbols.MaterialSymbols
+import app.hikari.icons.materialsymbols.rounded.DeleteSweep
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.components.AppBarTitle
 import app.hikari.presentation.components.SearchToolbar
 import app.hikari.presentation.components.relativeDateText
-import app.hikari.presentation.history.components.HistoryItem
-import app.hikari.presentation.theme.HikariPreviewTheme
-import app.hikari.presentation.util.rememberIs24HourSystem
-import app.hikari.ui.history.HistoryViewModel
-import kotlinx.datetime.LocalDate
-import app.hikari.app.di.appGraph
-import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.DeleteSweep
-import app.hikari.domain.history.model.HistoryWithRelations
-import app.hikari.i18n.MR
 import app.hikari.presentation.core.components.FastScrollLazyColumn
 import app.hikari.presentation.core.components.ListGroupHeader
 import app.hikari.presentation.core.components.material.Scaffold
@@ -36,6 +31,11 @@ import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.screens.EmptyScreen
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.history.components.HistoryItem
+import app.hikari.presentation.theme.HikariPreviewTheme
+import app.hikari.presentation.util.rememberIs24HourSystem
+import app.hikari.ui.history.HistoryViewModel
+import kotlinx.datetime.LocalDate
 
 @Composable
 fun HistoryScreen(

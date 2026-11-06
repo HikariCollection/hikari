@@ -33,11 +33,11 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.reader.components.ChapterNavigator
 import app.hikari.presentation.reader.components.ChapterNavigatorType
 import app.hikari.ui.reader.setting.ReaderOrientation
 import app.hikari.ui.reader.setting.ReadingMode
-import app.hikari.presentation.core.components.material.padding
 
 private val readerBarsSlideAnimationSpec = tween<IntOffset>(200)
 private val readerBarsFadeAnimationSpec = tween<Float>(150)

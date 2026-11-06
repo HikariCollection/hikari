@@ -2,12 +2,12 @@ package app.hikari.app.di.injekt
 
 import android.app.Application
 import android.content.Context
+import app.hikari.app.di.AppGraph
+import app.hikari.core.metro.GraphProvider
 import app.hikari.network.JavaScriptEngine
 import app.hikari.network.NetworkHelper
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.protobuf.ProtoBuf
-import app.hikari.app.di.AppGraph
-import app.hikari.core.metro.GraphProvider
 import nl.adaptivity.xmlutil.serialization.XML
 import uy.kohesive.injekt.api.InjektModule
 import uy.kohesive.injekt.api.InjektRegistrar
@@ -93,8 +93,8 @@ class MetroInjektRegistrar(
 
     override fun importModule(submodule: InjektModule) = readOnly()
 
-    private fun readOnly(): Nothing = throw UnsupportedOperationException("Mihon's Injekt instance is read-only")
+    private fun readOnly(): Nothing = throw UnsupportedOperationException("Hikari's Injekt instance is read-only")
 
     private fun unsupported(feature: String): Nothing =
-        throw UnsupportedOperationException("$feature is not supported by Mihon's Injekt instance")
+        throw UnsupportedOperationException("$feature is not supported by Hikari's Injekt instance")
 }

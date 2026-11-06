@@ -1,10 +1,10 @@
 package app.hikari.domain.backup.service
 
+import app.hikari.core.common.preference.Preference
+import app.hikari.core.common.preference.PreferenceStore
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
-import app.hikari.core.common.preference.Preference
-import app.hikari.core.common.preference.PreferenceStore
 
 @Inject
 @SingleIn(AppScope::class)

@@ -43,14 +43,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.util.clearFocusOnSoftKeyboardHide
 import app.hikari.presentation.core.util.clickableNoIndication
 import app.hikari.presentation.core.util.showSoftKeyboard
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 @Composable

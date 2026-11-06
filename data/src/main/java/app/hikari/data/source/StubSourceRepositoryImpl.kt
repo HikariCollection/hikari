@@ -1,15 +1,15 @@
 package app.hikari.data.source
 
 import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
+import app.hikari.data.Database
+import app.hikari.data.subscribeToList
+import app.hikari.domain.source.model.StubSource
+import app.hikari.domain.source.repository.StubSourceRepository
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
-import app.hikari.data.Database
-import app.hikari.data.subscribeToList
-import app.hikari.domain.source.model.StubSource
-import app.hikari.domain.source.repository.StubSourceRepository
 
 @Inject
 @SingleIn(AppScope::class)

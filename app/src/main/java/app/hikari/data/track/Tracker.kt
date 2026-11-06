@@ -2,9 +2,9 @@ package app.hikari.data.track
 
 import androidx.annotation.CallSuper
 import androidx.annotation.DrawableRes
-import dev.icerock.moko.resources.StringResource
 import app.hikari.data.database.models.Track
 import app.hikari.data.track.model.TrackSearch
+import app.hikari.i18n.StringResource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow

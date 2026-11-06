@@ -1,11 +1,11 @@
-import com.android.build.api.variant.ApplicationVariant
-import com.android.build.api.variant.BuildConfigField
 import app.hikari.gradle.Config
 import app.hikari.gradle.getCurrentTime
 import app.hikari.gradle.getLatestCommitCount
 import app.hikari.gradle.getLatestCommitSha
 import app.hikari.gradle.getLatestCommitTime
 import app.hikari.gradle.tasks.ReplaceShortcutsPlaceholderTask
+import com.android.build.api.variant.ApplicationVariant
+import com.android.build.api.variant.BuildConfigField
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -22,6 +22,7 @@ plugins {
 }
 
 val keystorePropertiesFile = layout.settingsDirectory.file("keystore.properties").asFile
+val hasReleaseSigning = System.getenv("HIKARI_GITHUB_RELEASE").toBoolean() || keystorePropertiesFile.exists()
 
 android {
     namespace = "app.hikari"
@@ -38,21 +39,18 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    if (System.getenv("MIHON_GITHUB_RELEASE").toBoolean()) {
-        signingConfigs {
-            named("debug") {
-                storeFile = file(System.getenv("storeFile"))
+    signingConfigs {
+        create("release") {
+            if (System.getenv("HIKARI_GITHUB_RELEASE").toBoolean()) {
+                val storeFilePath = System.getenv("storeFile") ?: "release.jks"
+                storeFile = layout.settingsDirectory.file(storeFilePath).asFile
                 storePassword = System.getenv("storePassword")
                 keyAlias = System.getenv("keyAlias")
                 keyPassword = System.getenv("keyPassword")
-            }
-        }
-    } else if (keystorePropertiesFile.exists()) {
-        val keystoreProperties = FileInputStream(keystorePropertiesFile).use { Properties().apply { load(it) } }
-
-        signingConfigs {
-            named("debug") {
-                storeFile = file(keystoreProperties.getProperty("storeFile"))
+            } else if (keystorePropertiesFile.exists()) {
+                val keystoreProperties = FileInputStream(keystorePropertiesFile).use { Properties().apply { load(it) } }
+                val storeFilePath = keystoreProperties.getProperty("storeFile") ?: "release.jks"
+                storeFile = layout.settingsDirectory.file(storeFilePath).asFile
                 storePassword = keystoreProperties.getProperty("storePassword")
                 keyAlias = keystoreProperties.getProperty("keyAlias")
                 keyPassword = keystoreProperties.getProperty("keyPassword")
@@ -69,7 +67,9 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
 
-            signingConfig = debug.signingConfig
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
 
             isProfileable = true
 
@@ -152,7 +152,6 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
-        aidl = true
     }
 
     lint {
@@ -198,6 +197,7 @@ dependencies {
     implementation(projects.coreMetadata)
     implementation(projects.sourceApi)
     implementation(projects.sourceLocal)
+    implementation(projects.sourceBuiltin)
     implementation(projects.data)
     implementation(projects.domain)
     implementation(projects.presentationCore)
@@ -296,9 +296,6 @@ dependencies {
     // Logging
     implementation(libs.logcat)
 
-    // Shizuku
-    implementation(libs.bundles.shizuku)
-
     // String similarity
     implementation(libs.stringSimilarity)
 
@@ -331,59 +328,6 @@ apollo {
 
         // ISO 3166-1 alpha-2 country code
         mapScalarToKotlinString("CountryCode")
-    }
-
-    service("kitsu") {
-        packageName.set("app.hikari.graphql.kitsu")
-        val srcDir = "$schemaBasePath/kitsu"
-        srcDir(file(srcDir))
-        android.defaultConfig.versionCode
-
-        introspection {
-            // Kitsu doesn't like requests without a UA
-            headers.put(
-                "User-Agent",
-                "Hikari v${android.defaultConfig.versionName} (${android.defaultConfig.applicationId})",
-            )
-            endpointUrl.set("https://kitsu.app/api/graphql")
-            schemaFile.set(file("$srcDir/kitsu.graphqls"))
-        }
-
-        // A date, expressed as an ISO8601 string
-        mapScalarToKotlinString("Date")
-        // An ISO 8601-encoded datetime
-        mapScalar("ISO8601DateTime", "kotlin.time.Instant", "com.apollographql.adapter.core.KotlinInstantAdapter")
-        // A loose key-value map in GraphQL
-        mapScalar(
-            "Map",
-            "kotlin.collections.Map<String, Any?>",
-            "app.hikari.graphql.kitsu.adapter.KitsuMapAdapter",
-        )
-    }
-
-    service("shikimori") {
-        packageName.set("app.hikari.graphql.shikimori")
-        val srcDir = "$schemaBasePath/shikimori"
-        srcDir(file(srcDir))
-
-        introspection {
-            endpointUrl.set("https://shikimori.io/api/graphql")
-            schemaFile.set(file("$srcDir/shikimori.graphqls"))
-        }
-
-        // An ISO 8601-encoded date
-        mapScalarToKotlinString("ISO8601Date")
-    }
-
-    service("suwayomi") {
-        packageName.set("app.hikari.graphql.suwayomi")
-        val srcDir = "$schemaBasePath/suwayomi"
-        srcDir(file(srcDir))
-
-        introspection {
-            endpointUrl.set("http://localhost:4567/api/graphql")
-            schemaFile.set(file("$srcDir/suwayomi.graphqls"))
-        }
     }
 }
 

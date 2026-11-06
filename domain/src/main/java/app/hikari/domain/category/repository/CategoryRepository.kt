@@ -1,8 +1,8 @@
 package app.hikari.domain.category.repository
 
-import kotlinx.coroutines.flow.Flow
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.category.model.NewCategory
+import kotlinx.coroutines.flow.Flow
 
 interface CategoryRepository {
 
