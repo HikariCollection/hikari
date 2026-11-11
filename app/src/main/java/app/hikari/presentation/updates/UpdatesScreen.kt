@@ -22,7 +22,6 @@ import androidx.compose.ui.util.fastAny
 import app.hikari.data.download.model.Download
 import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
-import app.hikari.icons.materialsymbols.rounded.CalendarMonth
 import app.hikari.icons.materialsymbols.rounded.FilterList
 import app.hikari.icons.materialsymbols.rounded.FlipToBack
 import app.hikari.icons.materialsymbols.rounded.Refresh
@@ -53,7 +52,6 @@ fun UpdateScreen(
     onClickCover: (UpdatesItem) -> Unit,
     onSelectAll: (Boolean) -> Unit,
     onInvertSelection: () -> Unit,
-    onCalendarClicked: () -> Unit,
     onUpdateLibrary: suspend () -> Boolean,
     onDownloadChapter: (List<UpdatesItem>, ChapterDownloadAction) -> Unit,
     onMultiBookmarkClicked: (List<UpdatesItem>, bookmark: Boolean) -> Unit,
@@ -73,7 +71,6 @@ fun UpdateScreen(
     Scaffold(
         topBar = { scrollBehavior ->
             UpdatesAppBar(
-                onCalendarClicked = { onCalendarClicked() },
                 onUpdateLibrary = { scope.launch { onUpdateLibrary() } },
                 onFilterClicked = { onFilterClicked() },
                 hasFilters = hasActiveFilters,
@@ -154,7 +151,6 @@ fun UpdateScreen(
 
 @Composable
 private fun UpdatesAppBar(
-    onCalendarClicked: () -> Unit,
     onUpdateLibrary: () -> Unit,
     onFilterClicked: () -> Unit,
     hasFilters: Boolean,
@@ -177,11 +173,6 @@ private fun UpdatesAppBar(
                         icon = MaterialSymbols.Rounded.FilterList,
                         iconTint = if (hasFilters) MaterialTheme.colorScheme.active else LocalContentColor.current,
                         onClick = onFilterClicked,
-                    ),
-                    AppBar.Action(
-                        title = stringResource(MR.strings.action_view_upcoming),
-                        icon = MaterialSymbols.Rounded.CalendarMonth,
-                        onClick = onCalendarClicked,
                     ),
                     AppBar.Action(
                         title = stringResource(MR.strings.action_update_library),

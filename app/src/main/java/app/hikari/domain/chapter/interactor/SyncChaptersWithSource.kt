@@ -21,9 +21,6 @@ import app.hikari.source.local.isLocal
 import app.hikari.source.model.SChapter
 import app.hikari.source.online.HttpSource
 import dev.zacsweers.metro.Inject
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import java.lang.Long.max
 import java.util.TreeSet
 import kotlin.time.Clock
@@ -54,15 +51,12 @@ class SyncChaptersWithSource(
         manga: Manga,
         source: Source,
         manualFetch: Boolean = false,
-        fetchWindow: ClosedRange<Instant>? = null,
     ): List<Chapter> {
         if (rawSourceChapters.isEmpty() && !source.isLocal()) {
             throw NoChaptersException()
         }
 
-        val timeZone = TimeZone.currentSystemDefault()
-        val now = Clock.System.now().toLocalDateTime(timeZone)
-        val nowInstant = now.toInstant(timeZone)
+        val nowInstant = Clock.System.now()
 
         val sourceChapters = rawSourceChapters
             .distinctBy { it.url }
@@ -155,16 +149,6 @@ class SyncChaptersWithSource(
 
         // Return if there's nothing to add, delete, or update to avoid unnecessary db transactions.
         if (newChapters.isEmpty() && removedChapters.isEmpty() && updatedChapters.isEmpty()) {
-            val isNextUpdateBeforeWindow = fetchWindow != null &&
-                manga.nextUpdate.let { it == null || it < fetchWindow.start }
-            if (manualFetch || manga.fetchInterval == 0 || isNextUpdateBeforeWindow) {
-                updateManga.awaitUpdateFetchInterval(
-                    manga,
-                    timeZone,
-                    now,
-                    fetchWindow,
-                )
-            }
             return emptyList()
         }
 
@@ -228,16 +212,9 @@ class SyncChaptersWithSource(
 
         val excludedScanlators = getExcludedScanlators.await(manga.id).toHashSet()
 
-        // A first fetch lists the back catalogue, and chapters coming back under a deleted number were out already
-        val foundRelease = dbChapters.isNotEmpty() &&
-            toAdd.any { chapter ->
-                chapter.scanlator !in excludedScanlators &&
-                    !(chapter.isRecognizedNumber && chapter.chapterNumber in deletedChapterNumbers)
-            }
-
         // Set this manga as updated since chapters were changed
         // Note that last_update actually represents last time the chapter list changed at all
-        updateManga.awaitUpdateFetchIntervalAndLastUpdate(manga, timeZone, now, fetchWindow, foundRelease)
+        updateManga.awaitUpdateLastUpdate(manga.id, nowInstant)
 
         return added.filterNot { it.url in changedOrDuplicateReadUrls || it.scanlator in excludedScanlators }
     }

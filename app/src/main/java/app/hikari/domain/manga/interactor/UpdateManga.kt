@@ -1,20 +1,14 @@
 package app.hikari.domain.manga.interactor
 
-import app.hikari.domain.manga.interactor.FetchInterval
-import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.repository.MangaRepository
 import dev.zacsweers.metro.Inject
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 import kotlin.time.Instant
 
 @Inject
 class UpdateManga(
     private val mangaRepository: MangaRepository,
-    private val fetchInterval: FetchInterval,
 ) {
 
     suspend fun await(mangaUpdate: MangaUpdate): Boolean {
@@ -25,30 +19,10 @@ class UpdateManga(
         return mangaRepository.updateAll(mangaUpdates)
     }
 
-    suspend fun awaitUpdateFetchInterval(
-        manga: Manga,
-        timeZone: TimeZone = TimeZone.currentSystemDefault(),
-        dateTime: LocalDateTime = Clock.System.now().toLocalDateTime(timeZone),
-        window: ClosedRange<Instant>? = fetchInterval.getWindow(dateTime.date, timeZone),
-    ): Boolean {
+    suspend fun awaitUpdateLastUpdate(mangaId: Long, lastUpdate: Instant = Clock.System.now()): Boolean {
         return mangaRepository.update(
-            fetchInterval.withFetchInterval(manga, dateTime, timeZone, window),
-        )
-    }
-
-    /**
-     * Updates the fetch interval and marks the chapter list as changed in a single write.
-     */
-    suspend fun awaitUpdateFetchIntervalAndLastUpdate(
-        manga: Manga,
-        timeZone: TimeZone,
-        dateTime: LocalDateTime,
-        window: ClosedRange<Instant>?,
-        foundRelease: Boolean,
-    ): Boolean {
-        return mangaRepository.update(
-            fetchInterval.withFetchInterval(manga, dateTime, timeZone, window, foundRelease).apply {
-                lastUpdate = Clock.System.now()
+            MangaUpdate(mangaId) {
+                this.lastUpdate = lastUpdate
             },
         )
     }

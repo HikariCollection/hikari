@@ -39,8 +39,6 @@ import app.hikari.domain.library.service.LibraryPreferences.Companion.DEVICE_ONL
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_HAS_UNREAD
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_NON_COMPLETED
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_NON_READ
-import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_OUTSIDE_RELEASE_PERIOD
-import app.hikari.domain.manga.interactor.FetchInterval
 import app.hikari.domain.manga.interactor.GetLibraryManga
 import app.hikari.domain.manga.interactor.GetManga
 import app.hikari.domain.manga.model.Manga
@@ -67,8 +65,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import logcat.LogPriority
 import java.io.File
 import java.util.concurrent.CopyOnWriteArrayList
@@ -78,7 +74,6 @@ import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.incrementAndFetch
 import kotlin.time.Clock
-import kotlin.time.Instant
 
 @OptIn(ExperimentalAtomicApi::class)
 class LibraryUpdateWorker(private val context: Context, workerParams: WorkerParameters) :
@@ -95,8 +90,6 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
     @Inject private lateinit var getLibraryManga: GetLibraryManga
 
     @Inject private lateinit var getManga: GetManga
-
-    @Inject private lateinit var fetchInterval: FetchInterval
 
     @Inject private lateinit var filterChaptersForDownload: FilterChaptersForDownload
 
@@ -183,11 +176,6 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
 
         val restrictions = libraryPreferences.autoUpdateMangaRestrictions.get()
         val skippedUpdates = mutableListOf<Pair<Manga, String?>>()
-        val timeZone = TimeZone.currentSystemDefault()
-        val fetchWindowUpperBound = fetchInterval.getWindow(
-            Clock.System.now().toLocalDateTime(timeZone).date,
-            timeZone,
-        ).endInclusive
 
         mangaToUpdate = listToUpdate
             .filter {
@@ -211,14 +199,6 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
 
                     MANGA_NON_READ in restrictions && it.totalChapters > 0L && !it.hasStarted -> {
                         skippedUpdates.add(it.manga to context.stringResource(MR.strings.skipped_reason_not_started))
-                        false
-                    }
-
-                    MANGA_OUTSIDE_RELEASE_PERIOD in restrictions &&
-                        it.manga.nextUpdate.let { next -> next != null && next > fetchWindowUpperBound } -> {
-                        skippedUpdates.add(
-                            it.manga to context.stringResource(MR.strings.skipped_reason_not_in_release_period),
-                        )
                         false
                     }
 
@@ -255,8 +235,6 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
         val newUpdates = CopyOnWriteArrayList<Pair<Manga, Array<Chapter>>>()
         val failedUpdates = CopyOnWriteArrayList<Pair<Manga, String?>>()
         val hasDownloads = AtomicBoolean(false)
-        val timeZone = TimeZone.currentSystemDefault()
-        val fetchWindow = fetchInterval.getWindow(Clock.System.now().toLocalDateTime(timeZone).date, timeZone)
 
         coroutineScope {
             mangaToUpdate.groupBy { it.manga.source }.values
@@ -279,7 +257,7 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
                                     manga,
                                 ) {
                                     try {
-                                        val newChapters = updateManga(manga, fetchWindow)
+                                        val newChapters = updateManga(manga)
                                             .sortedByDescending { it.sourceOrder }
 
                                         if (newChapters.isNotEmpty()) {
@@ -349,7 +327,7 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
      * @param manga the manga to update.
      * @return a pair of the inserted and removed chapters.
      */
-    private suspend fun updateManga(manga: Manga, fetchWindow: ClosedRange<Instant>): List<Chapter> {
+    private suspend fun updateManga(manga: Manga): List<Chapter> {
         val source = sourceManager.getOrStub(manga.source)
 
         val update = updateMangaFromRemote(
@@ -357,7 +335,6 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
             manga = manga,
             fetchDetails = libraryPreferences.autoUpdateMetadata.get(),
             fetchChapters = true,
-            fetchWindow = fetchWindow,
         )
             .getOrThrow()
 

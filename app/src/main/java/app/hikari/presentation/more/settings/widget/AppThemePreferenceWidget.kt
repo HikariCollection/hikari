@@ -78,7 +78,7 @@ private fun AppThemesList(
     val context = LocalContext.current
     val appThemes = remember {
         AppTheme.entries
-            .filterNot { it.titleRes == null || (it == AppTheme.MONET && !DeviceUtil.isDynamicColorAvailable) }
+            .filterNot { it == AppTheme.MONET && !DeviceUtil.isDynamicColorAvailable }
     }
     LazyRow(
         contentPadding = PaddingValues(horizontal = PrefsHorizontalPadding),
@@ -109,7 +109,7 @@ private fun AppThemesList(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Text(
-                    text = stringResource(appTheme.titleRes!!),
+                    text = stringResource(appTheme.titleRes),
                     modifier = Modifier
                         .fillMaxWidth()
                         .secondaryItemAlpha(),

@@ -23,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import logcat.LogPriority
 import kotlin.time.Clock
-import kotlin.time.Instant
 
 @Inject
 class UpdateMangaFromRemote(
@@ -40,7 +39,6 @@ class UpdateMangaFromRemote(
         fetchDetails: Boolean = false,
         fetchChapters: Boolean = false,
         manualFetch: Boolean = false,
-        fetchWindow: ClosedRange<Instant>? = null,
     ): Result<RemoteMangaUpdate> {
         val source = sourceManager.getOrStub(manga.source)
         return invoke(
@@ -58,7 +56,6 @@ class UpdateMangaFromRemote(
         fetchDetails: Boolean = false,
         fetchChapters: Boolean = false,
         manualFetch: Boolean = false,
-        fetchWindow: ClosedRange<Instant>? = null,
     ): Result<RemoteMangaUpdate> = withContext(Dispatchers.IO) {
         try {
             val chapters = chapterRepository.getChapterByMangaId(manga.id)
@@ -75,7 +72,6 @@ class UpdateMangaFromRemote(
                 manga = manga,
                 source = source,
                 manualFetch = manualFetch,
-                fetchWindow = fetchWindow,
             )
             val updatedManga = mangaRepository.getMangaById(manga.id)
 

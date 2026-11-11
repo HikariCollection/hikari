@@ -76,7 +76,6 @@ class BackupManga(
             notes = this@BackupManga.notes,
             initialized = this@BackupManga.initialized,
             memo = this@BackupManga.memo.toJsonObject(),
-            nextUpdate = this@BackupManga.nextUpdate.toInstantOrNull(),
         )
     }
 }

@@ -15,7 +15,6 @@ import app.hikari.ui.library.LibraryItem
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import kotlin.math.abs
 import kotlin.time.Instant
 
 fun QueryNode.matches(item: LibraryItem): Boolean {
@@ -118,11 +117,6 @@ private fun ComparisonQueryNode.matches(item: LibraryItem): Boolean {
         ComparisonField.ID -> value.toLongOrNull()?.let { queryComparator.apply(manga.id, it) }
 
         ComparisonField.DATE_ADDED -> manga.favoriteAt?.let { compareDates(it, value) }
-
-        ComparisonField.FETCH_INTERVAL -> value.toIntOrNull()
-            ?.let { queryComparator.apply(abs(manga.fetchInterval), it) }
-
-        ComparisonField.NEXT_UPDATE -> manga.nextUpdate?.let { compareDates(it, value) }
 
         ComparisonField.UNREAD -> {
             value.toLongOrNull()?.let {

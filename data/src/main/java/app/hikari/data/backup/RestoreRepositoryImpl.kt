@@ -84,7 +84,6 @@ class RestoreRepositoryImpl(
             initialized = dbManga.initialized || manga.initialized,
             // Merge both backup and local data with local winning
             memo = JsonObject(manga.memo + dbManga.memo),
-            nextUpdate = dbManga.nextUpdate ?: manga.nextUpdate,
         )
     }
 
@@ -124,8 +123,6 @@ class RestoreRepositoryImpl(
             remoteStatus = manga.status,
             remoteCover = manga.thumbnailUrl,
             stateChapterLastUpdate = manga.lastUpdate,
-            stateChapterNextUpdate = null,
-            stateChapterFetchInterval = 0L,
             stateInitialized = manga.initialized,
             userReaderFlags = manga.viewerFlags,
             userChapterFlags = manga.chapterFlags,

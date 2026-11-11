@@ -110,5 +110,4 @@ private fun Manga.toBackupManga() =
         notes = this.notes,
         initialized = this.initialized,
         memo = this.memo.toByteArray(),
-        nextUpdate = this.nextUpdate.toEpochMillisOrZero(),
     )

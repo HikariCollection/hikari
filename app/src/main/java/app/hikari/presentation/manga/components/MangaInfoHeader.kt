@@ -75,7 +75,6 @@ import app.hikari.icons.materialsymbols.rounded.Check
 import app.hikari.icons.materialsymbols.rounded.Close
 import app.hikari.icons.materialsymbols.rounded.DoneAll
 import app.hikari.icons.materialsymbols.rounded.Favorite
-import app.hikari.icons.materialsymbols.rounded.HourglassEmpty
 import app.hikari.icons.materialsymbols.rounded.Person
 import app.hikari.icons.materialsymbols.rounded.Public
 import app.hikari.icons.materialsymbols.rounded.Schedule
@@ -102,14 +101,10 @@ import coil3.request.crossfade
 import com.mikepenz.markdown.model.markdownAnnotator
 import com.mikepenz.markdown.model.markdownAnnotatorConfig
 import com.mikepenz.markdown.utils.getUnescapedTextInNode
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.daysUntil
 import org.intellij.markdown.MarkdownElementTypes
 import org.intellij.markdown.MarkdownTokenTypes
 import org.intellij.markdown.ast.findChildOfType
 import kotlin.math.roundToInt
-import kotlin.time.Clock
-import kotlin.time.Instant
 
 @Composable
 fun MangaInfoBox(
@@ -176,27 +171,14 @@ fun MangaInfoBox(
 fun MangaActionRow(
     favorite: Boolean,
     trackingCount: Int,
-    nextUpdate: Instant?,
-    isUserIntervalMode: Boolean,
     onAddToLibraryClicked: () -> Unit,
     onWebViewClicked: (() -> Unit)?,
     onWebViewLongClicked: (() -> Unit)?,
     onTrackingClicked: () -> Unit,
-    onEditIntervalClicked: (() -> Unit)?,
     onEditCategory: (() -> Unit)?,
     modifier: Modifier = Modifier,
 ) {
     val defaultActionButtonColor = MaterialTheme.colorScheme.onSurface.copy(alpha = DISABLED_ALPHA)
-
-    // TODO: show something better when using custom interval
-    val nextUpdateDays = remember(nextUpdate) {
-        return@remember if (nextUpdate != null) {
-            val now = Clock.System.now()
-            now.daysUntil(nextUpdate, TimeZone.currentSystemDefault()).coerceAtLeast(0)
-        } else {
-            null
-        }
-    }
 
     Row(modifier = modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp)) {
         MangaActionButton(
@@ -209,20 +191,6 @@ fun MangaActionRow(
             color = if (favorite) MaterialTheme.colorScheme.primary else defaultActionButtonColor,
             onClick = onAddToLibraryClicked,
             onLongClick = onEditCategory,
-        )
-        MangaActionButton(
-            title = when (nextUpdateDays) {
-                null -> stringResource(MR.strings.not_applicable)
-                0 -> stringResource(MR.strings.manga_interval_expected_update_soon)
-                else -> pluralStringResource(
-                    MR.plurals.day,
-                    count = nextUpdateDays,
-                    nextUpdateDays,
-                )
-            },
-            icon = MaterialSymbols.Rounded.HourglassEmpty,
-            color = if (isUserIntervalMode) MaterialTheme.colorScheme.primary else defaultActionButtonColor,
-            onClick = { onEditIntervalClicked?.invoke() },
         )
         MangaActionButton(
             title = if (trackingCount == 0) {

@@ -75,7 +75,6 @@ object DatabaseBindings {
                 remote_memoAdapter = MemoColumnAdapter,
                 user_favorite_atAdapter = InstantColumnAdapter,
                 state_chapter_last_updateAdapter = InstantColumnAdapter,
-                state_chapter_next_updateAdapter = InstantColumnAdapter,
                 state_cover_last_modifiedAdapter = InstantColumnAdapter,
             ),
             chapterAdapter = Chapter.Adapter(

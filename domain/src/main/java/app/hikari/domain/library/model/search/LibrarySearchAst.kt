@@ -24,8 +24,6 @@ enum class MangaField(vararg val aliases: String, val fieldOnly: Boolean = false
 enum class ComparisonField(vararg val aliases: String) {
     ID("id"),
     DATE_ADDED("added"),
-    FETCH_INTERVAL("fetchinterval", "fi"),
-    NEXT_UPDATE("nextupdate", "nu"),
     UNREAD("unread"),
     READ("read"),
     TOTAL("total"),

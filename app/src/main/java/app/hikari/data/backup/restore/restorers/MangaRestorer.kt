@@ -6,22 +6,14 @@ import app.hikari.domain.backup.model.RestoredHistory
 import app.hikari.domain.backup.model.RestoredManga
 import app.hikari.domain.backup.repository.RestoreRepository
 import app.hikari.domain.category.interactor.GetCategories
-import app.hikari.domain.manga.interactor.FetchInterval
+import app.hikari.domain.manga.model.MangaUpdate
 import dev.zacsweers.metro.Inject
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
 
 @Inject
 class MangaRestorer(
     private val restoreRepository: RestoreRepository,
     private val getCategories: GetCategories,
-    private val fetchInterval: FetchInterval,
 ) {
-
-    private val timeZone = TimeZone.currentSystemDefault()
-    private val now = Clock.System.now().toLocalDateTime(timeZone)
-    private val currentFetchWindow = fetchInterval.getWindow(now.date, timeZone)
 
     /**
      * Restores [backupMangas] all together, so either every one of them is restored or none is.
@@ -52,12 +44,7 @@ class MangaRestorer(
         }
 
         restoreRepository.restoreManga(entries) { manga ->
-            fetchInterval.withFetchInterval(manga, now, timeZone, currentFetchWindow).apply {
-                // A next update still ahead was worked out with the chapters the backup came from
-                manga.nextUpdate
-                    ?.takeIf { it >= currentFetchWindow.start }
-                    ?.let { nextUpdate = it }
-            }
+            MangaUpdate(manga.id) {}
         }
     }
 }

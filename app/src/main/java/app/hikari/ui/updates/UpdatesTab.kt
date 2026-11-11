@@ -11,7 +11,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.hikari.R
 import app.hikari.core.common.i18n.stringResource
-import app.hikari.feature.upcoming.UpcomingScreen
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.updates.UpdateScreen
@@ -75,7 +74,6 @@ data object UpdatesTab : Tab {
                 val intent = ReaderActivity.newIntent(context, it.update.mangaId, it.update.chapterId)
                 context.startActivity(intent)
             },
-            onCalendarClicked = { navigator.push(UpcomingScreen()) },
             onFilterClicked = viewModel::showFilterDialog,
             hasActiveFilters = state.hasActiveFilters,
         )

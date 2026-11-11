@@ -20,8 +20,6 @@ data class Manga(
     val id: Long,
     val source: Long,
     val lastUpdate: Instant?,
-    val nextUpdate: Instant?,
-    val fetchInterval: Int,
     val favoriteAt: Instant?,
     val viewerFlags: Long,
     val chapterFlags: Long,
@@ -42,9 +40,6 @@ data class Manga(
 
     val favorite: Boolean
         get() = favoriteAt != null
-
-    val expectedNextUpdate: Instant?
-        get() = nextUpdate?.takeIf { status != SManga.COMPLETED.toLong() }
 
     val sorting: Long
         get() = chapterFlags and CHAPTER_SORTING_MASK
@@ -120,8 +115,6 @@ data class Manga(
             title = "",
             source = -1L,
             lastUpdate = null,
-            nextUpdate = null,
-            fetchInterval = 0,
             favoriteAt = null,
             viewerFlags = 0L,
             chapterFlags = 0L,
