@@ -17,6 +17,7 @@ import app.hikari.presentation.core.components.SettingsChipRow
 import app.hikari.presentation.core.components.SliderItem
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.ui.reader.setting.ReaderPreferences
 import app.hikari.ui.reader.setting.ReaderPreferences.Companion.ColorFilterMode
 import app.hikari.ui.reader.setting.ReaderSettingsViewModel
 
@@ -44,6 +45,17 @@ internal fun ColumnScope.ColorFilterPage(viewModel: ReaderSettingsViewModel) {
             onChange = { viewModel.preferences.customBrightnessValue.set(it) },
             pillColor = MaterialTheme.colorScheme.surfaceContainerHighest,
         )
+    }
+
+    val brightnessSwipeEdge by viewModel.preferences.brightnessSwipeEdge.collectAsState()
+    SettingsChipRow(MR.strings.pref_brightness_swipe_edge) {
+        ReaderPreferences.BrightnessSwipeEdge.entries.forEach { edge ->
+            FilterChip(
+                selected = brightnessSwipeEdge == edge,
+                onClick = { viewModel.preferences.brightnessSwipeEdge.set(edge) },
+                label = { Text(stringResource(edge.titleRes)) },
+            )
+        }
     }
 
     val colorFilter by viewModel.preferences.colorFilter.collectAsState()

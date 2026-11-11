@@ -410,6 +410,12 @@ object SettingsReaderScreen : SearchableSettings {
                     title = stringResource(MR.strings.pref_vertical_navigator_height),
                     visible = verticalNavigator.isNotEmpty(),
                 ),
+                Preference.PreferenceItem.ListPreference(
+                    preference = readerPreferences.brightnessSwipeEdge,
+                    entries = ReaderPreferences.BrightnessSwipeEdge.entries
+                        .associateWith { stringResource(it.titleRes) },
+                    title = stringResource(MR.strings.pref_brightness_swipe_edge),
+                ),
             ),
         )
     }

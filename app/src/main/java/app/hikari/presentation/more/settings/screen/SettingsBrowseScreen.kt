@@ -15,6 +15,7 @@ import app.hikari.presentation.core.i18n.pluralStringResource
 import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.more.settings.Preference
 import app.hikari.presentation.more.settings.screen.browse.ExtensionStoresScreen
+import app.hikari.presentation.more.settings.screen.browse.HiddenMangaScreen
 import app.hikari.util.system.AuthenticatorUtil.authenticate
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -32,8 +33,10 @@ object SettingsBrowseScreen : SearchableSettings {
 
         val sourcePreferences = remember { context.appGraph.sourcePreferences }
         val getExtensionStoreCountAsFlow = remember { context.appGraph.getExtensionStoreCountAsFlow }
+        val getHiddenManga = remember { context.appGraph.getHiddenManga }
 
         val reposCount by getExtensionStoreCountAsFlow().collectAsState(0)
+        val hiddenCount by getHiddenManga.subscribeCount().collectAsState(0L)
 
         return listOf(
             Preference.PreferenceGroup(
@@ -42,6 +45,21 @@ object SettingsBrowseScreen : SearchableSettings {
                     Preference.PreferenceItem.SwitchPreference(
                         preference = sourcePreferences.hideInLibraryItems,
                         title = stringResource(MR.strings.pref_hide_in_library_items),
+                    ),
+                    Preference.PreferenceItem.SwitchPreference(
+                        preference = sourcePreferences.showHiddenItems,
+                        title = stringResource(MR.strings.pref_show_hidden_items),
+                    ),
+                    Preference.PreferenceItem.TextPreference(
+                        title = stringResource(MR.strings.pref_hidden_manga),
+                        subtitle = pluralStringResource(
+                            MR.plurals.num_hidden_manga,
+                            hiddenCount.toInt(),
+                            hiddenCount.toInt(),
+                        ),
+                        onClick = {
+                            navigator.push(HiddenMangaScreen())
+                        },
                     ),
                     Preference.PreferenceItem.TextPreference(
                         title = stringResource(MR.strings.extensionStores),

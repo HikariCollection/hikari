@@ -11,6 +11,8 @@ import app.hikari.domain.library.model.LibraryDisplayMode
 import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredroundedfilled.ViewList
+import app.hikari.icons.materialsymbols.rounded.FlipToBack
+import app.hikari.icons.materialsymbols.rounded.SelectAll
 import app.hikari.icons.materialsymbols.roundedfilled.ViewCompact
 import app.hikari.icons.materialsymbols.roundedfilled.ViewModule
 import app.hikari.presentation.components.AppBar
@@ -36,8 +38,22 @@ fun BrowseSourceToolbar(
     onHelpClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onSearch: (String) -> Unit,
+    selectedCount: Int = 0,
+    onClickUnselectAll: () -> Unit = {},
+    onClickSelectAll: () -> Unit = {},
+    onClickInvertSelection: () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior? = null,
 ) {
+    if (selectedCount > 0) {
+        BrowseSourceSelectionToolbar(
+            selectedCount = selectedCount,
+            onClickUnselectAll = onClickUnselectAll,
+            onClickSelectAll = onClickSelectAll,
+            onClickInvertSelection = onClickInvertSelection,
+        )
+        return
+    }
+
     // Avoid capturing unstable source in actions lambda
     val title = source?.name
     val isLocalSource = source is LocalSource
@@ -122,5 +138,35 @@ fun BrowseSourceToolbar(
             }
         },
         scrollBehavior = scrollBehavior,
+    )
+}
+
+@Composable
+private fun BrowseSourceSelectionToolbar(
+    selectedCount: Int,
+    onClickUnselectAll: () -> Unit,
+    onClickSelectAll: () -> Unit,
+    onClickInvertSelection: () -> Unit,
+) {
+    AppBar(
+        titleContent = { Text(text = "$selectedCount") },
+        actions = {
+            AppBarActions(
+                listOf(
+                    AppBar.Action(
+                        title = stringResource(MR.strings.action_select_all),
+                        icon = MaterialSymbols.Rounded.SelectAll,
+                        onClick = onClickSelectAll,
+                    ),
+                    AppBar.Action(
+                        title = stringResource(MR.strings.action_select_inverse),
+                        icon = MaterialSymbols.Rounded.FlipToBack,
+                        onClick = onClickInvertSelection,
+                    ),
+                ),
+            )
+        },
+        isActionMode = true,
+        onCancelActionMode = onClickUnselectAll,
     )
 }

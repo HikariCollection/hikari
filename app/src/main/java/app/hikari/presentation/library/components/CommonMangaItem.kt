@@ -51,6 +51,9 @@ object CommonMangaItemDefaults {
 
     @Suppress("ConstPropertyName")
     const val BrowseFavoriteCoverAlpha = 0.34f
+
+    @Suppress("ConstPropertyName")
+    const val BrowseHiddenCoverAlpha = 0.5f
 }
 
 private val ContinueReadingButtonSizeSmall = 28.dp

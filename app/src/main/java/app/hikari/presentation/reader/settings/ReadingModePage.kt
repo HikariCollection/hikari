@@ -99,6 +99,20 @@ private fun ColumnScope.PagerViewerSettings(viewModel: ReaderSettingsViewModel) 
         }
     }
 
+    val pageTransitions by viewModel.preferences.pageTransitions.collectAsState()
+    if (pageTransitions) {
+        val pagerPageTransition by viewModel.preferences.pagerPageTransition.collectAsState()
+        SettingsChipRow(MR.strings.pref_pager_page_transition) {
+            ReaderPreferences.PagerPageTransition.entries.forEach { transition ->
+                FilterChip(
+                    selected = pagerPageTransition == transition,
+                    onClick = { viewModel.preferences.pagerPageTransition.set(transition) },
+                    label = { Text(stringResource(transition.titleRes)) },
+                )
+            }
+        }
+    }
+
     CheckboxItem(
         label = stringResource(MR.strings.pref_crop_borders),
         pref = viewModel.preferences.cropBorders,

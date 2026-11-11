@@ -24,7 +24,6 @@ import app.hikari.core.metro.AppCoroutineScope
 import app.hikari.core.metro.GraphProvider
 import app.hikari.core.migration.Migration
 import app.hikari.core.migration.Migrator
-import app.hikari.core.security.PrivacyPreferences
 import app.hikari.crash.CrashActivity
 import app.hikari.crash.GlobalExceptionHandler
 import app.hikari.data.cache.CoverCache
@@ -86,8 +85,6 @@ class App : Application(), DefaultLifecycleObserver, SingletonImageLoader.Factor
     @Inject private lateinit var preferenceStore: PreferenceStore
 
     @Inject private lateinit var basePreferences: BasePreferences
-
-    @Inject private lateinit var privacyPreferences: PrivacyPreferences
 
     @Inject private lateinit var networkPreferences: NetworkPreferences
 

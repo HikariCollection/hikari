@@ -4,9 +4,6 @@ package app.hikari.util.system
 
 import app.hikari.BuildConfig
 
-val telemetryIncluded: Boolean
-    inline get() = BuildConfig.TELEMETRY_INCLUDED
-
 val updaterEnabled: Boolean
     inline get() = BuildConfig.UPDATER_ENABLED
 

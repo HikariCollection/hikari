@@ -37,8 +37,7 @@ android {
         versionCode = 2
         versionName = "0.0.2"
 
-        buildConfigField("boolean", "TELEMETRY_INCLUDED", "false")
-        buildConfigField("boolean", "UPDATER_ENABLED", "false")
+        buildConfigField("boolean", "UPDATER_ENABLED", "${Config.enableUpdater}")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -65,6 +64,7 @@ android {
     buildTypes {
         val debug = getByName("debug") {
             applicationIdSuffix = ".dev"
+            isDebuggable = false
             isPseudoLocalesEnabled = true
         }
         val release = getByName("release") {

@@ -1,0 +1,46 @@
+import kotlin.time.Instant;
+
+CREATE TABLE hidden_manga(
+    id INTEGER NOT NULL PRIMARY KEY,
+    source_id INTEGER NOT NULL,
+    remote_url TEXT NOT NULL,
+    remote_title TEXT NOT NULL,
+    remote_cover TEXT,
+    created_at INTEGER AS Instant NOT NULL,
+    UNIQUE(source_id, remote_url)
+);
+
+CREATE INDEX hidden_manga_source_id_index ON hidden_manga(source_id);
+
+insert:
+INSERT INTO hidden_manga(source_id, remote_url, remote_title, remote_cover, created_at)
+VALUES (:sourceId, :remoteUrl, :remoteTitle, :remoteCover, :createdAt)
+ON CONFLICT(source_id, remote_url) DO UPDATE SET
+    remote_title = excluded.remote_title,
+    remote_cover = excluded.remote_cover;
+
+delete:
+DELETE FROM hidden_manga
+WHERE source_id = :sourceId AND remote_url = :remoteUrl;
+
+deleteByIds:
+DELETE FROM hidden_manga
+WHERE id IN :ids;
+
+getHiddenUrlsBySource:
+SELECT remote_url
+FROM hidden_manga
+WHERE source_id = :sourceId;
+
+getAllHiddenKeys:
+SELECT source_id, remote_url
+FROM hidden_manga;
+
+getAllHiddenManga:
+SELECT id, source_id, remote_url, remote_title, remote_cover, created_at
+FROM hidden_manga
+ORDER BY created_at DESC;
+
+getCount:
+SELECT count(*)
+FROM hidden_manga;

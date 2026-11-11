@@ -21,6 +21,8 @@ fun BrowseSourceList(
     contentPadding: PaddingValues,
     onMangaClick: (Manga) -> Unit,
     onMangaLongClick: (Manga) -> Unit,
+    selectedMangaIds: Set<Long> = emptySet(),
+    hiddenMangaUrls: Set<String> = emptySet(),
 ) {
     LazyColumn(
         contentPadding = contentPadding + PaddingValues(vertical = 8.dp),
@@ -35,6 +37,8 @@ fun BrowseSourceList(
             val manga by mangaList[index]?.collectAsState() ?: return@items
             BrowseSourceListItem(
                 manga = manga,
+                isSelected = manga.id in selectedMangaIds,
+                isHidden = manga.url in hiddenMangaUrls,
                 onClick = { onMangaClick(manga) },
                 onLongClick = { onMangaLongClick(manga) },
             )
@@ -51,11 +55,14 @@ fun BrowseSourceList(
 @Composable
 private fun BrowseSourceListItem(
     manga: Manga,
+    isSelected: Boolean = false,
+    isHidden: Boolean = false,
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = onClick,
 ) {
     MangaListItem(
         title = manga.title,
+        isSelected = isSelected,
         coverData = MangaCover(
             mangaId = manga.id,
             sourceId = manga.source,
@@ -63,9 +70,14 @@ private fun BrowseSourceListItem(
             url = manga.thumbnailUrl,
             lastModified = manga.coverLastModified,
         ),
-        coverAlpha = if (manga.favorite) CommonMangaItemDefaults.BrowseFavoriteCoverAlpha else 1f,
+        coverAlpha = when {
+            isHidden -> CommonMangaItemDefaults.BrowseHiddenCoverAlpha
+            manga.favorite -> CommonMangaItemDefaults.BrowseFavoriteCoverAlpha
+            else -> 1f
+        },
         badge = {
             InLibraryBadge(enabled = manga.favorite)
+            HiddenBadge(enabled = isHidden)
         },
         onLongClick = onLongClick,
         onClick = onClick,

@@ -24,6 +24,11 @@ class ReaderPreferences(
 
     val pageTransitions: Preference<Boolean> = preferenceStore.getBoolean("pref_enable_transitions_key", true)
 
+    val pagerPageTransition: Preference<PagerPageTransition> = preferenceStore.getEnum(
+        "pref_pager_page_transition",
+        PagerPageTransition.DEFAULT,
+    )
+
     val loadAheadOnlyOverWifi: Preference<Boolean> = preferenceStore.getBoolean(
         "pref_reader_load_ahead_only_over_wifi",
         true,
@@ -178,6 +183,11 @@ class ReaderPreferences(
     val readWithVolumeKeysInverted: Preference<Boolean> = preferenceStore.getBoolean(
         "reader_volume_keys_inverted",
         false,
+    )
+
+    val brightnessSwipeEdge: Preference<BrightnessSwipeEdge> = preferenceStore.getEnum(
+        "pref_brightness_swipe_edge",
+        BrightnessSwipeEdge.LEFT,
     )
 
     val navigationModePager: Preference<Int> = preferenceStore.getInt("reader_navigation_mode_pager", 0)
@@ -359,6 +369,14 @@ class ReaderPreferences(
         LOWEST(47),
     }
 
+    enum class PagerPageTransition(val titleRes: StringResource) {
+        DEFAULT(MR.strings.page_transition_default),
+        CURL(MR.strings.page_transition_curl),
+        DEPTH(MR.strings.page_transition_depth),
+        FADE(MR.strings.page_transition_fade),
+        CUBE(MR.strings.page_transition_cube),
+    }
+
     enum class TransitionAnimation(val titleRes: StringResource) {
         BASIC(MR.strings.transition_animation_basic),
         FLIP(MR.strings.transition_animation_flip),
@@ -394,6 +412,12 @@ class ReaderPreferences(
         NEVER(MR.strings.dual_page_view_never),
         ALWAYS(MR.strings.dual_page_view_always),
         WIDE(MR.strings.dual_page_view_wide),
+    }
+
+    enum class BrightnessSwipeEdge(val titleRes: StringResource) {
+        OFF(MR.strings.brightness_swipe_off),
+        LEFT(MR.strings.brightness_swipe_left),
+        RIGHT(MR.strings.brightness_swipe_right),
     }
 
     companion object {

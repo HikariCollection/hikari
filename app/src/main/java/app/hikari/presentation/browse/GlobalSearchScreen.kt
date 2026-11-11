@@ -56,6 +56,7 @@ fun GlobalSearchScreen(
             onClickSource = onClickSource,
             onClickItem = onClickItem,
             onLongClickItem = onLongClickItem,
+            hiddenKeys = state.hiddenKeys,
         )
     }
 }
@@ -69,6 +70,7 @@ internal fun GlobalSearchContent(
     onClickItem: (Manga) -> Unit,
     onLongClickItem: (Manga) -> Unit,
     fromSourceId: Long? = null,
+    hiddenKeys: Set<Pair<Long, String>> = emptySet(),
 ) {
     LazyColumn(
         contentPadding = contentPadding,
@@ -93,6 +95,7 @@ internal fun GlobalSearchContent(
                                 getManga = getManga,
                                 onClick = onClickItem,
                                 onLongClick = onLongClickItem,
+                                hiddenKeys = hiddenKeys,
                             )
                         }
                         is SearchItemResult.Error -> {

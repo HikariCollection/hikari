@@ -6,6 +6,7 @@ import androidx.compose.runtime.produceState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.hikari.core.common.preference.toggle
+import app.hikari.domain.manga.interactor.GetHiddenManga
 import app.hikari.domain.manga.interactor.GetManga
 import app.hikari.domain.manga.interactor.NetworkToLocalManga
 import app.hikari.domain.manga.model.Manga
@@ -15,6 +16,7 @@ import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.extension.ExtensionManager
 import app.hikari.source.Source
 import app.hikari.source.local.isLocal
+import app.hikari.ui.browse.source.shouldShowGlobalSearchManga
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -36,6 +38,7 @@ abstract class SearchViewModel(
     private val networkToLocalManga: NetworkToLocalManga,
     private val getManga: GetManga,
     private val preferences: SourcePreferences,
+    getHiddenManga: GetHiddenManga? = null,
 ) : ViewModel() {
 
     val state: StateFlow<State>
@@ -71,6 +74,18 @@ abstract class SearchViewModel(
         viewModelScope.launch {
             preferences.globalSearchFilterState.changes().collectLatest { onlyShowHasResults ->
                 state.update { it.copy(onlyShowHasResults = onlyShowHasResults) }
+            }
+        }
+        if (getHiddenManga != null) {
+            viewModelScope.launch {
+                preferences.showHiddenItems.changes().collectLatest { showHidden ->
+                    state.update { it.copy(showHiddenItems = showHidden) }
+                }
+            }
+            viewModelScope.launch {
+                getHiddenManga.subscribeAllKeys().collectLatest { keys ->
+                    state.update { it.copy(hiddenKeys = keys) }
+                }
             }
         }
     }
@@ -220,12 +235,31 @@ abstract class SearchViewModel(
         val searchQuery: String? = null,
         val sourceFilter: SourceFilter = SourceFilter.PinnedOnly,
         val onlyShowHasResults: Boolean = false,
+        val showHiddenItems: Boolean = false,
+        val hiddenKeys: Set<Pair<Long, String>> = emptySet(),
         val items: Map<Source, SearchItemResult> = mapOf(),
         val dialog: Dialog? = null,
     ) {
         val progress: Int = items.count { it.value !is SearchItemResult.Loading }
         val total: Int = items.size
-        val filteredItems = items.filter { (_, result) -> result.isVisible(onlyShowHasResults) }
+        val filteredItems = items
+            .mapValues { (source, result) ->
+                if (result is SearchItemResult.Success && hiddenKeys.isNotEmpty() && !showHiddenItems) {
+                    SearchItemResult.Success(
+                        result.result.filter { manga ->
+                            shouldShowGlobalSearchManga(
+                                sourceId = source.id,
+                                url = manga.url,
+                                hiddenKeys = hiddenKeys,
+                                showHiddenItems = showHiddenItems,
+                            )
+                        },
+                    )
+                } else {
+                    result
+                }
+            }
+            .filter { (_, result) -> result.isVisible(onlyShowHasResults) }
     }
 
     sealed interface Dialog {

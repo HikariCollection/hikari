@@ -25,12 +25,18 @@ import app.hikari.ui.reader.model.InsertPage
 import app.hikari.ui.reader.model.ReaderPage
 import app.hikari.ui.reader.model.ViewerChapters
 import app.hikari.ui.reader.setting.GeneralSettings
+import app.hikari.ui.reader.setting.ReaderPreferences
 import app.hikari.ui.reader.viewer.LocalPageColorFilter
 import app.hikari.ui.reader.viewer.PagedSettings
 import app.hikari.ui.reader.viewer.ReaderPageImageView.ZoomStartPosition
 import app.hikari.ui.reader.viewer.Viewer
 import app.hikari.ui.reader.viewer.collectChanges
 import app.hikari.ui.reader.viewer.mouseWheelPaging
+import app.hikari.ui.reader.viewer.pager.transform.BookCurlPageTransformer
+import app.hikari.ui.reader.viewer.pager.transform.CubePageTransformer
+import app.hikari.ui.reader.viewer.pager.transform.DepthPageTransformer
+import app.hikari.ui.reader.viewer.pager.transform.FadePageTransformer
+import app.hikari.ui.reader.viewer.pager.transform.resetPageTransform
 import app.hikari.ui.reader.viewer.position
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
@@ -137,22 +143,59 @@ abstract class PagerViewer(val activity: ReaderActivity) : Viewer {
             false
         }
 
+        applyPageTransformer()
+
         settingsViewModel.general.collectChanges(scope) { old, new ->
             if (old != null && old.theme != new.theme) {
                 refreshAdapter()
             }
+            if (old != null && old.usePageTransitions != new.usePageTransitions) {
+                applyPageTransformer()
+            }
         }
         settingsViewModel.simplePaged.collectChanges(scope) { old, new ->
-            if (old != null) {
+            if (old != null && old.copy(pageTransition = new.pageTransition) != new) {
                 refreshAdapter()
             }
             if (old?.dualPageSplit != new.dualPageSplit && !new.dualPageSplit) {
                 cleanupPageSplit()
             }
+            if (old != null && old.pageTransition != new.pageTransition) {
+                applyPageTransformer()
+            }
         }
         settingsViewModel.paged.collectChanges(scope) { old, new ->
             if (old != null && old.page != new.page) {
                 refreshAdapter()
+            }
+        }
+    }
+
+    private fun applyPageTransformer() {
+        pager.children.forEach { it.resetPageTransform() }
+        if (!general.usePageTransitions) {
+            pager.setPageTransformer(false, null)
+            return
+        }
+
+        val isHorizontal = pager.isHorizontal()
+        when (simplePaged.pageTransition) {
+            ReaderPreferences.PagerPageTransition.DEFAULT -> {
+                pager.setPageTransformer(false, null)
+            }
+            ReaderPreferences.PagerPageTransition.CURL -> {
+                val reverseDrawingOrder = !isHorizontal || !isReversed
+                pager.setPageTransformer(reverseDrawingOrder, BookCurlPageTransformer(isReversed, isHorizontal))
+            }
+            ReaderPreferences.PagerPageTransition.DEPTH -> {
+                val reverseDrawingOrder = !isHorizontal || !isReversed
+                pager.setPageTransformer(reverseDrawingOrder, DepthPageTransformer(isReversed, isHorizontal))
+            }
+            ReaderPreferences.PagerPageTransition.FADE -> {
+                pager.setPageTransformer(false, FadePageTransformer(isHorizontal))
+            }
+            ReaderPreferences.PagerPageTransition.CUBE -> {
+                pager.setPageTransformer(false, CubePageTransformer(isHorizontal))
             }
         }
     }

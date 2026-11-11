@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import app.hikari.core.common.preference.Preference
 import app.hikari.domain.base.BasePreferences
 import app.hikari.domain.manga.model.readingMode
+import app.hikari.ui.reader.BRIGHTNESS_MAX
+import app.hikari.ui.reader.BRIGHTNESS_MIN
 import app.hikari.ui.reader.ReaderViewModel
 import app.hikari.ui.reader.viewer.LongStripSettings
 import app.hikari.ui.reader.viewer.NavigationSettings
@@ -28,6 +30,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.stateIn
 import kotlin.time.Duration.Companion.seconds
@@ -98,19 +101,48 @@ class ReaderSettingsViewModel(
         )
     }
 
-    /**
-     * The custom brightness, 0 when it's off.
-     */
+    private val liveBrightness = MutableStateFlow<Int?>(null)
+
+    @Volatile
+    private var isDraggingBrightness = false
+
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
-    val brightness: StateFlow<Int> = preferences.customBrightness.changes()
+    private val persistedBrightness = preferences.customBrightness.changes()
         .flatMapLatest { enabled ->
             if (enabled) preferences.customBrightnessValue.changes().sample(0.1.seconds) else flowOf(0)
         }
+        .onEach {
+            if (!isDraggingBrightness) {
+                liveBrightness.value = null
+            }
+        }
+
+    /**
+     * The custom brightness, 0 when it's off.
+     */
+    val brightness: StateFlow<Int> = combine(persistedBrightness, liveBrightness) { persisted, live ->
+        live ?: persisted
+    }
         .stateIn(
             viewModelScope,
             SharingStarted.Eagerly,
             if (preferences.customBrightness.get()) preferences.customBrightnessValue.get() else 0,
         )
+
+    fun updateLiveBrightness(value: Int) {
+        isDraggingBrightness = true
+        liveBrightness.value = value.coerceIn(BRIGHTNESS_MIN, BRIGHTNESS_MAX)
+    }
+
+    fun commitLiveBrightness(value: Int) {
+        val clamped = value.coerceIn(BRIGHTNESS_MIN, BRIGHTNESS_MAX)
+        isDraggingBrightness = false
+        liveBrightness.value = clamped
+        preferences.customBrightnessValue.set(clamped)
+        if (!preferences.customBrightness.get()) {
+            preferences.customBrightness.set(true)
+        }
+    }
 
     /**
      * Settings every paged viewer uses.
@@ -160,12 +192,14 @@ class ReaderSettingsViewModel(
         preferences.dualPageInvertPaged,
         preferences.dualPageRotateToFit,
         preferences.dualPageRotateToFitInvert,
+        preferences.pagerPageTransition,
     ) {
         SimplePagedSettings(
             dualPageSplit = dualPageSplitPaged.get(),
             dualPageInvert = dualPageInvertPaged.get(),
             dualPageRotateToFit = dualPageRotateToFit.get(),
             dualPageRotateToFitInvert = dualPageRotateToFitInvert.get(),
+            pageTransition = pagerPageTransition.get(),
         )
     }
 

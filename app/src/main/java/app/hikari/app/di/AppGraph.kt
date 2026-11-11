@@ -3,7 +3,6 @@ package app.hikari.app.di
 import android.content.Context
 import app.hikari.App
 import app.hikari.core.metro.IsDebugBuild
-import app.hikari.core.security.PrivacyPreferences
 import app.hikari.core.security.SecurityPreferences
 import app.hikari.data.backup.create.BackupCreateWorker
 import app.hikari.data.backup.restore.BackupRestoreWorker
@@ -27,6 +26,7 @@ import app.hikari.domain.extension.interactor.TrustExtension
 import app.hikari.domain.extension.repository.ExtensionStoreRepository
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.interactor.GetFavorites
+import app.hikari.domain.manga.interactor.GetHiddenManga
 import app.hikari.domain.manga.interactor.ResetViewerFlags
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.domain.source.service.SourcePreferences
@@ -88,7 +88,6 @@ interface AppGraph : ViewModelGraph {
     val trackPreferences: TrackPreferences
     val backupPreferences: BackupPreferences
     val storagePreferences: StoragePreferences
-    val privacyPreferences: PrivacyPreferences
     val securityPreferences: SecurityPreferences
     val downloadPreferences: DownloadPreferences
 
@@ -115,6 +114,7 @@ interface AppGraph : ViewModelGraph {
     val javaScriptEngine: JavaScriptEngine
 
     val getFavorites: GetFavorites
+    val getHiddenManga: GetHiddenManga
     val getCategories: GetCategories
     val resetViewerFlags: ResetViewerFlags
     val resetCategoryFlags: ResetCategoryFlags

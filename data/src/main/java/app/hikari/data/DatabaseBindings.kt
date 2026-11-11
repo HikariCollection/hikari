@@ -87,6 +87,9 @@ object DatabaseBindings {
                 start_dateAdapter = InstantColumnAdapter,
                 finish_dateAdapter = InstantColumnAdapter,
             ),
+            hidden_mangaAdapter = Hidden_manga.Adapter(
+                created_atAdapter = InstantColumnAdapter,
+            ),
         )
     }
 }

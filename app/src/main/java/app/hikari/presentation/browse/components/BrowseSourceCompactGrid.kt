@@ -25,6 +25,8 @@ fun BrowseSourceCompactGrid(
     contentPadding: PaddingValues,
     onMangaClick: (Manga) -> Unit,
     onMangaLongClick: (Manga) -> Unit,
+    selectedMangaIds: Set<Long> = emptySet(),
+    hiddenMangaUrls: Set<String> = emptySet(),
 ) {
     LazyVerticalGrid(
         columns = columns,
@@ -42,6 +44,8 @@ fun BrowseSourceCompactGrid(
             val manga by mangaList[index]?.collectAsState() ?: return@items
             BrowseSourceCompactGridItem(
                 manga = manga,
+                isSelected = manga.id in selectedMangaIds,
+                isHidden = manga.url in hiddenMangaUrls,
                 onClick = { onMangaClick(manga) },
                 onLongClick = { onMangaLongClick(manga) },
             )
@@ -58,11 +62,14 @@ fun BrowseSourceCompactGrid(
 @Composable
 private fun BrowseSourceCompactGridItem(
     manga: Manga,
+    isSelected: Boolean = false,
+    isHidden: Boolean = false,
     onClick: () -> Unit = {},
     onLongClick: () -> Unit = onClick,
 ) {
     MangaCompactGridItem(
         title = manga.title,
+        isSelected = isSelected,
         coverData = MangaCover(
             mangaId = manga.id,
             sourceId = manga.source,
@@ -70,9 +77,16 @@ private fun BrowseSourceCompactGridItem(
             url = manga.thumbnailUrl,
             lastModified = manga.coverLastModified,
         ),
-        coverAlpha = if (manga.favorite) CommonMangaItemDefaults.BrowseFavoriteCoverAlpha else 1f,
+        coverAlpha = when {
+            isHidden -> CommonMangaItemDefaults.BrowseHiddenCoverAlpha
+            manga.favorite -> CommonMangaItemDefaults.BrowseFavoriteCoverAlpha
+            else -> 1f
+        },
         coverBadgeStart = {
             InLibraryBadge(enabled = manga.favorite)
+        },
+        coverBadgeEnd = {
+            HiddenBadge(enabled = isHidden)
         },
         onLongClick = onLongClick,
         onClick = onClick,

@@ -22001,7 +22001,6 @@ HSPLapp/hikari/App;->access$setMigrations$p(Lapp/hikari/App;Ljava/util/Set;)V
 HSPLapp/hikari/App;->access$setNetworkHelper$p(Lapp/hikari/App;Lkotlin/Lazy;)V
 HSPLapp/hikari/App;->access$setNetworkPreferences$p(Lapp/hikari/App;Lapp/hikari/network/NetworkPreferences;)V
 HSPLapp/hikari/App;->access$setPreferenceStore$p(Lapp/hikari/App;Lapp/hikari/core/common/preference/PreferenceStore;)V
-HSPLapp/hikari/App;->access$setPrivacyPreferences$p(Lapp/hikari/App;Lapp/hikari/core/security/PrivacyPreferences;)V
 HSPLapp/hikari/App;->access$setScope$p(Lapp/hikari/App;Lkotlinx/coroutines/CoroutineScope;)V
 HSPLapp/hikari/App;->access$setSourceManager$p(Lapp/hikari/App;Lkotlin/Lazy;)V
 HSPLapp/hikari/App;->access$setUiPreferences$p(Lapp/hikari/App;Lapp/hikari/domain/ui/UiPreferences;)V
@@ -22048,7 +22047,6 @@ HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectMigrations(Lapp/hikari
 HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectNetworkHelper(Lapp/hikari/App;Lkotlin/Lazy;)V
 HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectNetworkPreferences(Lapp/hikari/App;Lapp/hikari/network/NetworkPreferences;)V
 HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectPreferenceStore(Lapp/hikari/App;Lapp/hikari/core/common/preference/PreferenceStore;)V
-HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectPrivacyPreferences(Lapp/hikari/App;Lapp/hikari/core/security/PrivacyPreferences;)V
 HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectScope(Lapp/hikari/App;Lkotlinx/coroutines/CoroutineScope;)V
 HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectSourceManager(Lapp/hikari/App;Lkotlin/Lazy;)V
 HSPLapp/hikari/App$MetroMembersInjector$Companion;->injectUiPreferences(Lapp/hikari/App;Lapp/hikari/domain/ui/UiPreferences;)V
@@ -22075,21 +22073,6 @@ HSPLapp/hikari/App$onCreate$7;->invoke(Ljava/lang/Object;Ljava/lang/Object;)Ljav
 HSPLapp/hikari/App$onCreate$7;->invokeSuspend(Ljava/lang/Object;)Ljava/lang/Object;
 Lapp/hikari/R$drawable;
 Lapp/hikari/R$style;
-Lapp/hikari/core/security/PrivacyPreferences;
-HSPLapp/hikari/core/security/PrivacyPreferences;-><init>(Lapp/hikari/core/common/preference/PreferenceStore;)V
-HSPLapp/hikari/core/security/PrivacyPreferences;->getAnalytics()Lapp/hikari/core/common/preference/Preference;
-HSPLapp/hikari/core/security/PrivacyPreferences;->getCrashlytics()Lapp/hikari/core/common/preference/Preference;
-Lapp/hikari/core/security/PrivacyPreferences$MetroFactory;
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory;-><clinit>()V
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory;-><init>(Ldev/zacsweers/metro/Provider;)V
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory;-><init>(Ldev/zacsweers/metro/Provider;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory;->invoke()Lapp/hikari/core/security/PrivacyPreferences;
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory;->invoke()Ljava/lang/Object;
-Lapp/hikari/core/security/PrivacyPreferences$MetroFactory$Companion;
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory$Companion;-><init>()V
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory$Companion;-><init>(Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory$Companion;->create(Ldev/zacsweers/metro/Provider;)Lapp/hikari/core/security/PrivacyPreferences$MetroFactory;
-HSPLapp/hikari/core/security/PrivacyPreferences$MetroFactory$Companion;->newInstance(Lapp/hikari/core/common/preference/PreferenceStore;)Lapp/hikari/core/security/PrivacyPreferences;
 Lapp/hikari/core/security/SecurityPreferences;
 HSPLapp/hikari/core/security/SecurityPreferences;-><init>(Lapp/hikari/core/common/preference/PreferenceStore;)V
 HSPLapp/hikari/core/security/SecurityPreferences;->getSecureScreen()Lapp/hikari/core/common/preference/Preference;

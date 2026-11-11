@@ -96,6 +96,21 @@
         <item quantity="other">%d stores</item>
     </plurals>
 
+    <plurals name="num_hidden_manga">
+        <item quantity="one">%d hidden</item>
+        <item quantity="other">%d hidden</item>
+    </plurals>
+
+    <plurals name="manga_hidden">
+        <item quantity="one">Hidden %1$d entry</item>
+        <item quantity="other">Hidden %1$d entries</item>
+    </plurals>
+
+    <plurals name="manga_unhidden">
+        <item quantity="one">Unhid %1$d entry</item>
+        <item quantity="other">Unhid %1$d entries</item>
+    </plurals>
+
     <!--Migration-->
     <plurals name="migrationListScreen_migrateDialog_migrateTitle">
         <item quantity="one">Migrate %1$d entry?</item>

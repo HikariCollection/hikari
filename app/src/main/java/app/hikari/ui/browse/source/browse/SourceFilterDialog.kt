@@ -37,6 +37,8 @@ fun SourceFilterDialog(
     onReset: () -> Unit,
     onFilter: () -> Unit,
     onUpdate: (FilterList) -> Unit,
+    showHiddenItems: Boolean = false,
+    onShowHiddenItemsChange: ((Boolean) -> Unit)? = null,
 ) {
     val updateFilters = { onUpdate(filters) }
 
@@ -67,6 +69,19 @@ fun SourceFilterDialog(
                     }
                 }
                 HorizontalDivider()
+            }
+
+            if (onShowHiddenItemsChange != null) {
+                item {
+                    CheckboxItem(
+                        label = stringResource(MR.strings.pref_show_hidden_items),
+                        checked = showHiddenItems,
+                        onClick = { onShowHiddenItemsChange(!showHiddenItems) },
+                    )
+                    if (filters.isNotEmpty()) {
+                        HorizontalDivider()
+                    }
+                }
             }
 
             items(filters) {

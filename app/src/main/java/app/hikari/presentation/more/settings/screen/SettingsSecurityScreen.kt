@@ -8,7 +8,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.fragment.app.FragmentActivity
 import app.hikari.app.di.appGraph
 import app.hikari.core.common.i18n.stringResource
-import app.hikari.core.security.PrivacyPreferences
 import app.hikari.core.security.SecurityPreferences
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.i18n.pluralStringResource
@@ -17,7 +16,6 @@ import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.more.settings.Preference
 import app.hikari.util.system.AuthenticatorUtil.authenticate
 import app.hikari.util.system.AuthenticatorUtil.isAuthenticationSupported
-import app.hikari.util.system.telemetryIncluded
 
 object SettingsSecurityScreen : SearchableSettings {
 
@@ -29,12 +27,7 @@ object SettingsSecurityScreen : SearchableSettings {
     override fun getPreferences(): List<Preference> {
         val context = LocalContext.current
         val securityPreferences = remember { context.appGraph.securityPreferences }
-        val privacyPreferences = remember { context.appGraph.privacyPreferences }
-        return buildList(2) {
-            add(getSecurityGroup(securityPreferences))
-            if (!telemetryIncluded) return@buildList
-            add(getFirebaseGroup(privacyPreferences))
-        }
+        return listOf(getSecurityGroup(securityPreferences))
     }
 
     @Composable
@@ -89,28 +82,6 @@ object SettingsSecurityScreen : SearchableSettings {
                     title = stringResource(MR.strings.secure_screen),
                 ),
                 Preference.PreferenceItem.InfoPreference(stringResource(MR.strings.secure_screen_summary)),
-            ),
-        )
-    }
-
-    @Composable
-    private fun getFirebaseGroup(
-        privacyPreferences: PrivacyPreferences,
-    ): Preference.PreferenceGroup {
-        return Preference.PreferenceGroup(
-            title = stringResource(MR.strings.pref_firebase),
-            preferenceItems = listOf(
-                Preference.PreferenceItem.SwitchPreference(
-                    preference = privacyPreferences.crashlytics,
-                    title = stringResource(MR.strings.onboarding_permission_crashlytics),
-                    subtitle = stringResource(MR.strings.onboarding_permission_crashlytics_description),
-                ),
-                Preference.PreferenceItem.SwitchPreference(
-                    preference = privacyPreferences.analytics,
-                    title = stringResource(MR.strings.onboarding_permission_analytics),
-                    subtitle = stringResource(MR.strings.onboarding_permission_analytics_description),
-                ),
-                Preference.PreferenceItem.InfoPreference(stringResource(MR.strings.firebase_summary)),
             ),
         )
     }

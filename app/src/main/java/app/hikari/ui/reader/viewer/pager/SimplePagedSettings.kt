@@ -1,5 +1,6 @@
 package app.hikari.ui.reader.viewer.pager
 
+import app.hikari.ui.reader.setting.ReaderPreferences
 import app.hikari.ui.reader.viewer.DualPageSettings
 
 /**
@@ -10,4 +11,5 @@ data class SimplePagedSettings(
     override val dualPageInvert: Boolean,
     override val dualPageRotateToFit: Boolean,
     override val dualPageRotateToFitInvert: Boolean,
+    val pageTransition: ReaderPreferences.PagerPageTransition,
 ) : DualPageSettings

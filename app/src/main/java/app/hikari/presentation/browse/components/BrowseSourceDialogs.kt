@@ -39,3 +39,35 @@ fun RemoveMangaDialog(
         },
     )
 }
+
+@Composable
+fun RemoveMangasDialog(
+    onDismissRequest: () -> Unit,
+    onConfirm: () -> Unit,
+    count: Int,
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(text = stringResource(MR.strings.action_cancel))
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onDismissRequest()
+                    onConfirm()
+                },
+            ) {
+                Text(text = stringResource(MR.strings.action_remove))
+            }
+        },
+        title = {
+            Text(text = stringResource(MR.strings.are_you_sure))
+        },
+        text = {
+            Text(text = stringResource(MR.strings.remove_manga_selection, count))
+        },
+    )
+}

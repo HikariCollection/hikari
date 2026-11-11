@@ -1,0 +1,13 @@
+import kotlin.time.Instant;
+
+CREATE TABLE hidden_manga(
+    id INTEGER NOT NULL PRIMARY KEY,
+    source_id INTEGER NOT NULL,
+    remote_url TEXT NOT NULL,
+    remote_title TEXT NOT NULL,
+    remote_cover TEXT,
+    created_at INTEGER AS Instant NOT NULL,
+    UNIQUE(source_id, remote_url)
+);
+
+CREATE INDEX hidden_manga_source_id_index ON hidden_manga(source_id);

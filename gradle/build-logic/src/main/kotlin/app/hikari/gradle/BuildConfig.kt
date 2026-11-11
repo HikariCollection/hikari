@@ -3,8 +3,6 @@ package app.hikari.gradle
 import org.gradle.api.Project
 
 interface BuildConfig {
-    val includeTelemetry: Boolean
-    val uploadCrashlyticsMapping: Boolean
     val enableUpdater: Boolean
     val includeDependencyInfo: Boolean
 }
@@ -24,11 +22,7 @@ val Project.Config: BuildConfig get() = object : BuildConfig {
         }
         ?: Distribution.LOCAL
 
-    override val includeTelemetry: Boolean = false
-
-    override val uploadCrashlyticsMapping: Boolean = false
-
-    override val enableUpdater: Boolean = false
+    override val enableUpdater: Boolean = flag("enable-updater") ?: true
 
     override val includeDependencyInfo: Boolean = project.flag("include-dependency-info") ?: false
 }

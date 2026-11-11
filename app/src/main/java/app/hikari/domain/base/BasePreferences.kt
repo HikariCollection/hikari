@@ -32,4 +32,9 @@ class BasePreferences(
         Preference.appStateKey("skipped_app_update"),
         "",
     )
+
+    val lastAppCheck: Preference<Long> = preferenceStore.getLong(
+        Preference.appStateKey("last_app_check"),
+        0L,
+    )
 }

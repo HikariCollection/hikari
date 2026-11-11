@@ -96,4 +96,28 @@ class GetApplicationReleaseTest {
 
         result shouldBe GetApplicationRelease.Result.NoNewUpdate
     }
+
+    @Test
+    fun `When remote major version is older expect no new update even if minor is larger`() = runTest {
+        val release = Release(
+            "v0.2.0",
+            "info",
+            "http://example.com/release_link",
+            "http://example.com/release_link.apk",
+        )
+
+        coEvery { releaseService.latest(any()) } returns release
+
+        val result = getApplicationRelease.await(
+            GetApplicationRelease.Arguments(
+                isFoss = false,
+                isNightly = false,
+                commitCount = 0,
+                versionName = "v1.0.0",
+                repository = "test",
+            ),
+        )
+
+        result shouldBe GetApplicationRelease.Result.NoNewUpdate
+    }
 }

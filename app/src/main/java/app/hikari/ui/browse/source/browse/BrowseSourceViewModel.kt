@@ -24,7 +24,10 @@ import app.hikari.domain.category.model.Category
 import app.hikari.domain.chapter.interactor.SetMangaDefaultChapterFlags
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.interactor.GetDuplicateLibraryManga
+import app.hikari.domain.manga.interactor.GetHiddenManga
 import app.hikari.domain.manga.interactor.GetManga
+import app.hikari.domain.manga.interactor.HideManga
+import app.hikari.domain.manga.interactor.UnhideManga
 import app.hikari.domain.manga.interactor.UpdateManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaUpdate
@@ -36,6 +39,7 @@ import app.hikari.domain.source.service.SourcePreferences
 import app.hikari.domain.track.interactor.AddTracks
 import app.hikari.source.Source
 import app.hikari.source.model.FilterList
+import app.hikari.ui.browse.source.shouldShowBrowseManga
 import app.hikari.util.removeCovers
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.Assisted
@@ -46,15 +50,18 @@ import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactory
 import dev.zacsweers.metrox.viewmodel.ManualViewModelAssistedFactoryKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.WhileSubscribed
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -68,7 +75,7 @@ class BrowseSourceViewModel(
     @Assisted listingQuery: String?,
     @AppCoroutineScope private val appScope: CoroutineScope,
     private val sourceManager: SourceManager,
-    sourcePreferences: SourcePreferences,
+    private val sourcePreferences: SourcePreferences,
     private val libraryPreferences: LibraryPreferences,
     private val coverCache: CoverCache,
     private val getRemoteManga: GetRemoteManga,
@@ -77,6 +84,9 @@ class BrowseSourceViewModel(
     private val setMangaCategories: SetMangaCategories,
     private val setMangaDefaultChapterFlags: SetMangaDefaultChapterFlags,
     private val getManga: GetManga,
+    private val getHiddenManga: GetHiddenManga,
+    private val hideManga: HideManga,
+    private val unhideManga: UnhideManga,
     private val updateManga: UpdateManga,
     private val addTracks: AddTracks,
     getIncognitoState: GetIncognitoState,
@@ -127,12 +137,23 @@ class BrowseSourceViewModel(
      * Flow of Pager flow tied to [State.listing]
      */
     private val hideInLibraryItems = sourcePreferences.hideInLibraryItems.get()
+
+    val showHiddenItems: StateFlow<Boolean> = sourcePreferences.showHiddenItems
+        .changes()
+        .stateIn(viewModelScope, SharingStarted.Eagerly, sourcePreferences.showHiddenItems.get())
+
+    val hiddenMangaUrls: StateFlow<Set<String>> = getHiddenManga.subscribeUrlsBySource(sourceId)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+
+    private val _events = Channel<Event>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
+
     val mangaPagerFlowFlow = state.map { it.source to it.listing }
         .filter { (source, _) -> source != null }
         .map { (_, listing) -> listing }
         .distinctUntilChanged()
         .map { listing ->
-            Pager(PagingConfig(pageSize = 25)) {
+            val cachedFlow = Pager(PagingConfig(pageSize = 25)) {
                 getRemoteManga(sourceId, listing.query ?: "", listing.filters)
             }.flow.map { pagingData ->
                 pagingData.map { manga ->
@@ -140,9 +161,21 @@ class BrowseSourceViewModel(
                         .map { it ?: manga }
                         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5.seconds), manga)
                 }
-                    .filter { !hideInLibraryItems || !it.value.favorite }
             }
                 .cachedIn(viewModelScope)
+
+            combine(cachedFlow, hiddenMangaUrls, showHiddenItems) { pagingData, hiddenUrls, showHidden ->
+                pagingData.filter { mangaFlow ->
+                    val manga = mangaFlow.value
+                    shouldShowBrowseManga(
+                        isFavorite = manga.favorite,
+                        url = manga.url,
+                        hideInLibraryItems = hideInLibraryItems,
+                        hiddenUrls = hiddenUrls,
+                        showHiddenItems = showHidden,
+                    )
+                }
+            }
         }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyFlow())
 
@@ -315,6 +348,143 @@ class BrowseSourceViewModel(
         }
     }
 
+    fun setShowHiddenItems(show: Boolean) {
+        sourcePreferences.showHiddenItems.set(show)
+    }
+
+    fun toggleSelection(manga: Manga) {
+        state.update { current ->
+            val updated = if (manga.id in current.selection) {
+                current.selection - manga.id
+            } else {
+                current.selection + (manga.id to manga)
+            }
+            current.copy(selection = updated)
+        }
+    }
+
+    fun clearSelection() {
+        state.update { it.copy(selection = emptyMap()) }
+    }
+
+    fun selectAll(mangaList: List<Manga>) {
+        state.update { it.copy(selection = mangaList.associateBy { manga -> manga.id }) }
+    }
+
+    fun invertSelection(mangaList: List<Manga>) {
+        state.update { current ->
+            val inverted = buildMap {
+                mangaList.forEach { manga ->
+                    if (manga.id !in current.selection) {
+                        put(manga.id, manga)
+                    }
+                }
+            }
+            current.copy(selection = inverted)
+        }
+    }
+
+    fun favoriteSelection() {
+        val selected = state.value.selection.values.toList()
+        if (selected.isEmpty()) return
+
+        val nonFavorites = selected.filterNot { it.favorite }
+        if (nonFavorites.isEmpty()) {
+            val dialog = if (selected.size == 1) {
+                Dialog.RemoveManga(selected.single())
+            } else {
+                Dialog.RemoveMangas(selected)
+            }
+            setDialog(dialog)
+            clearSelection()
+            return
+        }
+
+        if (nonFavorites.size == 1) {
+            val manga = nonFavorites.single()
+            clearSelection()
+            viewModelScope.launch(Dispatchers.IO) {
+                val duplicates = getDuplicateLibraryManga(manga)
+                if (duplicates.isNotEmpty()) {
+                    setDialog(Dialog.AddDuplicateManga(manga, duplicates))
+                } else {
+                    addFavorite(manga)
+                }
+            }
+            return
+        }
+
+        clearSelection()
+        viewModelScope.launch {
+            val categories = getCategories()
+            val defaultCategoryId = libraryPreferences.defaultCategory.get()
+            val defaultCategory = categories.find { it.id == defaultCategoryId.toLong() }
+
+            when {
+                defaultCategory != null -> {
+                    addFavorites(nonFavorites, listOf(defaultCategory.id))
+                }
+                defaultCategoryId == 0 || categories.isEmpty() -> {
+                    addFavorites(nonFavorites, emptyList())
+                }
+                else -> {
+                    setDialog(
+                        Dialog.ChangeMangaCategories(
+                            mangaList = nonFavorites,
+                            initialSelection = categories.mapAsCheckboxState { false },
+                        ),
+                    )
+                }
+            }
+        }
+    }
+
+    fun addFavorites(mangaList: List<Manga>, categoryIds: List<Long>) {
+        appScope.launch {
+            val now = Clock.System.now()
+            val updates = mangaList.map { manga ->
+                setMangaCategories.await(mangaId = manga.id, categoryIds = categoryIds)
+                setMangaDefaultChapterFlags.await(manga)
+                addTracks.bindEnhancedTrackers(manga, sourceManager.getOrStub(manga.source))
+                MangaUpdate(manga.id) { favoriteAt = now }
+            }
+            updateManga.awaitAll(updates)
+        }
+    }
+
+    fun removeMangas(mangaList: List<Manga>) {
+        appScope.launch {
+            val updates = mangaList.map { manga ->
+                manga.removeCovers(coverCache)
+                MangaUpdate(manga.id) { favoriteAt = null }
+            }
+            updateManga.awaitAll(updates)
+        }
+    }
+
+    fun hideOrUnhideSelection() {
+        val selected = state.value.selection.values.toList()
+        if (selected.isEmpty()) return
+
+        val allHidden = selected.all { it.url in hiddenMangaUrls.value }
+        clearSelection()
+
+        appScope.launch {
+            if (allHidden) {
+                unhideManga.await(selected)
+            } else {
+                hideManga.await(selected)
+                _events.send(Event.MangaHidden(selected))
+            }
+        }
+    }
+
+    fun unhideManga(mangaList: List<Manga>) {
+        appScope.launch {
+            unhideManga.await(mangaList)
+        }
+    }
+
     fun openFilterSheet() {
         setDialog(Dialog.Filter)
     }
@@ -346,12 +516,21 @@ class BrowseSourceViewModel(
         }
     }
 
+    sealed interface Event {
+        data class MangaHidden(val mangaList: List<Manga>) : Event
+    }
+
     sealed interface Dialog {
         data object Filter : Dialog
         data class RemoveManga(val manga: Manga) : Dialog
+        data class RemoveMangas(val mangaList: List<Manga>) : Dialog
         data class AddDuplicateManga(val manga: Manga, val duplicates: List<MangaWithChapterCount>) : Dialog
         data class ChangeMangaCategory(
             val manga: Manga,
+            val initialSelection: List<CheckboxState.State<Category>>,
+        ) : Dialog
+        data class ChangeMangaCategories(
+            val mangaList: List<Manga>,
             val initialSelection: List<CheckboxState.State<Category>>,
         ) : Dialog
         data class Migrate(val target: Manga, val current: Manga) : Dialog
@@ -364,7 +543,9 @@ class BrowseSourceViewModel(
         val filters: FilterList = FilterList(),
         val toolbarQuery: String? = null,
         val dialog: Dialog? = null,
+        val selection: Map<Long, Manga> = emptyMap(),
     ) {
         val isUserQuery get() = listing is Listing.Search && !listing.query.isNullOrEmpty()
+        val selectionMode get() = selection.isNotEmpty()
     }
 }

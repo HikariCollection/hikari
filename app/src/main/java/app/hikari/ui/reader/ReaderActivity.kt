@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -23,6 +24,8 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.AlertDialog
@@ -34,6 +37,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -53,8 +57,10 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerEventPass
+import androidx.compose.ui.input.pointer.PointerId
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.keepScreenOn
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
@@ -77,6 +83,7 @@ import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.collectAsState
 import app.hikari.presentation.reader.DisplayRefreshHost
 import app.hikari.presentation.reader.OrientationSelectDialog
+import app.hikari.presentation.reader.ReaderBrightnessHud
 import app.hikari.presentation.reader.ReaderContentOverlay
 import app.hikari.presentation.reader.ReaderNavigationOverlay
 import app.hikari.presentation.reader.ReaderNavigationOverlayState
@@ -111,6 +118,7 @@ import app.hikari.util.system.toast
 import app.hikari.util.view.setComposeContent
 import dev.zacsweers.metro.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.drop
@@ -120,6 +128,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import logcat.LogPriority
+import kotlin.math.abs
 
 class ReaderActivity : BaseActivity() {
 
@@ -197,6 +206,7 @@ class ReaderActivity : BaseActivity() {
             val colorOverlay by readerPreferences.colorFilterValue.collectAsState()
             val colorOverlayMode by readerPreferences.colorFilterMode.collectAsState()
             val brightness by settingsViewModel.brightness.collectAsState()
+            val brightnessSwipeEdge by readerPreferences.brightnessSwipeEdge.collectAsState()
             val navigation = settingsViewModel.navigation.collectAsState().value
 
             val backgroundColor = remember(general.theme) { Color(baseContext.readerBackgroundColor(general.theme)) }
@@ -204,7 +214,22 @@ class ReaderActivity : BaseActivity() {
                 ReaderPreferences.ColorFilterMode.getOrNull(colorOverlayMode)?.second
             }
 
+            var isBrightnessDragging by remember { mutableStateOf(false) }
+            var showBrightnessHud by remember { mutableStateOf(false) }
+            var hudDismissNonce by remember { mutableIntStateOf(0) }
+            val edgeWidthPx = with(LocalDensity.current) { 48.dp.toPx() }
+
             LaunchedEffect(brightness) { setWindowBrightness(brightness) }
+            LaunchedEffect(isBrightnessDragging, hudDismissNonce, state.menuVisible) {
+                if (state.menuVisible) {
+                    showBrightnessHud = false
+                    return@LaunchedEffect
+                }
+                if (!isBrightnessDragging && showBrightnessHud) {
+                    delay(1200L)
+                    showBrightnessHud = false
+                }
+            }
 
             val forceNavigationOverlay = remember { settingsViewModel.takeNavigationOverlayForNewUser() }
             LaunchedEffect(navigation) {
@@ -227,6 +252,86 @@ class ReaderActivity : BaseActivity() {
                         awaitEachGesture {
                             awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
                             navigationOverlayState.hide()
+                        }
+                    }
+                    .pointerInput(brightnessSwipeEdge, state.menuVisible) {
+                        if (state.menuVisible || brightnessSwipeEdge == ReaderPreferences.BrightnessSwipeEdge.OFF) {
+                            return@pointerInput
+                        }
+                        val touchSlop = viewConfiguration.touchSlop
+                        awaitEachGesture {
+                            val down = awaitFirstDown(requireUnconsumed = false, pass = PointerEventPass.Initial)
+                            val viewportWidth = size.width.toFloat()
+                            val viewportHeight = size.height.toFloat()
+                            val insideEdge = isInsideBrightnessEdge(
+                                x = down.position.x,
+                                width = viewportWidth,
+                                edgeWidthPx = edgeWidthPx,
+                                edge = brightnessSwipeEdge,
+                            )
+                            if (!insideEdge) {
+                                return@awaitEachGesture
+                            }
+
+                            val activePointerId: PointerId = down.id
+                            var dragOriginY = down.position.y
+                            var startBrightness = 0
+                            var lastBrightness = 0
+                            var isDragging = false
+
+                            try {
+                                while (true) {
+                                    val event = awaitPointerEvent(PointerEventPass.Initial)
+                                    val activeCount = event.changes.count { it.pressed }
+                                    val change = event.changes.firstOrNull { it.id == activePointerId } ?: break
+
+                                    if (!change.pressed) {
+                                        if (isDragging) {
+                                            change.consume()
+                                        }
+                                        break
+                                    }
+
+                                    if (!isDragging) {
+                                        if (activeCount > 1) {
+                                            break
+                                        }
+                                        val dx = change.position.x - down.position.x
+                                        val dy = change.position.y - down.position.y
+                                        if (abs(dx) > touchSlop && abs(dx) >= abs(dy)) {
+                                            break
+                                        }
+                                        if (abs(dy) > touchSlop && abs(dy) > abs(dx)) {
+                                            isDragging = true
+                                            dragOriginY = change.position.y
+                                            startBrightness = resolveInitialBrightness(
+                                                currentBrightness = settingsViewModel.brightness.value,
+                                                windowScreenBrightness = window.attributes.screenBrightness,
+                                                systemBrightness = readSystemBrightness(baseContext),
+                                            )
+                                            lastBrightness = startBrightness
+                                            isBrightnessDragging = true
+                                            showBrightnessHud = true
+                                            settingsViewModel.updateLiveBrightness(lastBrightness)
+                                            change.consume()
+                                        }
+                                    } else {
+                                        change.consume()
+                                        lastBrightness = calculateDragBrightness(
+                                            startBrightness = startBrightness,
+                                            dragDy = change.position.y - dragOriginY,
+                                            containerHeight = viewportHeight,
+                                        )
+                                        settingsViewModel.updateLiveBrightness(lastBrightness)
+                                    }
+                                }
+                            } finally {
+                                if (isDragging) {
+                                    settingsViewModel.commitLiveBrightness(lastBrightness)
+                                    isBrightnessDragging = false
+                                    hudDismissNonce++
+                                }
+                            }
                         }
                     }
                     .then(if (general.keepScreenOn) Modifier.keepScreenOn() else Modifier),
@@ -259,6 +364,15 @@ class ReaderActivity : BaseActivity() {
                 }
 
                 ReaderNavigationOverlay(state = navigationOverlayState)
+
+                ReaderBrightnessHud(
+                    brightness = brightness,
+                    visible = showBrightnessHud && !state.menuVisible,
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .statusBarsPadding()
+                        .padding(top = 16.dp),
+                )
 
                 AppBars(state = state)
             }
@@ -897,4 +1011,10 @@ private fun viewerColorFilter(grayscale: Boolean, invertedColors: Boolean): Colo
         matrix *= ColorMatrix().apply { setToSaturation(0f) }
     }
     return ColorFilter.colorMatrix(matrix)
+}
+
+private fun readSystemBrightness(context: Context): Int? {
+    return runCatching {
+        Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS)
+    }.getOrNull()
 }

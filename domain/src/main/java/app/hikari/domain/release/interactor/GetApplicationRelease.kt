@@ -41,13 +41,15 @@ class GetApplicationRelease(
             // tagged as something like "v0.1.2"
             val oldVersion = versionName.replace("[^\\d.]".toRegex(), "")
 
-            val newSemVer = newVersion.split(".").map { it.toInt() }
-            val oldSemVer = oldVersion.split(".").map { it.toInt() }
+            val newSemVer = newVersion.split(".").mapNotNull { it.toIntOrNull() }
+            val oldSemVer = oldVersion.split(".").mapNotNull { it.toInt() }
+            val segmentCount = maxOf(newSemVer.size, oldSemVer.size)
 
-            oldSemVer.mapIndexed { index, i ->
-                if (newSemVer[index] > i) {
-                    return true
-                }
+            for (index in 0 until segmentCount) {
+                val newPart = newSemVer.getOrElse(index) { 0 }
+                val oldPart = oldSemVer.getOrElse(index) { 0 }
+                if (newPart > oldPart) return true
+                if (newPart < oldPart) return false
             }
 
             false

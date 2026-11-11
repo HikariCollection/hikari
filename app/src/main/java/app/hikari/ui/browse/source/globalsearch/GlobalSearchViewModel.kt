@@ -1,5 +1,6 @@
 package app.hikari.ui.browse.source.globalsearch
 
+import app.hikari.domain.manga.interactor.GetHiddenManga
 import app.hikari.domain.manga.interactor.GetManga
 import app.hikari.domain.manga.interactor.NetworkToLocalManga
 import app.hikari.domain.source.service.SourceManager
@@ -23,6 +24,7 @@ class GlobalSearchViewModel(
     extensionManager: ExtensionManager,
     networkToLocalManga: NetworkToLocalManga,
     getManga: GetManga,
+    getHiddenManga: GetHiddenManga,
     preferences: SourcePreferences,
 ) : SearchViewModel(
     initialState = State(searchQuery = initialQuery),
@@ -32,6 +34,7 @@ class GlobalSearchViewModel(
     networkToLocalManga = networkToLocalManga,
     getManga = getManga,
     preferences = preferences,
+    getHiddenManga = getHiddenManga,
 ) {
 
     @AssistedFactory

@@ -5,21 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.2] - 2026-11-06
+## [0.0.2] - 2026-11-12
 
 ### Added
 
 - Standalone extension repository support compiling against `app.hikari:source-api:1.1`.
 - Official Hikari extension repository integration with pre-trusted signer verification.
 - Direct navigation shortcut from empty sources screen to extensions tab.
+- Safeguarded `DelegateLastClassLoader` delegation for extension loading.
+- Customizable reader page transition animations (`Book curl`, `Depth`, `Fade`, `Cube`) for `PagerViewer`.
+- Reader vertical edge swipe brightness gesture (`Left`, `Right`, or `Off`) with a Material 3 brightness HUD.
+- Source browsing multi-selection mode on long-press with Favorite and Hide/Unhide actions, `Show hidden items` source filter, Global Search filtering, and a `Hidden manga` management screen in Browse settings.
 
 ### Changed
 
 - Migrated extension library versioning to Hikari-native 1.1 format.
+- Re-enabled the in-app updater for `HikariCollection/hikari` releases with 6-hour check throttling and fixed semantic version comparison.
 
 ### Removed
 
 - In-app built-in sources (`source-builtin`) in favor of official signed extensions.
+- Chapter release prediction and the Upcoming releases screen.
+- Legacy app themes and remaining Firebase/Crashlytics leftovers.
 
 ## [0.0.1] - 2026-11-05
 
