@@ -55,6 +55,7 @@ import app.hikari.domain.manga.model.MangaWithChapterCount
 import app.hikari.domain.manga.model.applyFilter
 import app.hikari.domain.manga.model.chaptersFiltered
 import app.hikari.domain.manga.model.downloadedFilter
+import app.hikari.domain.manga.model.hasCustomMetadata
 import app.hikari.domain.source.interactor.UpdateMangaFromRemote
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.domain.track.interactor.AddTracks
@@ -412,6 +413,9 @@ class MangaViewModel(
                 // Remove from library
                 if (updateManga.awaitUpdateFavorite(manga.id, false)) {
                     manga.removeCovers(coverCache)
+                    if (manga.hasCustomMetadata()) {
+                        updateManga.awaitResetCustomMetadata(manga)
+                    }
                     onRemoved()
                 }
             } else {
@@ -1040,6 +1044,7 @@ class MangaViewModel(
         data object SettingsSheet : Dialog
         data object TrackSheet : Dialog
         data object FullCover : Dialog
+        data object EditInfo : Dialog
     }
 
     fun dismissDialog() {
@@ -1056,6 +1061,38 @@ class MangaViewModel(
 
     fun showTrackDialog() {
         dialog.value = Dialog.TrackSheet
+    }
+
+    fun showEditInfoDialog() {
+        dialog.value = Dialog.EditInfo
+    }
+
+    fun saveCustomMetadata(
+        title: String,
+        author: String,
+        artist: String,
+        description: String,
+        genresInput: String,
+    ) {
+        val currentManga = manga ?: return
+        viewModelScope.launch(Dispatchers.IO) {
+            updateManga.awaitUpdateCustomMetadata(
+                manga = currentManga,
+                title = title,
+                author = author,
+                artist = artist,
+                description = description,
+                genresInput = genresInput,
+            )
+        }
+    }
+
+    fun resetCustomMetadata() {
+        val currentManga = manga ?: return
+        viewModelScope.launch(Dispatchers.IO) {
+            updateManga.awaitResetCustomMetadata(currentManga)
+            fetchAllFromSource(manualFetch = true)
+        }
     }
 
     fun showCoverDialog() {

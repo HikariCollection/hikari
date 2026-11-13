@@ -40,6 +40,7 @@ import app.hikari.domain.manga.interactor.UpdateManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.model.applyFilter
+import app.hikari.domain.manga.model.hasCustomMetadata
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.domain.track.interactor.GetTracksPerManga
 import app.hikari.domain.track.model.Track
@@ -557,6 +558,11 @@ class LibraryViewModel(
                     }
                 }
                 updateManga.awaitAll(toDelete)
+                mangas.forEach {
+                    if (it.hasCustomMetadata()) {
+                        updateManga.awaitResetCustomMetadata(it)
+                    }
+                }
             }
 
             if (deleteChapters) {

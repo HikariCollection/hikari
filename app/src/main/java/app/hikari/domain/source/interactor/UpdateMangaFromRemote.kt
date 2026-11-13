@@ -11,6 +11,8 @@ import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaRemoteUpdate
 import app.hikari.domain.manga.model.hasCustomCover
+import app.hikari.domain.manga.model.hasCustomMetadata
+import app.hikari.domain.manga.model.mergeCustomMetadataMarker
 import app.hikari.domain.manga.model.toSManga
 import app.hikari.domain.manga.repository.MangaRepository
 import app.hikari.domain.source.models.RemoteMangaUpdate
@@ -117,25 +119,31 @@ class UpdateMangaFromRemote(
         }
 
         val thumbnailUrl = remoteManga.thumbnail_url?.takeIf { it.isNotEmpty() }
+        val hasCustomMetadata = localManga.hasCustomMetadata()
 
+        val effectiveTitle = if (hasCustomMetadata) null else title
         val success = mangaRepository.updateRemote(
             MangaRemoteUpdate(
                 id = localManga.id,
-                title = title,
+                title = effectiveTitle,
                 coverLastModified = coverLastModified,
-                author = remoteManga.author,
-                artist = remoteManga.artist,
-                description = remoteManga.description,
-                genre = remoteManga.getGenres(),
+                author = if (hasCustomMetadata) null else remoteManga.author,
+                artist = if (hasCustomMetadata) null else remoteManga.artist,
+                description = if (hasCustomMetadata) null else remoteManga.description,
+                genre = if (hasCustomMetadata) null else remoteManga.getGenres(),
                 thumbnailUrl = thumbnailUrl,
                 status = remoteManga.status.toLong(),
                 updateStrategy = remoteManga.update_strategy,
                 initialized = true,
-                memo = remoteManga.memo,
+                memo = if (hasCustomMetadata) {
+                    mergeCustomMetadataMarker(remoteManga.memo, localManga.memo)
+                } else {
+                    remoteManga.memo
+                },
             ),
         )
-        if (success && title != null) {
-            downloadManager.renameManga(localManga, title)
+        if (success && effectiveTitle != null) {
+            downloadManager.renameManga(localManga, effectiveTitle)
         }
         return success
     }

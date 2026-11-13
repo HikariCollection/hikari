@@ -218,6 +218,16 @@ UPDATE manga SET
     state_initialized = :stateInitialized
 WHERE id = :id;
 
+updateCustomMetadata:
+UPDATE manga SET
+    remote_title = :title,
+    remote_author = :author,
+    remote_artist = :artist,
+    remote_description = :description,
+    remote_genre = :genre,
+    remote_memo = :memo
+WHERE id = :id;
+
 insertNetworkManga {
     -- A new entry is inserted as the source reported it. An existing one takes the fresh details
     -- only while it is outside the library, so a library entry keeps what the user already has.

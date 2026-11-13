@@ -33,6 +33,7 @@ import app.hikari.presentation.manga.DuplicateMangaDialog
 import app.hikari.presentation.manga.EditCoverAction
 import app.hikari.presentation.manga.MangaScreen
 import app.hikari.presentation.manga.components.DeleteChaptersDialog
+import app.hikari.presentation.manga.components.EditMangaInfoDialog
 import app.hikari.presentation.manga.components.MangaCoverDialog
 import app.hikari.presentation.manga.components.ScanlatorFilterDialog
 import app.hikari.presentation.util.AssistContentScreen
@@ -156,6 +157,7 @@ class MangaScreen(
                 navigator.push(MigrationConfigScreen(successState.manga.id))
             }.takeIf { successState.manga.favorite },
             onEditNotesClicked = { navigator.push(MangaNotesScreen(manga = successState.manga)) },
+            onEditInfoClicked = viewModel::showEditInfoDialog.takeIf { successState.manga.favorite },
             onMultiBookmarkClicked = viewModel::bookmarkChapters,
             onMultiMarkAsReadClicked = viewModel::markChaptersRead,
             onMarkPreviousAsReadClicked = viewModel::markPreviousChapterRead,
@@ -217,6 +219,14 @@ class MangaScreen(
                     // Initiated from the context of [dialog.target] so we show [dialog.current].
                     onClickTitle = { navigator.push(MangaScreen(dialog.current.id)) },
                     onDismissRequest = onDismissRequest,
+                )
+            }
+            MangaViewModel.Dialog.EditInfo -> {
+                EditMangaInfoDialog(
+                    manga = successState.manga,
+                    onDismissRequest = onDismissRequest,
+                    onSave = viewModel::saveCustomMetadata,
+                    onReset = viewModel::resetCustomMetadata,
                 )
             }
             MangaViewModel.Dialog.SettingsSheet -> ChapterSettingsDialog(

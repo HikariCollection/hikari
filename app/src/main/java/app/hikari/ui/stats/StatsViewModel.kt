@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import app.hikari.core.util.fastCountNot
 import app.hikari.data.download.DownloadManager
 import app.hikari.data.track.TrackerManager
+import app.hikari.domain.history.interactor.GetReadActivity
 import app.hikari.domain.history.interactor.GetTotalReadDuration
 import app.hikari.domain.library.model.LibraryManga
 import app.hikari.domain.library.service.LibraryPreferences
@@ -14,6 +15,7 @@ import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_HAS_
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_NON_COMPLETED
 import app.hikari.domain.library.service.LibraryPreferences.Companion.MANGA_NON_READ
 import app.hikari.domain.manga.interactor.GetLibraryManga
+import app.hikari.domain.source.service.SourceManager
 import app.hikari.domain.track.interactor.GetTracksPerManga
 import app.hikari.domain.track.model.Track
 import app.hikari.presentation.more.stats.StatsScreenState
@@ -30,6 +32,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 
 @Inject
 @ViewModelKey
@@ -37,9 +42,11 @@ import kotlinx.coroutines.launch
 class StatsViewModel(
     private val downloadManager: DownloadManager,
     private val getLibraryManga: GetLibraryManga,
+    private val getReadActivity: GetReadActivity,
     private val getTotalReadDuration: GetTotalReadDuration,
     private val getTracksPerManga: GetTracksPerManga,
     private val preferences: LibraryPreferences,
+    private val sourceManager: SourceManager,
     private val trackerManager: TrackerManager,
 ) : ViewModel() {
 
@@ -85,12 +92,32 @@ class StatsViewModel(
                 trackerCount = loggedInTrackers.size,
             )
 
+            val timeZone = TimeZone.currentSystemDefault()
+            val today = Clock.System.now().toLocalDateTime(timeZone).date
+            val activityStatData = StatsInsightsCalculator.computeActivity(
+                entries = getReadActivity.await(),
+                today = today,
+                timeZone = timeZone,
+            )
+
+            val sourceNames = distinctLibraryManga
+                .map { it.manga.source }
+                .distinct()
+                .associateWith { sourceId -> sourceManager.getOrStub(sourceId).name }
+
+            val breakdownStatData = StatsInsightsCalculator.computeBreakdown(
+                libraryManga = distinctLibraryManga,
+                sourceNameResolver = { sourceId -> sourceNames[sourceId].orEmpty() },
+            )
+
             state.update {
                 StatsScreenState.Success(
                     overview = overviewStatData,
                     titles = titlesStatData,
                     chapters = chaptersStatData,
                     trackers = trackersStatData,
+                    activity = activityStatData,
+                    breakdown = breakdownStatData,
                 )
             }
         }

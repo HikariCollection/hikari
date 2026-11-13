@@ -3,6 +3,7 @@ package app.hikari.domain.history.repository
 import app.hikari.domain.history.model.History
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.model.HistoryWithRelations
+import app.hikari.domain.history.model.ReadActivityEntry
 import kotlinx.coroutines.flow.Flow
 
 interface HistoryRepository {
@@ -12,6 +13,8 @@ interface HistoryRepository {
     suspend fun getLastHistory(): HistoryWithRelations?
 
     suspend fun getTotalReadDuration(): Long
+
+    suspend fun getReadActivity(): List<ReadActivityEntry>
 
     suspend fun getHistoryByMangaId(mangaId: Long): List<History>
 

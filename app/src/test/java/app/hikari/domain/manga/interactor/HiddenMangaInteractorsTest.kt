@@ -1,5 +1,6 @@
 package app.hikari.domain.manga.interactor
 
+import app.hikari.domain.manga.model.HiddenManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.repository.HiddenMangaRepository
 import app.hikari.source.model.UpdateStrategy
@@ -14,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.JsonObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import kotlin.time.Instant
 
 class HiddenMangaInteractorsTest {
 
@@ -93,5 +95,23 @@ class HiddenMangaInteractorsTest {
         verify(exactly = 1) { repository.getHiddenUrlsBySource(5L) }
         verify(exactly = 1) { repository.getAllHiddenKeysAsFlow() }
         verify(exactly = 1) { repository.getCountAsFlow() }
+    }
+
+    @Test
+    fun `GetHiddenManga awaitAll delegates to repository`() = runBlocking {
+        val expected = listOf(
+            HiddenManga(
+                id = 1L,
+                sourceId = 5L,
+                url = "/manga/a",
+                title = "Title A",
+                thumbnailUrl = "https://example.org/a.jpg",
+                createdAt = Instant.fromEpochMilliseconds(1_700_000_000_000L),
+            ),
+        )
+        coEvery { repository.getAll() } returns expected
+
+        assertEquals(expected, getHiddenManga.awaitAll())
+        coVerify(exactly = 1) { repository.getAll() }
     }
 }

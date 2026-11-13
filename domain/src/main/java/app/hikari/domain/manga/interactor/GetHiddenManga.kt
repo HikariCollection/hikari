@@ -16,4 +16,6 @@ class GetHiddenManga(
     fun subscribeAll(): Flow<List<HiddenManga>> = repository.getAllHiddenMangaAsFlow()
 
     fun subscribeCount(): Flow<Long> = repository.getCountAsFlow()
+
+    suspend fun awaitAll(): List<HiddenManga> = repository.getAll()
 }

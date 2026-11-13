@@ -1,5 +1,6 @@
 package app.hikari.data.manga
 
+import app.cash.sqldelight.async.coroutines.awaitAsList
 import app.hikari.data.Database
 import app.hikari.data.subscribeToList
 import app.hikari.data.subscribeToOne
@@ -46,6 +47,27 @@ class HiddenMangaRepositoryImpl(
         return database.hidden_mangaQueries
             .getCount()
             .subscribeToOne()
+    }
+
+    override suspend fun getAll(): List<HiddenManga> {
+        return database.hidden_mangaQueries
+            .getAllHiddenManga(::mapHiddenManga)
+            .awaitAsList()
+    }
+
+    override suspend fun upsertAll(items: List<HiddenManga>) {
+        if (items.isEmpty()) return
+        database.transaction {
+            items.forEach { item ->
+                database.hidden_mangaQueries.insert(
+                    sourceId = item.sourceId,
+                    remoteUrl = item.url,
+                    remoteTitle = item.title,
+                    remoteCover = item.thumbnailUrl,
+                    createdAt = item.createdAt,
+                )
+            }
+        }
     }
 
     override suspend fun hide(mangaList: List<Manga>) {

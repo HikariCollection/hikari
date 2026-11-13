@@ -9,12 +9,14 @@ import app.hikari.data.backup.BackupFileValidator
 import app.hikari.data.backup.BackupWriter
 import app.hikari.data.backup.create.creators.CategoriesBackupCreator
 import app.hikari.data.backup.create.creators.ExtensionStoresBackupCreator
+import app.hikari.data.backup.create.creators.HiddenMangaBackupCreator
 import app.hikari.data.backup.create.creators.MangaBackupCreator
 import app.hikari.data.backup.create.creators.PreferenceBackupCreator
 import app.hikari.data.backup.create.creators.SourcesBackupCreator
 import app.hikari.data.backup.models.Backup
 import app.hikari.data.backup.models.BackupCategory
 import app.hikari.data.backup.models.BackupExtensionStore
+import app.hikari.data.backup.models.BackupHiddenManga
 import app.hikari.data.backup.models.BackupManga
 import app.hikari.data.backup.models.BackupPreference
 import app.hikari.data.backup.models.BackupSource
@@ -53,6 +55,7 @@ class BackupCreator(
     private val mangaBackupCreator: MangaBackupCreator,
     private val preferenceBackupCreator: PreferenceBackupCreator,
     private val extensionStoresBackupCreator: ExtensionStoresBackupCreator,
+    private val hiddenMangaBackupCreator: HiddenMangaBackupCreator,
     private val sourcesBackupCreator: SourcesBackupCreator,
     private val backupFileValidator: BackupFileValidator,
 ) {
@@ -87,6 +90,7 @@ class BackupCreator(
 
             val nonFavoriteManga = if (options.readEntries) mangaRepository.getReadMangaNotInLibrary() else emptyList()
             val backupManga = backupMangas(getFavorites.await() + nonFavoriteManga, options)
+            val backupHiddenManga = backupHiddenManga(options)
 
             file.openOutputStream()
                 .also {
@@ -100,6 +104,7 @@ class BackupCreator(
                         writer.writeEntry(manga)
                         sourceIds += manga.source
                     }
+                    backupHiddenManga.mapTo(sourceIds) { it.source }
                     writer.writeMetadata(
                         Backup(
                             backupManga = emptyList(),
@@ -108,6 +113,7 @@ class BackupCreator(
                             backupPreferences = backupAppPreferences(options),
                             backupExtensionStores = backupExtensionStores(options),
                             backupSourcePreferences = backupSourcePreferences(options),
+                            backupHiddenManga = backupHiddenManga,
                         ),
                     )
                     if (writer.isEmpty) {
@@ -157,6 +163,12 @@ class BackupCreator(
         if (!options.extensionStores) return emptyList()
 
         return extensionStoresBackupCreator()
+    }
+
+    private suspend fun backupHiddenManga(options: BackupOptions): List<BackupHiddenManga> {
+        if (!options.hiddenManga) return emptyList()
+
+        return hiddenMangaBackupCreator()
     }
 
     private suspend fun backupSourcePreferences(options: BackupOptions): List<BackupSourcePreferences> {

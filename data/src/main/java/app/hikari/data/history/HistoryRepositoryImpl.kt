@@ -9,6 +9,7 @@ import app.hikari.data.subscribeToList
 import app.hikari.domain.history.model.History
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.model.HistoryWithRelations
+import app.hikari.domain.history.model.ReadActivityEntry
 import app.hikari.domain.history.repository.HistoryRepository
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
@@ -40,6 +41,17 @@ class HistoryRepositoryImpl(
         return database.historyQueries
             .getReadDuration()
             .awaitAsOne()
+    }
+
+    override suspend fun getReadActivity(): List<ReadActivityEntry> {
+        return database.historyQueries
+            .getReadActivity { readAt, readDuration ->
+                ReadActivityEntry(
+                    readAt = readAt,
+                    readDuration = readDuration,
+                )
+            }
+            .awaitAsList()
     }
 
     override suspend fun getHistoryByMangaId(mangaId: Long): List<History> {

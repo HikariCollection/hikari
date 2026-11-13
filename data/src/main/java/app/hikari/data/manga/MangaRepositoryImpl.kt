@@ -225,6 +225,32 @@ class MangaRepositoryImpl(
         }
     }
 
+    override suspend fun updateCustomMetadata(
+        id: Long,
+        title: String,
+        author: String?,
+        artist: String?,
+        description: String?,
+        genre: List<String>?,
+        memo: kotlinx.serialization.json.JsonObject,
+    ): Boolean {
+        return try {
+            database.mangaQueries.updateCustomMetadata(
+                title = title,
+                author = author,
+                artist = artist,
+                description = description,
+                genre = genre,
+                memo = memo,
+                id = id,
+            )
+            true
+        } catch (e: Exception) {
+            logcat(LogPriority.ERROR, e)
+            false
+        }
+    }
+
     private suspend fun partialUpdate(vararg mangaUpdates: MangaUpdate) {
         database.transaction {
             mangaUpdates.forEach { value ->

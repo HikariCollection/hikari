@@ -6,6 +6,7 @@ import app.hikari.domain.manga.model.MangaRemoteUpdate
 import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.model.MangaWithChapterCount
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.json.JsonObject
 
 interface MangaRepository {
 
@@ -46,6 +47,16 @@ interface MangaRepository {
     suspend fun update(update: MangaUpdate): Boolean
 
     suspend fun updateRemote(update: MangaRemoteUpdate): Boolean
+
+    suspend fun updateCustomMetadata(
+        id: Long,
+        title: String,
+        author: String?,
+        artist: String?,
+        description: String?,
+        genre: List<String>?,
+        memo: JsonObject,
+    ): Boolean
 
     suspend fun updateAll(mangaUpdates: List<MangaUpdate>): Boolean
 

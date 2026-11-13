@@ -20,6 +20,8 @@ import app.hikari.icons.materialsymbols.rounded.Schedule
 import app.hikari.presentation.core.components.SectionCard
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
+import app.hikari.presentation.more.stats.components.ActivityStatsSection
+import app.hikari.presentation.more.stats.components.BreakdownStatsSection
 import app.hikari.presentation.more.stats.components.StatsItem
 import app.hikari.presentation.more.stats.components.StatsOverviewItem
 import app.hikari.presentation.more.stats.data.StatsData
@@ -48,6 +50,21 @@ fun StatsScreenContent(
         }
         item {
             TrackerStats(state.trackers)
+        }
+        item {
+            ActivityStatsSection(state.activity)
+        }
+        item {
+            BreakdownStatsSection(
+                titleRes = MR.strings.label_top_sources_section,
+                items = state.breakdown.topSources,
+            )
+        }
+        item {
+            BreakdownStatsSection(
+                titleRes = MR.strings.label_top_genres_section,
+                items = state.breakdown.topGenres,
+            )
         }
     }
 }

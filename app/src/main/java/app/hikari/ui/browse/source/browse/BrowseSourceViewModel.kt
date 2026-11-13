@@ -32,6 +32,7 @@ import app.hikari.domain.manga.interactor.UpdateManga
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.manga.model.MangaUpdate
 import app.hikari.domain.manga.model.MangaWithChapterCount
+import app.hikari.domain.manga.model.hasCustomMetadata
 import app.hikari.domain.source.interactor.GetIncognitoState
 import app.hikari.domain.source.interactor.GetRemoteManga
 import app.hikari.domain.source.service.SourceManager
@@ -281,6 +282,9 @@ class BrowseSourceViewModel(
             }
 
             updateManga.await(update)
+            if (manga.favorite && manga.hasCustomMetadata()) {
+                updateManga.awaitResetCustomMetadata(manga)
+            }
         }
     }
 
@@ -459,6 +463,11 @@ class BrowseSourceViewModel(
                 MangaUpdate(manga.id) { favoriteAt = null }
             }
             updateManga.awaitAll(updates)
+            mangaList.forEach { manga ->
+                if (manga.hasCustomMetadata()) {
+                    updateManga.awaitResetCustomMetadata(manga)
+                }
+            }
         }
     }
 

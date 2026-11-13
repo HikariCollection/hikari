@@ -9,6 +9,8 @@ interface HiddenMangaRepository {
     fun getAllHiddenKeysAsFlow(): Flow<Set<Pair<Long, String>>>
     fun getAllHiddenMangaAsFlow(): Flow<List<HiddenManga>>
     fun getCountAsFlow(): Flow<Long>
+    suspend fun getAll(): List<HiddenManga>
+    suspend fun upsertAll(items: List<HiddenManga>)
     suspend fun hide(mangaList: List<Manga>)
     suspend fun unhide(mangaList: List<Manga>)
     suspend fun unhide(sourceId: Long, url: String)

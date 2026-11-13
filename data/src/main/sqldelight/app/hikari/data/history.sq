@@ -55,3 +55,8 @@ ON CONFLICT(chapter_id) DO UPDATE SET
 getReadDuration:
 SELECT coalesce(sum(read_duration), 0)
 FROM history;
+
+getReadActivity:
+SELECT read_at, read_duration
+FROM history
+WHERE read_at IS NOT NULL;

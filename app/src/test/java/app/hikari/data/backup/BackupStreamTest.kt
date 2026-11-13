@@ -4,6 +4,7 @@ import app.hikari.data.backup.models.Backup
 import app.hikari.data.backup.models.BackupCategory
 import app.hikari.data.backup.models.BackupChapter
 import app.hikari.data.backup.models.BackupExtensionStore
+import app.hikari.data.backup.models.BackupHiddenManga
 import app.hikari.data.backup.models.BackupHistory
 import app.hikari.data.backup.models.BackupManga
 import app.hikari.data.backup.models.BackupPreference
@@ -103,6 +104,7 @@ class BackupStreamTest {
             .write(encode(Backup(emptyList(), backupPreferences = backup.backupPreferences)))
             .write(encode(Backup(listOf(third), backupExtensionStores = backup.backupExtensionStores)))
             .write(encode(Backup(emptyList(), backupSourcePreferences = backup.backupSourcePreferences)))
+            .write(encode(Backup(emptyList(), backupHiddenManga = backup.backupHiddenManga)))
             .readByteArray()
 
         val (entries, metadata) = read(input)
@@ -267,6 +269,22 @@ class BackupStreamTest {
                 contactDiscord = null,
                 isLegacy = false,
                 extensionListUrl = null,
+            ),
+        ),
+        backupHiddenManga = listOf(
+            BackupHiddenManga(
+                source = 1L,
+                url = "/manga/hidden-1",
+                title = "Hidden One",
+                thumbnailUrl = "https://example.org/hidden-1.jpg",
+                createdAt = 1_700_000_000_000L,
+            ),
+            BackupHiddenManga(
+                source = 2L,
+                url = "/manga/hidden-2",
+                title = "Hidden Two",
+                thumbnailUrl = null,
+                createdAt = 1_700_000_100_000L,
             ),
         ),
     )

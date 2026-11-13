@@ -8,11 +8,13 @@ import app.hikari.data.backup.BackupDecoder
 import app.hikari.data.backup.BackupNotifier
 import app.hikari.data.backup.models.BackupCategory
 import app.hikari.data.backup.models.BackupExtensionStore
+import app.hikari.data.backup.models.BackupHiddenManga
 import app.hikari.data.backup.models.BackupPreference
 import app.hikari.data.backup.models.BackupSource
 import app.hikari.data.backup.models.BackupSourcePreferences
 import app.hikari.data.backup.restore.restorers.CategoriesRestorer
 import app.hikari.data.backup.restore.restorers.ExtensionStoreRestorer
+import app.hikari.data.backup.restore.restorers.HiddenMangaRestorer
 import app.hikari.data.backup.restore.restorers.MangaRestorer
 import app.hikari.data.backup.restore.restorers.PreferenceRestorer
 import app.hikari.data.download.DownloadCache
@@ -23,6 +25,7 @@ import app.hikari.util.system.createFileInCacheDir
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
@@ -49,6 +52,7 @@ class BackupRestorer(
     private val categoriesRestorer: CategoriesRestorer,
     private val preferenceRestorer: PreferenceRestorer,
     private val extensionStoreRestorer: ExtensionStoreRestorer,
+    private val hiddenMangaRestorer: HiddenMangaRestorer,
     private val mangaRestorer: MangaRestorer,
     private val backupDecoder: BackupDecoder,
     private val sourceManager: SourceManager,
@@ -103,8 +107,10 @@ class BackupRestorer(
         val backupMaps = backup.backupSources
         sourceMapping = backupMaps.associate { it.sourceId to it.name }
 
-        if (options.libraryEntries) {
+        if (options.libraryEntries || options.hiddenManga) {
             restoreSourceNames(backupMaps)
+        }
+        if (options.libraryEntries) {
             restoreAmount += entryCount
         }
         if (options.categories) {
@@ -117,6 +123,9 @@ class BackupRestorer(
             restoreAmount += backup.backupExtensionStores.size
         }
         if (options.sourceSettings) {
+            restoreAmount += 1
+        }
+        if (options.hiddenManga && backup.backupHiddenManga.isNotEmpty()) {
             restoreAmount += 1
         }
 
@@ -145,6 +154,9 @@ class BackupRestorer(
             }
             if (options.extensionStores) {
                 restoreExtensionStores(backup.backupExtensionStores)
+            }
+            if (options.hiddenManga && backup.backupHiddenManga.isNotEmpty()) {
+                restoreHiddenManga(backup.backupHiddenManga)
             }
 
             // TODO: optionally trigger online library + tracker update
@@ -274,6 +286,27 @@ class BackupRestorer(
                     isSync,
                 )
             }
+    }
+
+    private fun CoroutineScope.restoreHiddenManga(
+        backupHiddenManga: List<BackupHiddenManga>,
+    ) = launch {
+        ensureActive()
+
+        try {
+            hiddenMangaRestorer(backupHiddenManga)
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            errors.add(Date() to "Error Restoring Hidden Manga : ${e.message}")
+        }
+
+        val progress = restoreProgress.incrementAndFetch()
+        notifier.showRestoreProgress(
+            context.stringResource(MR.strings.pref_hidden_manga),
+            progress,
+            restoreAmount,
+            isSync,
+        )
     }
 
     private fun writeErrorLog(): File {

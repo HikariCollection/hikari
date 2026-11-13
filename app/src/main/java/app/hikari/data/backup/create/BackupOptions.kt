@@ -14,6 +14,7 @@ data class BackupOptions(
     val extensionStores: Boolean = true,
     val sourceSettings: Boolean = true,
     val privateSettings: Boolean = false,
+    val hiddenManga: Boolean = true,
 ) {
 
     fun asBooleanArray() = booleanArrayOf(
@@ -27,9 +28,10 @@ data class BackupOptions(
         extensionStores,
         sourceSettings,
         privateSettings,
+        hiddenManga,
     )
 
-    fun canCreate() = libraryEntries || categories || appSettings || extensionStores || sourceSettings
+    fun canCreate() = libraryEntries || categories || appSettings || extensionStores || sourceSettings || hiddenManga
 
     companion object {
         val libraryOptions = listOf(
@@ -67,6 +69,11 @@ data class BackupOptions(
                 setter = { options, enabled -> options.copy(readEntries = enabled) },
                 enabled = { it.libraryEntries },
             ),
+            Entry(
+                label = MR.strings.pref_hidden_manga,
+                getter = BackupOptions::hiddenManga,
+                setter = { options, enabled -> options.copy(hiddenManga = enabled) },
+            ),
         )
 
         val settingsOptions = listOf(
@@ -94,16 +101,17 @@ data class BackupOptions(
         )
 
         fun fromBooleanArray(array: BooleanArray) = BackupOptions(
-            libraryEntries = array[0],
-            categories = array[1],
-            chapters = array[2],
-            tracking = array[3],
-            history = array[4],
-            readEntries = array[5],
-            appSettings = array[6],
-            extensionStores = array[7],
-            sourceSettings = array[8],
-            privateSettings = array[9],
+            libraryEntries = array.getOrElse(0) { true },
+            categories = array.getOrElse(1) { true },
+            chapters = array.getOrElse(2) { true },
+            tracking = array.getOrElse(3) { true },
+            history = array.getOrElse(4) { true },
+            readEntries = array.getOrElse(5) { true },
+            appSettings = array.getOrElse(6) { true },
+            extensionStores = array.getOrElse(7) { true },
+            sourceSettings = array.getOrElse(8) { true },
+            privateSettings = array.getOrElse(9) { false },
+            hiddenManga = array.getOrElse(10) { true },
         )
     }
 

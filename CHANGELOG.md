@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Customizable reader page transition animations (`Book curl`, `Depth`, `Fade`, `Cube`) for `PagerViewer`.
 - Reader vertical edge swipe brightness gesture (`Left`, `Right`, or `Off`) with a Material 3 brightness HUD.
 - Source browsing multi-selection mode on long-press with Favorite and Hide/Unhide actions, `Show hidden items` source filter, Global Search filtering, and a `Hidden manga` management screen in Browse settings.
+- Hidden manga backup and restore in `.hkbackup` files with dedicated options toggles, additive merge handling, and source metadata preservation.
 
 ### Changed
 

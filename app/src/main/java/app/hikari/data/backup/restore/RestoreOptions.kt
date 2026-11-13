@@ -9,6 +9,7 @@ data class RestoreOptions(
     val appSettings: Boolean = true,
     val extensionStores: Boolean = true,
     val sourceSettings: Boolean = true,
+    val hiddenManga: Boolean = true,
 ) {
 
     fun asBooleanArray() = booleanArrayOf(
@@ -17,9 +18,10 @@ data class RestoreOptions(
         appSettings,
         extensionStores,
         sourceSettings,
+        hiddenManga,
     )
 
-    fun canRestore() = libraryEntries || categories || appSettings || extensionStores || sourceSettings
+    fun canRestore() = libraryEntries || categories || appSettings || extensionStores || sourceSettings || hiddenManga
 
     companion object {
         val options = listOf(
@@ -48,14 +50,20 @@ data class RestoreOptions(
                 getter = RestoreOptions::sourceSettings,
                 setter = { options, enabled -> options.copy(sourceSettings = enabled) },
             ),
+            Entry(
+                label = MR.strings.pref_hidden_manga,
+                getter = RestoreOptions::hiddenManga,
+                setter = { options, enabled -> options.copy(hiddenManga = enabled) },
+            ),
         )
 
         fun fromBooleanArray(array: BooleanArray) = RestoreOptions(
-            libraryEntries = array[0],
-            categories = array[1],
-            appSettings = array[2],
-            extensionStores = array[3],
-            sourceSettings = array[4],
+            libraryEntries = array.getOrElse(0) { true },
+            categories = array.getOrElse(1) { true },
+            appSettings = array.getOrElse(2) { true },
+            extensionStores = array.getOrElse(3) { true },
+            sourceSettings = array.getOrElse(4) { true },
+            hiddenManga = array.getOrElse(5) { true },
         )
     }
 
