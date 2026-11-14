@@ -35,33 +35,13 @@ private class DelegateLastPathClassLoader(
     private val bootClassLoader: ClassLoader? = Any::class.java.classLoader
 
     override fun loadClass(name: String?, resolve: Boolean): Class<*> {
-        findLoadedClass(name)?.let { return it }
-
-        if (bootClassLoader != null) {
-            try {
-                return bootClassLoader.loadClass(name)
-            } catch (_: ClassNotFoundException) {}
-        }
-
-        if (name != null &&
-            (name.startsWith("kotlin.") || name.startsWith("kotlinx.") || name.startsWith("app.hikari.source."))
-        ) {
-            try {
-                return parent.loadClass(name)
-            } catch (_: ClassNotFoundException) {}
-        }
-
-        val fromSuper = try {
-            return findClass(name)
-        } catch (e: ClassNotFoundException) {
-            e
-        }
-
-        return try {
-            parent.loadClass(name)
-        } catch (_: ClassNotFoundException) {
-            throw fromSuper
-        }
+        return resolveDelegateClass(
+            name = name,
+            findLoaded = ::findLoadedClass,
+            loadFromBoot = bootClassLoader?.let { loader -> { loader.loadClass(it) } },
+            findSelf = ::findClass,
+            loadFromParent = { parent.loadClass(it) },
+        )
     }
 
     override fun getResource(name: String?): URL? {
@@ -77,5 +57,44 @@ private class DelegateLastPathClassLoader(
             parent?.getResources(name)?.let { addAll(it.toList()) }
         }
         return Collections.enumeration(resources)
+    }
+}
+
+internal fun isParentFirstClass(name: String?): Boolean {
+    return name != null &&
+        (name.startsWith("kotlin.") || name.startsWith("kotlinx.") || name.startsWith("app.hikari.source."))
+}
+
+internal inline fun resolveDelegateClass(
+    name: String?,
+    findLoaded: (String?) -> Class<*>?,
+    noinline loadFromBoot: ((String?) -> Class<*>)?,
+    findSelf: (String?) -> Class<*>,
+    loadFromParent: (String?) -> Class<*>,
+): Class<*> {
+    findLoaded(name)?.let { return it }
+
+    if (loadFromBoot != null) {
+        try {
+            return loadFromBoot(name)
+        } catch (_: ClassNotFoundException) {}
+    }
+
+    if (isParentFirstClass(name)) {
+        try {
+            return loadFromParent(name)
+        } catch (_: ClassNotFoundException) {}
+    }
+
+    val fromSuper = try {
+        return findSelf(name)
+    } catch (e: ClassNotFoundException) {
+        e
+    }
+
+    return try {
+        loadFromParent(name)
+    } catch (_: ClassNotFoundException) {
+        throw fromSuper
     }
 }

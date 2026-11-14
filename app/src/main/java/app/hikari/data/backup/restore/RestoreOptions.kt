@@ -10,6 +10,7 @@ data class RestoreOptions(
     val extensionStores: Boolean = true,
     val sourceSettings: Boolean = true,
     val hiddenManga: Boolean = true,
+    val updateLibraryAfterRestore: Boolean = false,
 ) {
 
     fun asBooleanArray() = booleanArrayOf(
@@ -19,6 +20,7 @@ data class RestoreOptions(
         extensionStores,
         sourceSettings,
         hiddenManga,
+        updateLibraryAfterRestore,
     )
 
     fun canRestore() = libraryEntries || categories || appSettings || extensionStores || sourceSettings || hiddenManga
@@ -64,6 +66,7 @@ data class RestoreOptions(
             extensionStores = array.getOrElse(3) { true },
             sourceSettings = array.getOrElse(4) { true },
             hiddenManga = array.getOrElse(5) { true },
+            updateLibraryAfterRestore = array.getOrElse(6) { false },
         )
     }
 

@@ -75,7 +75,6 @@ fun GlobalSearchToolbar(
             horizontalArrangement = Arrangement.spacedBy(MaterialTheme.padding.small),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // TODO: make this UX better; it only applies when triggering a new search
             if (!hideSourceFilter) {
                 FilterChip(
                     selected = sourceFilter == SourceFilter.PinnedOnly,

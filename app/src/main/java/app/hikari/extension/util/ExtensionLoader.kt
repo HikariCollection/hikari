@@ -210,25 +210,19 @@ internal object ExtensionLoader {
 
         val extName = metaData?.getString(METADATA_NAME)
             ?: appInfo?.let {
-                pkgManager.getApplicationLabel(it).toString().removePrefix("Hikari: ").removePrefix("Tachiyomi: ")
+                stripExtensionTitlePrefix(pkgManager.getApplicationLabel(it).toString())
             }
             ?: pkgName
         val versionName = pkgInfo.versionName
         val versionCode = PackageInfoCompat.getLongVersionCode(pkgInfo)
         val signatures = getSignatures(pkgInfo).orEmpty()
         val store = stores.firstOrNull { it.signingKey in signatures }
-        val contentWarning = when {
-            metaData == null -> ContentWarning.SAFE
-            metaData.containsKey(METADATA_CONTENT_WARNING) -> {
-                when (metaData.getInt(METADATA_CONTENT_WARNING)) {
-                    1 -> ContentWarning.MIXED
-                    2 -> ContentWarning.NSFW
-                    else -> ContentWarning.SAFE
-                }
-            }
-            metaData.getInt(METADATA_NSFW) == 1 -> ContentWarning.NSFW
-            else -> ContentWarning.SAFE
-        }
+        val contentWarning = resolveContentWarning(
+            hasMetadata = metaData != null,
+            hasExplicitContentWarning = metaData?.containsKey(METADATA_CONTENT_WARNING) == true,
+            explicitLevel = metaData?.getInt(METADATA_CONTENT_WARNING),
+            legacyNsfwFlag = metaData?.getInt(METADATA_NSFW) ?: 0,
+        )
 
         fun notLoaded(
             reason: Extension.NotLoaded.Reason,
@@ -246,62 +240,50 @@ internal object ExtensionLoader {
             reason = reason,
         )
 
-        if (appInfo == null || metaData == null) {
-            logcat(LogPriority.WARN) { "Missing application info for extension $extName" }
-            return notLoaded(Extension.NotLoaded.Reason.Malformed)
+        val libVersion = if (appInfo != null && metaData != null) {
+            resolveExtensionLibVersion(metaData.getFloat(METADATA_EXTENSION_LIB), versionName)
+        } else {
+            null
         }
-
-        if (versionName.isNullOrEmpty()) {
-            logcat(LogPriority.WARN) { "Missing versionName for extension $extName" }
-            return notLoaded(Extension.NotLoaded.Reason.Malformed)
-        }
-
-        // Validate lib version
-        val libVersion = metaData.getFloat(METADATA_EXTENSION_LIB)
-            .takeUnless { it == 0.0f }
-            ?.toString()
-            ?.toDouble()
-            ?: versionName.substringBeforeLast('.').toDoubleOrNull()
-        if (libVersion == null || libVersion !in SUPPORTED_LIB_VERSIONS) {
-            logcat(LogPriority.WARN) {
-                "Lib version is $libVersion, while only version(s) ${SUPPORTED_LIB_VERSIONS.joinToString()} are supported"
-            }
-            return notLoaded(Extension.NotLoaded.Reason.UnsupportedLibVersion, libVersion)
-        }
-
-        if (signatures.isEmpty()) {
-            logcat(LogPriority.WARN) { "Package $pkgName isn't signed" }
-            return notLoaded(Extension.NotLoaded.Reason.Unsigned, libVersion)
-        } else if (!trustExtension.isTrusted(pkgInfo, signatures, stores)) {
-            logcat(LogPriority.WARN) { "Extension $pkgName isn't trusted" }
-            return notLoaded(Extension.NotLoaded.Reason.Untrusted(signatures.last()), libVersion)
-        }
-
-        if (applyContentWarningsToInstalled && contentWarning !in enabledContentWarnings) {
-            logcat(LogPriority.WARN) { "Extension $pkgName with $contentWarning not allowed" }
-            return notLoaded(Extension.NotLoaded.Reason.Filtered, libVersion)
+        val rejection = validateExtensionCandidate(
+            hasAppAndMetadata = appInfo != null && metaData != null,
+            versionName = versionName,
+            libVersion = libVersion,
+            signatures = signatures,
+            isTrusted = { trustExtension.isTrusted(pkgInfo, signatures, stores) },
+            contentWarning = contentWarning,
+            enabledContentWarnings = enabledContentWarnings,
+            applyContentWarningsToInstalled = applyContentWarningsToInstalled,
+        )
+        if (rejection != null) {
+            return notLoaded(rejection, libVersion.takeIf { rejection !is Extension.NotLoaded.Reason.Malformed })
         }
 
         // Everything above is cheap to check again, everything below isn't. Nothing about this apk
         // changed and it still passes, so keep the sources that are already registered for it.
-        if (alreadyLoaded != null &&
-            alreadyLoaded.versionCode == versionCode &&
-            alreadyLoaded.isShared == extensionInfo.isShared
-        ) {
-            return alreadyLoaded.copy(store = store)
+        if (canReuseAlreadyLoaded(alreadyLoaded, versionCode, extensionInfo.isShared)) {
+            return alreadyLoaded!!.copy(store = store)
         }
+
+        val resolvedLibVersion = libVersion!!
+        val resolvedAppInfo = appInfo!!
+        val resolvedMetaData = metaData!!
+        val resolvedVersionName = versionName!!
 
         val classLoader = try {
-            DelegateLastClassLoaderCompat(appInfo.sourceDir, null, context.classLoader)
+            DelegateLastClassLoaderCompat(resolvedAppInfo.sourceDir, null, context.classLoader)
         } catch (e: Exception) {
             logcat(LogPriority.ERROR, e) { "Extension load error: $extName ($pkgName)" }
-            return notLoaded(Extension.NotLoaded.Reason.Failed(e.rootMessage, e.stackTraceToString()), libVersion)
+            return notLoaded(
+                Extension.NotLoaded.Reason.Failed(e.rootMessage, e.stackTraceToString()),
+                resolvedLibVersion,
+            )
         }
 
-        val sourceClasses = metaData.getString(METADATA_SOURCE_CLASS)
+        val sourceClasses = resolvedMetaData.getString(METADATA_SOURCE_CLASS)
         if (sourceClasses.isNullOrBlank()) {
             logcat(LogPriority.WARN) { "Missing source class for extension $extName" }
-            return notLoaded(Extension.NotLoaded.Reason.Malformed, libVersion)
+            return notLoaded(Extension.NotLoaded.Reason.Malformed, resolvedLibVersion)
         }
 
         val sources = sourceClasses
@@ -325,7 +307,7 @@ internal object ExtensionLoader {
                     logcat(LogPriority.ERROR, e) { "Extension load error: $extName ($it)" }
                     return notLoaded(
                         Extension.NotLoaded.Reason.Failed(e.rootMessage, e.stackTraceToString()),
-                        libVersion,
+                        resolvedLibVersion,
                     )
                 }
             }
@@ -340,17 +322,87 @@ internal object ExtensionLoader {
         return Extension.Loaded(
             name = extName,
             pkgName = pkgName,
-            versionName = versionName,
+            versionName = resolvedVersionName,
             versionCode = versionCode,
-            libVersion = libVersion,
+            libVersion = resolvedLibVersion,
             lang = lang,
             contentWarning = contentWarning,
             sources = sources,
-            pkgFactory = metaData.getString(METADATA_SOURCE_FACTORY),
+            pkgFactory = resolvedMetaData.getString(METADATA_SOURCE_FACTORY),
             isShared = extensionInfo.isShared,
             signatures = signatures,
             store = store,
         )
+    }
+
+    internal fun stripExtensionTitlePrefix(rawLabel: String): String {
+        return rawLabel.removePrefix("Hikari: ").removePrefix("Tachiyomi: ")
+    }
+
+    internal fun resolveContentWarning(
+        hasMetadata: Boolean,
+        hasExplicitContentWarning: Boolean,
+        explicitLevel: Int?,
+        legacyNsfwFlag: Int,
+    ): ContentWarning {
+        return when {
+            !hasMetadata -> ContentWarning.SAFE
+            hasExplicitContentWarning -> {
+                when (explicitLevel) {
+                    1 -> ContentWarning.MIXED
+                    2 -> ContentWarning.NSFW
+                    else -> ContentWarning.SAFE
+                }
+            }
+            legacyNsfwFlag == 1 -> ContentWarning.NSFW
+            else -> ContentWarning.SAFE
+        }
+    }
+
+    internal fun resolveExtensionLibVersion(metaDataLibVersion: Float?, versionName: String?): Double? {
+        return metaDataLibVersion
+            ?.takeUnless { it == 0.0f }
+            ?.toString()
+            ?.toDouble()
+            ?: versionName?.substringBeforeLast('.')?.toDoubleOrNull()
+    }
+
+    internal inline fun validateExtensionCandidate(
+        hasAppAndMetadata: Boolean,
+        versionName: String?,
+        libVersion: Double?,
+        signatures: List<String>,
+        isTrusted: () -> Boolean,
+        contentWarning: ContentWarning,
+        enabledContentWarnings: Set<ContentWarning>,
+        applyContentWarningsToInstalled: Boolean,
+    ): Extension.NotLoaded.Reason? {
+        if (!hasAppAndMetadata || versionName.isNullOrEmpty()) {
+            return Extension.NotLoaded.Reason.Malformed
+        }
+        if (libVersion == null || libVersion !in SUPPORTED_LIB_VERSIONS) {
+            return Extension.NotLoaded.Reason.UnsupportedLibVersion
+        }
+        if (signatures.isEmpty()) {
+            return Extension.NotLoaded.Reason.Unsigned
+        }
+        if (!isTrusted()) {
+            return Extension.NotLoaded.Reason.Untrusted(signatures.last())
+        }
+        if (applyContentWarningsToInstalled && contentWarning !in enabledContentWarnings) {
+            return Extension.NotLoaded.Reason.Filtered
+        }
+        return null
+    }
+
+    internal fun canReuseAlreadyLoaded(
+        alreadyLoaded: Extension.Loaded?,
+        versionCode: Long,
+        isShared: Boolean,
+    ): Boolean {
+        return alreadyLoaded != null &&
+            alreadyLoaded.versionCode == versionCode &&
+            alreadyLoaded.isShared == isShared
     }
 
     /**

@@ -129,4 +129,9 @@
         <item quantity="one">%1$d update failed</item>
         <item quantity="other">%1$d updates failed</item>
     </plurals>
+
+    <plurals name="skipped_manga_notification">
+        <item quantity="one">Skipped %1$d manga</item>
+        <item quantity="other">Skipped %1$d manga</item>
+    </plurals>
 </resources>

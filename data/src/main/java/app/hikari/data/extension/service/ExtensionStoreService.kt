@@ -34,7 +34,14 @@ class ExtensionStoreService(
 ) {
     suspend fun fetch(indexUrl: String): Result<ExtensionStore> = withContext(Dispatchers.IO) { fetchStore(indexUrl) }
 
-    private suspend fun fetchStore(indexUrl: String): Result<ExtensionStore> {
+    private suspend fun fetchStore(
+        indexUrl: String,
+        visitedUrls: Set<String> = emptySet(),
+    ): Result<ExtensionStore> {
+        if (indexUrl in visitedUrls || visitedUrls.size >= MAX_STORE_REDIRECTS) {
+            return Result.failure(IllegalStateException("Too many or cyclic extension store redirects"))
+        }
+        val nextVisited = visitedUrls + indexUrl
         var updatedIndexUrl: String = indexUrl
         return try {
             val response = network.client.newCall(GET(updatedIndexUrl)).awaitSuccess()
@@ -60,7 +67,7 @@ class ExtensionStoreService(
                 }
 
                 if (networkStore is NetworkLegacyExtensionRepo && networkStore.indexV2 != null) {
-                    return fetchStore(networkStore.indexV2)
+                    return fetchStore(networkStore.indexV2, nextVisited)
                 }
 
                 networkStore.toExtensionStore(updatedIndexUrl)
@@ -93,12 +100,14 @@ class ExtensionStoreService(
             } else if (!store.isLegacy) {
                 val response = network.client.newCall(GET(store.indexUrl)).awaitSuccess()
                 response.body.source().decompressIfGzipped().use { source ->
-                    when (source.peek().readByte()) {
-                        // "{..."
-                        0x7B.toByte() -> json.decodeFromBufferedSource<NetworkExtensionStore>(source)
-                        else -> protoBuf.decodeFromByteArray<NetworkExtensionStore>(source.readByteArray())
-                    }
-                        .extensionList!!
+                    (
+                        when (source.peek().readByte()) {
+                            // "{..."
+                            0x7B.toByte() -> json.decodeFromBufferedSource<NetworkExtensionStore>(source)
+                            else -> protoBuf.decodeFromByteArray<NetworkExtensionStore>(source.readByteArray())
+                        }
+                            .extensionList ?: error("Missing extension list in store index")
+                        )
                         .toAvailableExtensions(store)
                 }
             } else {
@@ -127,5 +136,9 @@ class ExtensionStoreService(
         }
 
         return if (isGzip) gzip().buffer() else this
+    }
+
+    private companion object {
+        const val MAX_STORE_REDIRECTS = 5
     }
 }

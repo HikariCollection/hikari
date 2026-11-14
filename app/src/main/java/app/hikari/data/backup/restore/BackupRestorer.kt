@@ -18,10 +18,12 @@ import app.hikari.data.backup.restore.restorers.HiddenMangaRestorer
 import app.hikari.data.backup.restore.restorers.MangaRestorer
 import app.hikari.data.backup.restore.restorers.PreferenceRestorer
 import app.hikari.data.download.DownloadCache
+import app.hikari.data.library.LibraryUpdateWorker
 import app.hikari.domain.source.repository.StubSourceRepository
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.i18n.MR
 import app.hikari.util.system.createFileInCacheDir
+import app.hikari.util.system.workManager
 import dev.zacsweers.metro.Assisted
 import dev.zacsweers.metro.AssistedFactory
 import dev.zacsweers.metro.AssistedInject
@@ -67,6 +69,7 @@ class BackupRestorer(
     private var restoreAmount = 0
     private val restoreProgress = AtomicInt(0)
     private val errors = CopyOnWriteArrayList<Pair<Date, String>>()
+    internal var startLibraryUpdate: suspend () -> Boolean = { LibraryUpdateWorker.startNow(context.workManager) }
 
     /**
      * Mapping of source ID to source name from backup data
@@ -98,6 +101,15 @@ class BackupRestorer(
             logFile.name,
             isSync,
         )
+
+        if (options.libraryEntries && options.updateLibraryAfterRestore) {
+            try {
+                startLibraryUpdate()
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                logcat(LogPriority.ERROR, e) { "Failed to start library update after restore" }
+            }
+        }
     }
 
     private suspend fun restoreFromFile(uri: Uri, options: RestoreOptions) {
@@ -158,8 +170,6 @@ class BackupRestorer(
             if (options.hiddenManga && backup.backupHiddenManga.isNotEmpty()) {
                 restoreHiddenManga(backup.backupHiddenManga)
             }
-
-            // TODO: optionally trigger online library + tracker update
         }
     }
 

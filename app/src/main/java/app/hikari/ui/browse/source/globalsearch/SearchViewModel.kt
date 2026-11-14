@@ -59,6 +59,7 @@ abstract class SearchViewModel(
 
     private var lastQuery: String? = null
     private var lastSourceFilter: SourceFilter? = null
+    private val cachedResults = MutableStateFlow(SearchCache())
 
     protected var extensionFilter: String? = null
 
@@ -132,7 +133,10 @@ abstract class SearchViewModel(
 
     fun setSourceFilter(filter: SourceFilter) {
         state.update { it.copy(sourceFilter = filter) }
-        search()
+        val activeQuery = lastQuery
+        if (!activeQuery.isNullOrBlank()) {
+            runSearch(query = activeQuery, sourceFilter = filter)
+        }
     }
 
     fun toggleFilterResults() {
@@ -145,30 +149,36 @@ abstract class SearchViewModel(
 
         if (query.isNullOrBlank()) return
 
+        runSearch(query = query, sourceFilter = sourceFilter)
+    }
+
+    private fun runSearch(query: String, sourceFilter: SourceFilter) {
         val sameQuery = this.lastQuery == query
         if (sameQuery && this.lastSourceFilter == sourceFilter) return
 
         this.lastQuery = query
         this.lastSourceFilter = sourceFilter
+        cachedResults.update { cache ->
+            if (cache.query == query) cache else SearchCache(query = query)
+        }
 
         searchJob?.cancel()
 
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             val sources = getSelectedSources()
+            val existingResults = cachedResults.value.takeIf { it.query == query }?.items.orEmpty()
 
-            // Reuse previous results if possible
-            if (sameQuery) {
-                val existingResults = state.value.items
-                updateItems(
-                    sources
-                        .associateWith { existingResults[it] ?: SearchItemResult.Loading },
-                )
-            } else {
-                updateItems(
-                    sources
-                        .associateWith { SearchItemResult.Loading },
-                )
+            val initialItems = sources.associateWith {
+                existingResults[it] ?: SearchItemResult.Loading
             }
+            cachedResults.update { cache ->
+                if (cache.query == query) {
+                    cache.copy(items = cache.items + initialItems)
+                } else {
+                    cache
+                }
+            }
+            updateItems(initialItems)
 
             sources.map { source ->
                 async {
@@ -187,11 +197,11 @@ abstract class SearchViewModel(
                             .let { networkToLocalManga(it) }
 
                         if (isActive) {
-                            updateItem(source, SearchItemResult.Success(titles))
+                            updateItem(query, source, SearchItemResult.Success(titles))
                         }
                     } catch (e: Exception) {
                         if (isActive) {
-                            updateItem(source, SearchItemResult.Error(e))
+                            updateItem(query, source, SearchItemResult.Error(e))
                         }
                     }
                 }
@@ -209,8 +219,16 @@ abstract class SearchViewModel(
         }
     }
 
-    private fun updateItem(source: Source, result: SearchItemResult) {
+    private fun updateItem(query: String, source: Source, result: SearchItemResult) {
+        cachedResults.update { cache ->
+            if (cache.query == query) {
+                cache.copy(items = cache.items + (source to result))
+            } else {
+                cache
+            }
+        }
         state.update { currentState ->
+            if (lastQuery != query) return@update currentState
             val newItems = currentState.items + (source to result)
             currentState.copy(
                 items = newItems.toSortedMap(sortComparator(newItems)),
@@ -265,6 +283,11 @@ abstract class SearchViewModel(
     sealed interface Dialog {
         data class Migrate(val target: Manga, val current: Manga) : Dialog
     }
+
+    private data class SearchCache(
+        val query: String? = null,
+        val items: Map<Source, SearchItemResult> = emptyMap(),
+    )
 }
 
 enum class SourceFilter {

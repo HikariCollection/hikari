@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Opt-in toggle on the restore backup screen to run a library update after restore completes.
+- Notification and detail log (`hikari_update_skipped.txt`) listing library manga skipped during updates grouped by reason.
+
+### Changed
+
+- Improved Global Search source filter chips (`Pinned` / `All`) to preserve fetched results in memory and apply against the active query without submitting unsubmitted search-bar edits.
+
+### Fixed
+
+- Guarded `TrustExtension.isTrusted` against empty signature lists and `ExtensionStoreService` against cyclic `index_v2` redirects and missing store extension lists.
+
 ## [0.0.2] - 2026-11-12
 
 ### Added

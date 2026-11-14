@@ -20,8 +20,23 @@ class TrustExtension(
 ) {
 
     fun isTrusted(pkgInfo: PackageInfo, fingerprints: List<String>, stores: List<ExtensionStore>): Boolean {
+        return isTrusted(
+            pkgName = pkgInfo.packageName,
+            versionCode = PackageInfoCompat.getLongVersionCode(pkgInfo),
+            fingerprints = fingerprints,
+            stores = stores,
+        )
+    }
+
+    internal fun isTrusted(
+        pkgName: String,
+        versionCode: Long,
+        fingerprints: List<String>,
+        stores: List<ExtensionStore>,
+    ): Boolean {
+        if (fingerprints.isEmpty()) return false
         val trustedFingerprints = stores.mapTo(HashSet()) { it.signingKey }
-        val key = "${pkgInfo.packageName}:${PackageInfoCompat.getLongVersionCode(pkgInfo)}:${fingerprints.last()}"
+        val key = "$pkgName:$versionCode:${fingerprints.last()}"
         return trustedFingerprints.any { fingerprints.contains(it) } || key in preferences.trustedExtensions.get()
     }
 

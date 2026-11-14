@@ -98,6 +98,7 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
     @Inject private lateinit var notifier: LibraryUpdateNotifier
 
     private var mangaToUpdate: List<LibraryManga> = mutableListOf()
+    private var skippedUpdates: List<Pair<Manga, String?>> = emptyList()
 
     override suspend fun doWork(): Result {
         graph.inject(this)
@@ -160,57 +161,32 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
      */
     private suspend fun addMangaToQueue(categoryId: Long) {
         val libraryManga = getLibraryManga.await()
-
-        val listToUpdate = if (categoryId != -1L) {
-            libraryManga.filter { categoryId in it.categories }
-        } else {
-            val includedCategories = libraryPreferences.updateCategories.get().map { it.toLong() }
-            val excludedCategories = libraryPreferences.updateCategoriesExclude.get().map { it.toLong() }
-
-            libraryManga.filter {
-                val included = includedCategories.isEmpty() || it.categories.intersect(includedCategories).isNotEmpty()
-                val excluded = it.categories.intersect(excludedCategories).isNotEmpty()
-                included && !excluded
-            }
-        }
-
+        val includedCategories = libraryPreferences.updateCategories.get().mapTo(HashSet()) { it.toLong() }
+        val excludedCategories = libraryPreferences.updateCategoriesExclude.get().mapTo(HashSet()) { it.toLong() }
         val restrictions = libraryPreferences.autoUpdateMangaRestrictions.get()
-        val skippedUpdates = mutableListOf<Pair<Manga, String?>>()
 
-        mangaToUpdate = listToUpdate
-            .filter {
-                when {
-                    it.manga.updateStrategy == UpdateStrategy.ONLY_FETCH_ONCE && it.totalChapters > 0L -> {
-                        skippedUpdates.add(
-                            it.manga to context.stringResource(MR.strings.skipped_reason_not_always_update),
-                        )
-                        false
-                    }
+        val selection = selectLibraryMangaToUpdate(
+            libraryManga = libraryManga,
+            categoryId = categoryId,
+            includedCategories = includedCategories,
+            excludedCategories = excludedCategories,
+            restrictions = restrictions,
+        )
 
-                    MANGA_NON_COMPLETED in restrictions && it.manga.status.toInt() == SManga.COMPLETED -> {
-                        skippedUpdates.add(it.manga to context.stringResource(MR.strings.skipped_reason_completed))
-                        false
-                    }
-
-                    MANGA_HAS_UNREAD in restrictions && it.unreadCount != 0L -> {
-                        skippedUpdates.add(it.manga to context.stringResource(MR.strings.skipped_reason_not_caught_up))
-                        false
-                    }
-
-                    MANGA_NON_READ in restrictions && it.totalChapters > 0L && !it.hasStarted -> {
-                        skippedUpdates.add(it.manga to context.stringResource(MR.strings.skipped_reason_not_started))
-                        false
-                    }
-
-                    else -> true
-                }
+        mangaToUpdate = selection.toUpdate
+        skippedUpdates = selection.skipped.map { (manga, reason) ->
+            val reasonRes = when (reason) {
+                UpdateSkipReason.NOT_ALWAYS_UPDATE -> MR.strings.skipped_reason_not_always_update
+                UpdateSkipReason.COMPLETED -> MR.strings.skipped_reason_completed
+                UpdateSkipReason.NOT_CAUGHT_UP -> MR.strings.skipped_reason_not_caught_up
+                UpdateSkipReason.NOT_STARTED -> MR.strings.skipped_reason_not_started
             }
-            .sortedBy { it.manga.title }
+            manga to context.stringResource(reasonRes)
+        }
 
         notifier.showQueueSizeWarningNotificationIfNeeded(mangaToUpdate)
 
         if (skippedUpdates.isNotEmpty()) {
-            // TODO: surface skipped reasons to user?
             logcat {
                 skippedUpdates
                     .groupBy { it.second }
@@ -313,6 +289,15 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
                 errorFile.getUriCompat(context),
             )
         }
+
+        if (skippedUpdates.isNotEmpty()) {
+            writeSkippedFile(skippedUpdates)?.let { skippedFile ->
+                notifier.showUpdateSkippedNotification(
+                    skippedUpdates.size,
+                    skippedFile.getUriCompat(context),
+                )
+            }
+        }
     }
 
     private suspend fun downloadChapters(manga: Manga, chapters: List<Chapter>) {
@@ -397,6 +382,23 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
             }
         } catch (_: Exception) {}
         return File("")
+    }
+
+    /**
+     * Writes basic file of skipped update entries to cache dir.
+     */
+    private fun writeSkippedFile(skipped: List<Pair<Manga, String?>>): File? {
+        try {
+            val content = formatSkippedUpdates(skipped)
+            if (content.isNotEmpty()) {
+                val file = context.createFileInCacheDir("hikari_update_skipped.txt")
+                file.bufferedWriter().use { out ->
+                    out.write(content)
+                }
+                return file
+            }
+        } catch (_: Exception) {}
+        return null
     }
 
     companion object {
@@ -503,5 +505,83 @@ class LibraryUpdateWorker(private val context: Context, workerParams: WorkerPara
                     }
                 }
         }
+    }
+}
+
+internal enum class UpdateSkipReason {
+    NOT_ALWAYS_UPDATE,
+    COMPLETED,
+    NOT_CAUGHT_UP,
+    NOT_STARTED,
+}
+
+internal data class LibraryUpdateQueueSelection(
+    val toUpdate: List<LibraryManga>,
+    val skipped: List<Pair<Manga, UpdateSkipReason>>,
+)
+
+internal fun selectLibraryMangaToUpdate(
+    libraryManga: List<LibraryManga>,
+    categoryId: Long,
+    includedCategories: Set<Long>,
+    excludedCategories: Set<Long>,
+    restrictions: Set<String>,
+): LibraryUpdateQueueSelection {
+    val listToUpdate = if (categoryId != -1L) {
+        libraryManga.filter { categoryId in it.categories }
+    } else {
+        libraryManga.filter {
+            val included = includedCategories.isEmpty() || it.categories.any { id -> id in includedCategories }
+            val excluded = it.categories.any { id -> id in excludedCategories }
+            included && !excluded
+        }
+    }
+
+    val skipped = mutableListOf<Pair<Manga, UpdateSkipReason>>()
+    val toUpdate = listToUpdate
+        .filter {
+            val skipReason = when {
+                it.manga.updateStrategy == UpdateStrategy.ONLY_FETCH_ONCE && it.totalChapters > 0L ->
+                    UpdateSkipReason.NOT_ALWAYS_UPDATE
+
+                MANGA_NON_COMPLETED in restrictions && it.manga.status.toInt() == SManga.COMPLETED ->
+                    UpdateSkipReason.COMPLETED
+
+                MANGA_HAS_UNREAD in restrictions && it.unreadCount != 0L ->
+                    UpdateSkipReason.NOT_CAUGHT_UP
+
+                MANGA_NON_READ in restrictions && it.totalChapters > 0L && !it.hasStarted ->
+                    UpdateSkipReason.NOT_STARTED
+
+                else -> null
+            }
+            if (skipReason != null) {
+                skipped.add(it.manga to skipReason)
+                false
+            } else {
+                true
+            }
+        }
+        .sortedBy { it.manga.title }
+
+    return LibraryUpdateQueueSelection(toUpdate = toUpdate, skipped = skipped)
+}
+
+internal fun formatSkippedUpdates(skippedUpdates: List<Pair<Manga, String?>>): String {
+    if (skippedUpdates.isEmpty()) return ""
+
+    return buildString {
+        skippedUpdates
+            .groupBy({ it.second }, { it.first.title })
+            .toSortedMap(compareBy { it.orEmpty() })
+            .entries
+            .forEachIndexed { index, (reason, titles) ->
+                if (index > 0) append("\n")
+                val header = reason?.takeIf { it.isNotBlank() }?.let { "! $it" } ?: "!"
+                append("$header\n")
+                titles.sorted().forEach { title ->
+                    append("  - $title\n")
+                }
+            }
     }
 }

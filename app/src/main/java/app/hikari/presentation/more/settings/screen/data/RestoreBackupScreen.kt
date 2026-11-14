@@ -2,22 +2,31 @@ package app.hikari.presentation.more.settings.screen.data
 
 import android.content.Context
 import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,6 +39,7 @@ import app.hikari.presentation.components.WarningBanner
 import app.hikari.presentation.core.components.LabeledCheckbox
 import app.hikari.presentation.core.components.LazyColumnWithAction
 import app.hikari.presentation.core.components.SectionCard
+import app.hikari.presentation.core.components.material.DISABLED_ALPHA
 import app.hikari.presentation.core.components.material.Scaffold
 import app.hikari.presentation.core.components.material.padding
 import app.hikari.presentation.core.i18n.stringResource
@@ -97,6 +107,47 @@ class RestoreBackupScreen(
                                     onCheckedChange = {
                                         viewModel.toggle(option.setter, it)
                                     },
+                                )
+                            }
+                        }
+                    }
+
+                    item {
+                        SectionCard {
+                            val enabled = state.options.libraryEntries
+                            Row(
+                                modifier = Modifier
+                                    .clip(MaterialTheme.shapes.small)
+                                    .fillMaxWidth()
+                                    .heightIn(min = 48.dp)
+                                    .clickable(
+                                        enabled = enabled,
+                                        role = Role.Switch,
+                                        onClick = {
+                                            viewModel.toggle(
+                                                { options, checked ->
+                                                    options.copy(updateLibraryAfterRestore = checked)
+                                                },
+                                                !state.options.updateLibraryAfterRestore,
+                                            )
+                                        },
+                                    ),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.padding.small),
+                            ) {
+                                Text(
+                                    text = stringResource(MR.strings.pref_update_library_after_restore),
+                                    modifier = Modifier.weight(1f),
+                                    color = if (enabled) {
+                                        MaterialTheme.colorScheme.onSurface
+                                    } else {
+                                        MaterialTheme.colorScheme.onSurface.copy(alpha = DISABLED_ALPHA)
+                                    },
+                                )
+                                Switch(
+                                    checked = state.options.updateLibraryAfterRestore && enabled,
+                                    onCheckedChange = null,
+                                    enabled = enabled,
                                 )
                             }
                         }
