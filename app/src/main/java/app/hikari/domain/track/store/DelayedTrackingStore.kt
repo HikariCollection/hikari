@@ -34,10 +34,14 @@ class DelayedTrackingStore(context: Context) {
     }
 
     fun getItems(): List<DelayedTrackingItem> {
-        return preferences.all.mapNotNull {
+        return preferences.all.mapNotNull { (key, value) ->
+            val trackId = key.toLongOrNull() ?: return@mapNotNull null
+            val chapter = (value as? Number)?.toFloat()
+                ?: value?.toString()?.toFloatOrNull()
+                ?: return@mapNotNull null
             DelayedTrackingItem(
-                trackId = it.key.toLong(),
-                lastChapterRead = it.value.toString().toFloat(),
+                trackId = trackId,
+                lastChapterRead = chapter,
             )
         }
     }

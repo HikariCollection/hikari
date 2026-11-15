@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Guarded `TrustExtension.isTrusted` against empty signature lists and `ExtensionStoreService` against cyclic `index_v2` redirects and missing store extension lists.
+- Fixed continuous read prefix calculation in `AddTracks` when unnumbered/special chapters exist, and persisted updated progress to local storage.
+- Hardened tracker interactors (`TrackChapter`, `RefreshTracks`) and `DelayedTrackingStore` against unsafe conversions, background task scheduling coupling, and malformed queue entries.
 
 ## [0.0.2] - 2026-11-12
 

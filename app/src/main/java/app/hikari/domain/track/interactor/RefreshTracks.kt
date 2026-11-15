@@ -33,9 +33,16 @@ class RefreshTracks(
                 .map { (track, service) ->
                     async(Dispatchers.IO) {
                         return@async try {
-                            val updatedTrack = service!!.refresh(track.toDbTrack()).toDomainTrack()!!
+                            val serviceNonNull =
+                                service ?: return@async (null to IllegalStateException("Tracker service missing"))
+                            val refreshed = serviceNonNull.refresh(track.toDbTrack())
+                            val updatedTrack = refreshed.toDomainTrack()
+                                ?: return@async (
+                                    serviceNonNull to
+                                        IllegalStateException("Failed to convert refreshed track")
+                                    )
                             upsertTrack.await(updatedTrack)
-                            syncChapterProgressWithTrack.await(mangaId, updatedTrack, service)
+                            syncChapterProgressWithTrack.await(mangaId, updatedTrack, serviceNonNull)
                             null
                         } catch (e: Throwable) {
                             service to e

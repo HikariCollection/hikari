@@ -23,6 +23,8 @@ class TrackChapter(
     private val delayedTrackingStore: DelayedTrackingStore,
 ) {
 
+    internal var scheduleDelayedTask: (Context) -> Unit = { DelayedTrackingUpdateWorker.setupTask(it) }
+
     suspend fun await(context: Context, mangaId: Long, chapterNumber: Double, setupJobOnFailure: Boolean = true) {
         coroutineScope {
             val tracks = getTracks.await(mangaId)
@@ -37,8 +39,8 @@ class TrackChapter(
                 async {
                     runCatching {
                         try {
-                            val updatedTrack = service.refresh(track.toDbTrack())
-                                .toDomainTrack(idRequired = true)!!
+                            val refreshed = service.refresh(track.toDbTrack())
+                            val updatedTrack = (refreshed.toDomainTrack(idRequired = true) ?: track)
                                 .copy(lastChapterRead = chapterNumber)
                             service.update(updatedTrack.toDbTrack(), true)
                             upsertTrack.await(updatedTrack)
@@ -46,7 +48,7 @@ class TrackChapter(
                         } catch (e: Exception) {
                             delayedTrackingStore.add(track.id, chapterNumber)
                             if (setupJobOnFailure) {
-                                DelayedTrackingUpdateWorker.setupTask(context)
+                                scheduleDelayedTask(context)
                             }
                             throw e
                         }

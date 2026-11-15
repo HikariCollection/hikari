@@ -35,12 +35,11 @@ class AddTracks(
 
         var track = item.toDomainTrack(idRequired = false) ?: return@withContext
 
-        upsertTrack.await(track)
-
         // TODO: merge into [SyncChapterProgressWithTrack]?
         // Update chapter progress if newer chapters marked read locally
         if (hasReadChapters) {
             val latestLocalReadChapterNumber = allChapters
+                .filter { it.isRecognizedNumber }
                 .sortedBy { it.chapterNumber }
                 .takeWhile { it.read }
                 .lastOrNull()
@@ -68,6 +67,8 @@ class AddTracks(
             }
         }
 
+        upsertTrack.await(track)
+
         syncChapterProgressWithTrack.await(mangaId, track, tracker)
     }
 
@@ -80,11 +81,12 @@ class AddTracks(
                     service.match(manga)?.let { track ->
                         track.manga_id = manga.id
                         (service as Tracker).bind(track)
-                        upsertTrack.await(track.toDomainTrack(idRequired = false)!!)
+                        val domainTrack = track.toDomainTrack(idRequired = false) ?: return@let
+                        upsertTrack.await(domainTrack)
 
                         syncChapterProgressWithTrack.await(
                             manga.id,
-                            track.toDomainTrack(idRequired = false)!!,
+                            domainTrack,
                             service,
                         )
                     }

@@ -38,8 +38,8 @@ class SyncChapterProgressWithTrack(
             .map { ChapterUpdate(it.id) { read = true } }
 
         // only take into account continuous reading
-        val localLastRead = sortedChapters.takeWhile { it.read }.lastOrNull()?.chapterNumber ?: 0F
-        val lastRead = max(remoteTrack.lastChapterRead, localLastRead.toDouble())
+        val localLastRead = sortedChapters.takeWhile { it.read }.lastOrNull()?.chapterNumber ?: 0.0
+        val lastRead = max(remoteTrack.lastChapterRead, localLastRead)
         val updatedTrack = remoteTrack.copy(lastChapterRead = lastRead)
 
         try {
