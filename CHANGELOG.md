@@ -18,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Guarded download store queue restoration against mismatched chapter-manga entries and malformed JSON payloads in `DownloadStore`.
+- Decoupled `DownloadStore` and `Downloader` initialization coroutines for pure JVM unit testability.
+- Deduplicated incoming category names in `CategoriesRestorer` and category assignments in `MangaRestorer` during backup restore.
+- Decoupled WorkManager task scheduling in `PreferenceRestorer` for pure JVM unit testability.
+- Hardened JSON metadata (`memo`) deserialization in `ByteArray.toJsonObject()` against corrupt, malformed, or empty payloads with safe fallback to `JsonObjectEmpty`.
+- Deduplicated favorite and read non-favorite candidates by ID during backup creation in `BackupCreator`.
 - Guarded `TrustExtension.isTrusted` against empty signature lists and `ExtensionStoreService` against cyclic `index_v2` redirects and missing store extension lists.
 - Fixed continuous read prefix calculation in `AddTracks` when unnumbered/special chapters exist, and persisted updated progress to local storage.
 - Hardened tracker interactors (`TrackChapter`, `RefreshTracks`) and `DelayedTrackingStore` against unsafe conversions, background task scheduling coupling, and malformed queue entries.

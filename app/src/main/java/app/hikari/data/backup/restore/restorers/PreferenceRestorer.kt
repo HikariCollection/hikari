@@ -29,6 +29,11 @@ class PreferenceRestorer(
     private val getCategories: GetCategories,
     private val preferenceStore: PreferenceStore,
 ) {
+    internal var scheduleTasks: (Context) -> Unit = {
+        LibraryUpdateWorker.setupTask(it)
+        BackupCreateWorker.setupTask(it)
+    }
+
     suspend fun restoreApp(
         preferences: List<BackupPreference>,
         backupCategories: List<BackupCategory>?,
@@ -39,8 +44,7 @@ class PreferenceRestorer(
             backupCategories,
         )
 
-        LibraryUpdateWorker.setupTask(context)
-        BackupCreateWorker.setupTask(context)
+        scheduleTasks(context)
     }
 
     suspend fun restoreSource(preferences: List<BackupSourcePreferences>) {

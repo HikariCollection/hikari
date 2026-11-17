@@ -115,10 +115,8 @@ class Downloader(
     @Volatile
     var isPaused: Boolean = false
 
-    init {
-        scope.launch(Dispatchers.Main, CoroutineStart.UNDISPATCHED) {
-            addAllToQueue(withContext(Dispatchers.IO) { store.restore() })
-        }
+    internal val initJob: Job = scope.launch(Dispatchers.Main, CoroutineStart.UNDISPATCHED) {
+        addAllToQueue(withContext(Dispatchers.IO) { store.restore() })
     }
 
     /**

@@ -33,7 +33,7 @@ class MangaRestorer(
                     backupCategoriesByOrder[backupCategoryOrder]?.let { backupCategory ->
                         dbCategoriesByName[backupCategory.name]?.id
                     }
-                },
+                }.distinct(),
                 history = backupManga.history.map {
                     val history = it.getHistoryImpl()
                     RestoredHistory(it.url, history.readAt, history.readDuration)

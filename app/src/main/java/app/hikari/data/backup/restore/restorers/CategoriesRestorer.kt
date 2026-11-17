@@ -22,6 +22,7 @@ class CategoriesRestorer(
 
         val newCategories = backupCategories
             .filter { it.name !in dbCategoryNames }
+            .distinctBy { it.name }
             .sortedBy { it.order }
         categoryRepository.insertAll(newCategories.map { NewCategory(name = it.name, flags = it.flags) })
 

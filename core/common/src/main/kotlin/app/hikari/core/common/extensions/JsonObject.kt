@@ -12,4 +12,10 @@ val JsonObject.Companion.EMPTY: JsonObject
 
 fun JsonObject.toByteArray(): ByteArray = toString().encodeToByteArray()
 
-fun ByteArray.toJsonObject(): JsonObject = Json.decodeFromString<JsonObject>(decodeToString())
+fun ByteArray.toJsonObject(): JsonObject =
+    if (isEmpty()) {
+        JsonObjectEmpty
+    } else {
+        runCatching { Json.decodeFromString<JsonObject>(decodeToString()) }
+            .getOrDefault(JsonObjectEmpty)
+    }

@@ -1,6 +1,7 @@
 package app.hikari.data.download
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.core.content.edit
 import app.hikari.data.download.model.Download
 import app.hikari.domain.chapter.interactor.GetChapter
@@ -27,10 +28,14 @@ class DownloadStore(
     private val getChapter: GetChapter,
 ) {
 
+    internal var sharedPreferences: SharedPreferences? = null
+
     /**
      * Preference file where active downloads are stored.
      */
-    private val preferences by lazy { context.getSharedPreferences("active_downloads", Context.MODE_PRIVATE) }
+    private val preferences by lazy {
+        sharedPreferences ?: context.getSharedPreferences("active_downloads", Context.MODE_PRIVATE)
+    }
 
     /**
      * Counter used to keep the queue order.
@@ -106,6 +111,7 @@ class DownloadStore(
                 } ?: continue
                 val source = sourceManager.get(manga.source) as? HttpSource ?: continue
                 val chapter = getChapter.await(chapterId) ?: continue
+                if (chapter.mangaId != manga.id) continue
                 downloads.add(Download(source, manga, chapter))
             }
         }
