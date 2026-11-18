@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Preserved duplicate-read status and latest removed `dateFetch` in `SyncChaptersWithSource`, and avoided skipping the first chapter in `GetNextChapters` when the anchor chapter is missing.
 - Guarded download store queue restoration against mismatched chapter-manga entries and malformed JSON payloads in `DownloadStore`.
 - Decoupled `DownloadStore` and `Downloader` initialization coroutines for pure JVM unit testability.
 - Deduplicated incoming category names in `CategoriesRestorer` and category assignments in `MangaRestorer` during backup restore.

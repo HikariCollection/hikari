@@ -49,10 +49,10 @@ class GetNextChapters(
         // - The current chapter if it isn't completely read
         // - The chapters after the current chapter if the current one is completely read
         val fromChapter = chapters.getOrNull(currChapterIndex)
-        return if (fromChapter != null && !fromChapter.read) {
-            nextChapters
-        } else {
+        return if (fromChapter != null && fromChapter.read) {
             nextChapters.drop(1)
+        } else {
+            nextChapters
         }
     }
 }

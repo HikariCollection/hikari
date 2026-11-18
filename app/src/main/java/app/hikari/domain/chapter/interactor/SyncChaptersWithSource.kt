@@ -38,6 +38,8 @@ class SyncChaptersWithSource(
     private val libraryPreferences: LibraryPreferences,
 ) {
 
+    internal var now: () -> Instant = { Clock.System.now() }
+
     /**
      * Method to synchronize db chapters with source ones
      *
@@ -56,7 +58,7 @@ class SyncChaptersWithSource(
             throw NoChaptersException()
         }
 
-        val nowInstant = Clock.System.now()
+        val nowInstant = now()
 
         val sourceChapters = rawSourceChapters
             .distinctBy { it.url }
@@ -164,13 +166,14 @@ class SyncChaptersWithSource(
             .map { it.chapterNumber }
             .toSet()
 
-        removedChapters.forEach { chapter ->
+        val recognizedRemoved = removedChapters.filter { it.isRecognizedNumber }
+        recognizedRemoved.forEach { chapter ->
             if (chapter.read) deletedReadChapterNumbers.add(chapter.chapterNumber)
             if (chapter.bookmark) deletedBookmarkedChapterNumbers.add(chapter.chapterNumber)
             deletedChapterNumbers.add(chapter.chapterNumber)
         }
 
-        val deletedChapterNumberDateFetchMap = removedChapters.sortedByDescending { it.dateFetch }
+        val deletedChapterNumberDateFetchMap = recognizedRemoved.sortedBy { it.dateFetch }
             .associate { it.chapterNumber to it.dateFetch }
 
         val markDuplicateAsRead = libraryPreferences.markDuplicateReadChapterAsRead.get()
@@ -190,7 +193,7 @@ class SyncChaptersWithSource(
             if (!chapter.isRecognizedNumber || chapter.chapterNumber !in deletedChapterNumbers) return@map chapter
 
             chapter = chapter.copy(
-                read = chapter.chapterNumber in deletedReadChapterNumbers,
+                read = chapter.read || chapter.chapterNumber in deletedReadChapterNumbers,
                 bookmark = chapter.chapterNumber in deletedBookmarkedChapterNumbers,
             )
 
