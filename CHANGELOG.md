@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-11-18
+
 ### Added
 
 - Opt-in toggle on the restore backup screen to run a library update after restore completes.
