@@ -1,5 +1,7 @@
 package app.hikari.ui.history
 
+import android.content.Context
+import android.net.Uri
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
@@ -14,6 +16,7 @@ import app.hikari.domain.category.interactor.GetCategories
 import app.hikari.domain.category.interactor.SetMangaCategories
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.history.interactor.ExportHistory
 import app.hikari.domain.history.interactor.GetHistory
 import app.hikari.domain.history.interactor.GetNextChapters
 import app.hikari.domain.history.interactor.RemoveHistory
@@ -27,7 +30,9 @@ import app.hikari.domain.manga.model.MangaWithChapterCount
 import app.hikari.domain.source.service.SourceManager
 import app.hikari.domain.track.interactor.AddTracks
 import app.hikari.presentation.history.HistoryUiModel
+import app.hikari.presentation.history.components.HistoryExportFormat
 import app.hikari.util.lang.toLocalDate
+import app.hikari.util.storage.getUriCompat
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesIntoMap
 import dev.zacsweers.metro.Inject
@@ -52,14 +57,18 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import logcat.LogPriority
+import java.io.File
+import kotlin.time.Clock
 import kotlin.time.Duration.Companion.seconds
 
 @Inject
 @ViewModelKey
 @ContributesIntoMap(AppScope::class, binding = binding<ViewModel>())
 class HistoryViewModel(
+    private val context: Context,
     @AppCoroutineScope private val appScope: CoroutineScope,
     private val addTracks: AddTracks,
+    private val exportHistory: ExportHistory,
     private val getCategories: GetCategories,
     private val getDuplicateLibraryManga: GetDuplicateLibraryManga,
     private val getHistory: GetHistory,
@@ -257,6 +266,34 @@ class HistoryViewModel(
         }
     }
 
+    fun exportHistory(format: HistoryExportFormat) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val items = exportHistory.getItems()
+            if (items.isEmpty()) {
+                _events.send(Event.ExportEmpty)
+                return@launch
+            }
+            val (content, extension, mimeType) = when (format) {
+                HistoryExportFormat.CSV -> Triple(
+                    exportHistory.toCsv(items),
+                    "csv",
+                    "text/csv",
+                )
+                HistoryExportFormat.JSON -> Triple(
+                    exportHistory.toJson(items),
+                    "json",
+                    "application/json",
+                )
+            }
+            val filename = "hikari_history_${Clock.System.now().toEpochMilliseconds()}.$extension"
+            val exportDir = File(context.cacheDir, "history_exports").apply { mkdirs() }
+            val file = File(exportDir, filename)
+            file.writeText(content)
+            val uri = file.getUriCompat(context)
+            _events.send(Event.ShareFile(uri, mimeType))
+        }
+    }
+
     @Immutable
     data class State(
         val searchQuery: String? = null,
@@ -266,6 +303,7 @@ class HistoryViewModel(
 
     sealed interface Dialog {
         data object DeleteAll : Dialog
+        data object Export : Dialog
         data class Delete(val history: HistoryWithRelations) : Dialog
         data class DuplicateManga(val manga: Manga, val duplicates: List<MangaWithChapterCount>) : Dialog
         data class ChangeCategory(
@@ -277,6 +315,8 @@ class HistoryViewModel(
 
     sealed interface Event {
         data class OpenChapter(val chapter: Chapter?) : Event
+        data class ShareFile(val uri: Uri, val mimeType: String) : Event
+        data object ExportEmpty : Event
         data object InternalError : Event
         data object HistoryCleared : Event
     }

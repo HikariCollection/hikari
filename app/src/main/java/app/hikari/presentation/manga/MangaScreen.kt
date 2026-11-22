@@ -47,6 +47,7 @@ import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.util.fastMap
 import app.hikari.data.download.model.Download
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.chapter.model.bookmarkNote
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.model.Manga
 import app.hikari.domain.source.model.StubSource
@@ -113,6 +114,7 @@ fun MangaScreen(
 
     // For bottom action menu
     onMultiBookmarkClicked: (List<Chapter>, bookmarked: Boolean) -> Unit,
+    onEditBookmarkNote: (Chapter) -> Unit,
     onMultiMarkAsReadClicked: (List<Chapter>, markAsRead: Boolean) -> Unit,
     onMarkPreviousAsReadClicked: (Chapter) -> Unit,
     onMultiDeleteClicked: (List<Chapter>) -> Unit,
@@ -160,6 +162,7 @@ fun MangaScreen(
             onEditNotesClicked = onEditNotesClicked,
             onEditInfoClicked = onEditInfoClicked,
             onMultiBookmarkClicked = onMultiBookmarkClicked,
+            onEditBookmarkNote = onEditBookmarkNote,
             onMultiMarkAsReadClicked = onMultiMarkAsReadClicked,
             onMarkPreviousAsReadClicked = onMarkPreviousAsReadClicked,
             onMultiDeleteClicked = onMultiDeleteClicked,
@@ -196,6 +199,7 @@ fun MangaScreen(
             onEditNotesClicked = onEditNotesClicked,
             onEditInfoClicked = onEditInfoClicked,
             onMultiBookmarkClicked = onMultiBookmarkClicked,
+            onEditBookmarkNote = onEditBookmarkNote,
             onMultiMarkAsReadClicked = onMultiMarkAsReadClicked,
             onMarkPreviousAsReadClicked = onMarkPreviousAsReadClicked,
             onMultiDeleteClicked = onMultiDeleteClicked,
@@ -244,6 +248,7 @@ private fun MangaScreenSmallImpl(
 
     // For bottom action menu
     onMultiBookmarkClicked: (List<Chapter>, bookmarked: Boolean) -> Unit,
+    onEditBookmarkNote: (Chapter) -> Unit,
     onMultiMarkAsReadClicked: (List<Chapter>, markAsRead: Boolean) -> Unit,
     onMarkPreviousAsReadClicked: (Chapter) -> Unit,
     onMultiDeleteClicked: (List<Chapter>) -> Unit,
@@ -310,6 +315,7 @@ private fun MangaScreenSmallImpl(
             SharedMangaBottomActionMenu(
                 selected = state.selectedChapters,
                 onMultiBookmarkClicked = onMultiBookmarkClicked,
+                onEditBookmarkNote = onEditBookmarkNote,
                 onMultiMarkAsReadClicked = onMultiMarkAsReadClicked,
                 onMarkPreviousAsReadClicked = onMarkPreviousAsReadClicked,
                 onDownloadChapter = onDownloadChapter,
@@ -429,6 +435,7 @@ private fun MangaScreenSmallImpl(
                         downloadProgressProvider = downloadProgressProvider,
                         onChapterSelected = onChapterSelected,
                         onChapterSwipe = onChapterSwipe,
+                        onEditBookmarkNote = onEditBookmarkNote,
                     )
                 }
             }
@@ -473,6 +480,7 @@ fun MangaScreenLargeImpl(
 
     // For bottom action menu
     onMultiBookmarkClicked: (List<Chapter>, bookmarked: Boolean) -> Unit,
+    onEditBookmarkNote: (Chapter) -> Unit,
     onMultiMarkAsReadClicked: (List<Chapter>, markAsRead: Boolean) -> Unit,
     onMarkPreviousAsReadClicked: (Chapter) -> Unit,
     onMultiDeleteClicked: (List<Chapter>) -> Unit,
@@ -534,6 +542,7 @@ fun MangaScreenLargeImpl(
             SharedMangaBottomActionMenu(
                 selected = state.selectedChapters,
                 onMultiBookmarkClicked = onMultiBookmarkClicked,
+                onEditBookmarkNote = onEditBookmarkNote,
                 onMultiMarkAsReadClicked = onMultiMarkAsReadClicked,
                 onMarkPreviousAsReadClicked = onMarkPreviousAsReadClicked,
                 onDownloadChapter = onDownloadChapter,
@@ -651,6 +660,7 @@ fun MangaScreenLargeImpl(
                                 downloadProgressProvider = downloadProgressProvider,
                                 onChapterSelected = onChapterSelected,
                                 onChapterSwipe = onChapterSwipe,
+                                onEditBookmarkNote = onEditBookmarkNote,
                             )
                         }
                     }
@@ -664,6 +674,7 @@ fun MangaScreenLargeImpl(
 private fun SharedMangaBottomActionMenu(
     selected: List<ChapterList.Item>,
     onMultiBookmarkClicked: (List<Chapter>, bookmarked: Boolean) -> Unit,
+    onEditBookmarkNote: (Chapter) -> Unit,
     onMultiMarkAsReadClicked: (List<Chapter>, markAsRead: Boolean) -> Unit,
     onMarkPreviousAsReadClicked: (Chapter) -> Unit,
     onDownloadChapter: ((List<ChapterList.Item>, ChapterDownloadAction) -> Unit)?,
@@ -680,6 +691,9 @@ private fun SharedMangaBottomActionMenu(
         onRemoveBookmarkClicked = {
             onMultiBookmarkClicked.invoke(selected.fastMap { it.chapter }, false)
         }.takeIf { selected.fastAll { it.chapter.bookmark } },
+        onBookmarkNoteClicked = {
+            onEditBookmarkNote(selected[0].chapter)
+        }.takeIf { selected.size == 1 },
         onMarkAsReadClicked = {
             onMultiMarkAsReadClicked(selected.fastMap { it.chapter }, true)
         }.takeIf { selected.fastAny { !it.chapter.read } },
@@ -713,6 +727,7 @@ private fun LazyListScope.sharedChapterItems(
     downloadProgressProvider: (chapterId: Long) -> Int,
     onChapterSelected: (ChapterList.Item, Boolean, Boolean) -> Unit,
     onChapterSwipe: (ChapterList.Item, LibraryPreferences.ChapterSwipeAction) -> Unit,
+    onEditBookmarkNote: (Chapter) -> Unit,
 ) {
     items(
         items = chapters,
@@ -752,6 +767,7 @@ private fun LazyListScope.sharedChapterItems(
                     scanlator = item.chapter.scanlator.takeIf { !it.isNullOrBlank() },
                     read = item.chapter.read,
                     bookmark = item.chapter.bookmark,
+                    bookmarkNote = item.chapter.bookmarkNote,
                     selected = item.selected,
                     downloadIndicatorEnabled = !isAnyChapterSelected && !manga.isLocal(),
                     downloadStateProvider = { item.downloadState },
@@ -777,6 +793,9 @@ private fun LazyListScope.sharedChapterItems(
                     },
                     onChapterSwipe = {
                         onChapterSwipe(item, it)
+                    },
+                    onNoteClick = {
+                        onEditBookmarkNote(item.chapter)
                     },
                 )
             }

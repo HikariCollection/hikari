@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Chapter bookmark notes (memos) allowing users to attach custom text notes to bookmarked chapters, previewed directly on the chapter item badge and editable via chapter selection bottom bar or note badge tap.
+- Reading history export to RFC-4180 compliant CSV or structured JSON via system share sheet from the History screen top bar.
+
+### Changed
+
+- Enhanced library search query parsing with lenient whitespace tolerance around comparison operators and key-value colons.
+
+### Fixed
+
+- Hardened library search AST parser against force-unwrap crashes, unmatched parenthesis recovery, trailing OR simplification, and empty query normalization.
+
+### Removed
+
+- Reader vertical edge swipe brightness gesture and brightness HUD.
+
 ## [0.0.3] - 2026-11-18
 
 ### Added

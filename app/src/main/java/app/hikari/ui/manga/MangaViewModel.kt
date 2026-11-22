@@ -34,6 +34,7 @@ import app.hikari.domain.category.interactor.SetMangaCategories
 import app.hikari.domain.category.model.Category
 import app.hikari.domain.chapter.interactor.FilterChaptersForDownload
 import app.hikari.domain.chapter.interactor.GetAvailableScanlators
+import app.hikari.domain.chapter.interactor.SetChapterBookmarkMemo
 import app.hikari.domain.chapter.interactor.SetMangaDefaultChapterFlags
 import app.hikari.domain.chapter.interactor.SetReadStatus
 import app.hikari.domain.chapter.interactor.UpdateChapter
@@ -129,6 +130,7 @@ class MangaViewModel(
     private val setMangaChapterFlags: SetMangaChapterFlags,
     private val setMangaDefaultChapterFlags: SetMangaDefaultChapterFlags,
     private val setReadStatus: SetReadStatus,
+    private val setChapterBookmarkMemo: SetChapterBookmarkMemo,
     private val updateChapter: UpdateChapter,
     private val updateManga: UpdateManga,
     private val getCategories: GetCategories,
@@ -1045,10 +1047,21 @@ class MangaViewModel(
         data object TrackSheet : Dialog
         data object FullCover : Dialog
         data object EditInfo : Dialog
+        data class EditBookmarkNote(val chapter: Chapter) : Dialog
     }
 
     fun dismissDialog() {
         dialog.value = null
+    }
+
+    fun showEditBookmarkNoteDialog(chapter: Chapter) {
+        dialog.value = Dialog.EditBookmarkNote(chapter)
+    }
+
+    fun updateChapterBookmarkNote(chapterId: Long, note: String?) {
+        viewModelScope.launch {
+            setChapterBookmarkMemo(chapterId, note)
+        }
     }
 
     fun showDeleteChapterDialog(chapters: List<Chapter>) {

@@ -7,6 +7,7 @@ import app.hikari.core.common.util.system.logcat
 import app.hikari.data.Database
 import app.hikari.data.subscribeToList
 import app.hikari.domain.history.model.History
+import app.hikari.domain.history.model.HistoryExportItem
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.model.HistoryWithRelations
 import app.hikari.domain.history.model.ReadActivityEntry
@@ -29,6 +30,20 @@ class HistoryRepositoryImpl(
         return database.historyViewQueries
             .history(query, HistoryMapper::mapHistoryWithRelations)
             .subscribeToList()
+    }
+
+    override suspend fun getAllHistoryForExport(): List<HistoryExportItem> {
+        return database.historyQueries
+            .getAllHistoryForExport { _, mangaTitle, chapterName, chapterNumber, readAt, readDuration ->
+                HistoryExportItem(
+                    mangaTitle = mangaTitle,
+                    chapterName = chapterName,
+                    chapterNumber = chapterNumber,
+                    readAt = readAt,
+                    readDuration = readDuration,
+                )
+            }
+            .awaitAsList()
     }
 
     override suspend fun getLastHistory(): HistoryWithRelations? {

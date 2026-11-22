@@ -79,6 +79,9 @@
     <string name="action_download">Download</string>
     <string name="action_bookmark">Bookmark chapter</string>
     <string name="action_remove_bookmark">Unbookmark chapter</string>
+    <string name="action_edit_bookmark_note">Bookmark note</string>
+    <string name="action_remove_bookmark_note">Remove note</string>
+    <string name="bookmark_note_hint">Add a note for this bookmark…</string>
     <string name="action_delete">Delete</string>
     <string name="action_update_library">Update library</string>
     <string name="action_enable_all">Enable all</string>
@@ -417,10 +420,6 @@
     <string name="pref_fast_rendering_only">Disable tiles</string>
     <string name="pref_hold_until_final">Show all tiles together</string>
     <string name="pref_custom_brightness">Custom brightness</string>
-    <string name="pref_brightness_swipe_edge">Brightness swipe edge</string>
-    <string name="brightness_swipe_off">Off</string>
-    <string name="brightness_swipe_left">Left</string>
-    <string name="brightness_swipe_right">Right</string>
     <string name="pref_grayscale">Grayscale</string>
     <string name="pref_inverted_colors">Inverted</string>
     <string name="pref_custom_color_filter">Custom color filter</string>
@@ -901,6 +900,11 @@
     <!-- History -->
     <string name="recent_manga_time">Ch. %1$s - %2$s</string>
     <string name="pref_clear_history">Clear history</string>
+    <string name="action_export_history">Export history</string>
+    <string name="export_history_as_csv">CSV (Spreadsheet)</string>
+    <string name="export_history_as_json">JSON (Structured)</string>
+    <string name="export_history_dialog_title">Export Reading History</string>
+    <string name="export_history_empty">No reading history to export</string>
     <string name="clear_history_completed">History deleted</string>
     <string name="clear_history_confirmation">Are you sure? All history will be lost.</string>
 

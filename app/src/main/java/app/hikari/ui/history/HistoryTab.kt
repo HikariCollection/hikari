@@ -20,12 +20,14 @@ import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.history.HistoryScreen
 import app.hikari.presentation.history.components.HistoryDeleteAllDialog
 import app.hikari.presentation.history.components.HistoryDeleteDialog
+import app.hikari.presentation.history.components.HistoryExportDialog
 import app.hikari.presentation.manga.DuplicateMangaDialog
 import app.hikari.presentation.util.Tab
 import app.hikari.ui.category.CategoryScreen
 import app.hikari.ui.main.MainActivity
 import app.hikari.ui.manga.MangaScreen
 import app.hikari.ui.reader.ReaderActivity
+import app.hikari.util.system.toShareIntent
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.currentOrThrow
@@ -95,6 +97,12 @@ data object HistoryTab : Tab {
                     onDelete = viewModel::removeAllHistory,
                 )
             }
+            is HistoryViewModel.Dialog.Export -> {
+                HistoryExportDialog(
+                    onDismissRequest = onDismissRequest,
+                    onExport = viewModel::exportHistory,
+                )
+            }
             is HistoryViewModel.Dialog.DuplicateManga -> {
                 DuplicateMangaDialog(
                     duplicates = dialog.duplicates,
@@ -139,6 +147,12 @@ data object HistoryTab : Tab {
                         snackbarHostState.showSnackbar(context.stringResource(MR.strings.internal_error))
                     HistoryViewModel.Event.HistoryCleared ->
                         snackbarHostState.showSnackbar(context.stringResource(MR.strings.clear_history_completed))
+                    HistoryViewModel.Event.ExportEmpty ->
+                        snackbarHostState.showSnackbar(context.stringResource(MR.strings.export_history_empty))
+                    is HistoryViewModel.Event.ShareFile -> {
+                        val intent = e.uri.toShareIntent(context, type = e.mimeType)
+                        context.startActivity(intent)
+                    }
                     is HistoryViewModel.Event.OpenChapter -> openChapter(context, e.chapter)
                 }
             }

@@ -60,3 +60,17 @@ getReadActivity:
 SELECT read_at, read_duration
 FROM history
 WHERE read_at IS NOT NULL;
+
+getAllHistoryForExport:
+SELECT
+    history.id AS id,
+    manga.remote_title AS mangaTitle,
+    chapter.remote_name AS chapterName,
+    chapter.remote_chapter_number AS chapterNumber,
+    history.read_at AS readAt,
+    history.read_duration AS readDuration
+FROM history
+JOIN manga ON history.manga_id = manga.id
+JOIN chapter ON history.chapter_id = chapter.id
+WHERE history.read_at IS NOT NULL
+ORDER BY history.read_at DESC;

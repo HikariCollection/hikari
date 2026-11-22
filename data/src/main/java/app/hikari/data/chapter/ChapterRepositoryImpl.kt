@@ -97,6 +97,7 @@ class ChapterRepositoryImpl(
                     userBookmark = chapterUpdate.bookmark,
                     userLastPageRead = chapterUpdate.lastPageRead,
                     stateDateFetch = chapterUpdate.dateFetch,
+                    remoteMemo = chapterUpdate.memo,
                     id = chapterUpdate.id,
                 )
             }

@@ -12,12 +12,12 @@ object LibrarySearchLexer {
             (?<AND> && )|
 
             # Comparison fields
-            (?<CompField> [a-zA-Z_][a-zA-Z0-9_]* )
-            (?<Comparator> >=|<=|>|<|= )
+            (?<CompField> [a-zA-Z_][a-zA-Z0-9_]* ) \s*
+            (?<Comparator> >=|<=|>|<|= ) \s*
             (?: " (?<CompValQuoted> [^"]* ) " | ' (?<CompValSingleQuoted> [^']* ) ' | (?<CompVal> [^\s,()]+ ))|
 
             # Key-Value fields
-            (?<Field> [a-zA-Z_][a-zA-Z0-9_]* ) :
+            (?<Field> [a-zA-Z_][a-zA-Z0-9_]* ) \s* : \s*
             (?: " (?<FieldValQuoted> [^"]* ) " | ' (?<FieldValSingleQuoted> [^']* ) ' | (?<FieldVal> [^\s,()]+ ))|
 
             # General catch-all

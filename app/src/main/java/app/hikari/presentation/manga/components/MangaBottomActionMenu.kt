@@ -53,6 +53,7 @@ import app.hikari.icons.materialsymbols.rounded.BookmarkRemove
 import app.hikari.icons.materialsymbols.rounded.Delete
 import app.hikari.icons.materialsymbols.rounded.DoneAll
 import app.hikari.icons.materialsymbols.rounded.Download
+import app.hikari.icons.materialsymbols.rounded.EditNote
 import app.hikari.icons.materialsymbols.rounded.MoreVert
 import app.hikari.icons.materialsymbols.rounded.RemoveDone
 import app.hikari.icons.materialsymbols.rounded.SwapCalls
@@ -72,6 +73,7 @@ fun MangaBottomActionMenu(
     modifier: Modifier = Modifier,
     onBookmarkClicked: (() -> Unit)? = null,
     onRemoveBookmarkClicked: (() -> Unit)? = null,
+    onBookmarkNoteClicked: (() -> Unit)? = null,
     onMarkAsReadClicked: (() -> Unit)? = null,
     onMarkAsUnreadClicked: (() -> Unit)? = null,
     onMarkPreviousAsReadClicked: (() -> Unit)? = null,
@@ -126,6 +128,15 @@ fun MangaBottomActionMenu(
                         toConfirm = confirm[1],
                         onLongClick = { onLongClickItem(1) },
                         onClick = onRemoveBookmarkClicked,
+                    )
+                }
+                if (onBookmarkNoteClicked != null) {
+                    Button(
+                        title = stringResource(MR.strings.action_edit_bookmark_note),
+                        icon = MaterialSymbols.Rounded.EditNote,
+                        toConfirm = false,
+                        onLongClick = {},
+                        onClick = onBookmarkNoteClicked,
                     )
                 }
                 if (onMarkAsReadClicked != null) {

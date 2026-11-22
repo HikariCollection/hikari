@@ -1,11 +1,13 @@
 package app.hikari.presentation.manga.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -35,6 +37,7 @@ import app.hikari.icons.materialsymbols.rounded.BookmarkRemove
 import app.hikari.icons.materialsymbols.rounded.Check
 import app.hikari.icons.materialsymbols.rounded.Delete
 import app.hikari.icons.materialsymbols.rounded.Download
+import app.hikari.icons.materialsymbols.rounded.EditNote
 import app.hikari.icons.materialsymbols.rounded.FileDownloadOff
 import app.hikari.icons.materialsymbols.rounded.RemoveDone
 import app.hikari.icons.materialsymbols.roundedfilled.Bookmark
@@ -64,6 +67,8 @@ fun MangaChapterListItem(
     onDownloadClick: ((ChapterDownloadAction) -> Unit)?,
     onChapterSwipe: (LibraryPreferences.ChapterSwipeAction) -> Unit,
     modifier: Modifier = Modifier,
+    bookmarkNote: String? = null,
+    onNoteClick: (() -> Unit)? = null,
 ) {
     val start = getSwipeAction(
         action = chapterSwipeStartAction,
@@ -167,6 +172,30 @@ fun MangaChapterListItem(
                                 overflow = TextOverflow.Ellipsis,
                             )
                         }
+                    }
+                }
+
+                if (!bookmarkNote.isNullOrBlank()) {
+                    Row(
+                        modifier = Modifier
+                            .clickable(enabled = onNoteClick != null) { onNoteClick?.invoke() }
+                            .padding(top = 2.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    ) {
+                        Icon(
+                            imageVector = MaterialSymbols.Rounded.EditNote,
+                            contentDescription = stringResource(MR.strings.action_edit_bookmark_note),
+                            modifier = Modifier.size(16.dp),
+                            tint = MaterialTheme.colorScheme.primary,
+                        )
+                        Text(
+                            text = bookmarkNote,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
                     }
                 }
             }

@@ -185,11 +185,6 @@ class ReaderPreferences(
         false,
     )
 
-    val brightnessSwipeEdge: Preference<BrightnessSwipeEdge> = preferenceStore.getEnum(
-        "pref_brightness_swipe_edge",
-        BrightnessSwipeEdge.LEFT,
-    )
-
     val navigationModePager: Preference<Int> = preferenceStore.getInt("reader_navigation_mode_pager", 0)
 
     val navigationModeWebtoon: Preference<Int> = preferenceStore.getInt("reader_navigation_mode_webtoon", 0)
@@ -412,12 +407,6 @@ class ReaderPreferences(
         NEVER(MR.strings.dual_page_view_never),
         ALWAYS(MR.strings.dual_page_view_always),
         WIDE(MR.strings.dual_page_view_wide),
-    }
-
-    enum class BrightnessSwipeEdge(val titleRes: StringResource) {
-        OFF(MR.strings.brightness_swipe_off),
-        LEFT(MR.strings.brightness_swipe_left),
-        RIGHT(MR.strings.brightness_swipe_right),
     }
 
     companion object {

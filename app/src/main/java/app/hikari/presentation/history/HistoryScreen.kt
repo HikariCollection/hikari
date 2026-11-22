@@ -19,6 +19,7 @@ import app.hikari.domain.ui.UiPreferences
 import app.hikari.i18n.MR
 import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.rounded.DeleteSweep
+import app.hikari.icons.materialsymbols.rounded.Share
 import app.hikari.presentation.components.AppBar
 import app.hikari.presentation.components.AppBarActions
 import app.hikari.presentation.components.AppBarTitle
@@ -56,6 +57,13 @@ fun HistoryScreen(
                 actions = {
                     AppBarActions(
                         listOf(
+                            AppBar.Action(
+                                title = stringResource(MR.strings.action_export_history),
+                                icon = MaterialSymbols.Rounded.Share,
+                                onClick = {
+                                    onDialogChange(HistoryViewModel.Dialog.Export)
+                                },
+                            ),
                             AppBar.Action(
                                 title = stringResource(MR.strings.pref_clear_history),
                                 icon = MaterialSymbols.Rounded.DeleteSweep,

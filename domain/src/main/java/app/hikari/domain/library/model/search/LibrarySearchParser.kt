@@ -2,12 +2,13 @@ package app.hikari.domain.library.model.search
 
 class LibrarySearchParser(private val tokens: List<LibrarySearchLexer.Token>) {
     private var index = 0
+    private var parenDepth = 0
 
     private fun peek(): LibrarySearchLexer.Token? = tokens.getOrNull(index)
     private fun advance(): LibrarySearchLexer.Token? = tokens.getOrNull(index++)
 
     fun parse(): QueryNode {
-        if (tokens.isEmpty()) return AndNode(emptyList())
+        if (tokens.isEmpty()) return EmptyQueryNode
         return parseOr()
     }
 
@@ -18,15 +19,25 @@ class LibrarySearchParser(private val tokens: List<LibrarySearchLexer.Token>) {
             advance()
             nodes.add(parseAnd())
         }
-        return if (nodes.size == 1) nodes.first() else OrNode(nodes)
+        val filteredNodes = nodes.filter { it !is EmptyQueryNode }
+        return when (filteredNodes.size) {
+            0 -> EmptyQueryNode
+            1 -> filteredNodes.first()
+            else -> OrNode(filteredNodes)
+        }
     }
 
     private fun parseAnd(): QueryNode {
         val nodes = mutableListOf<QueryNode>()
 
-        while (index < tokens.size && peek() !is LibrarySearchLexer.Token.Or &&
-            peek() !is LibrarySearchLexer.Token.RParen
+        while (index < tokens.size &&
+            peek() !is LibrarySearchLexer.Token.Or &&
+            (peek() !is LibrarySearchLexer.Token.RParen || parenDepth == 0)
         ) {
+            if (peek() is LibrarySearchLexer.Token.RParen) {
+                advance()
+                continue
+            }
             if (peek() is LibrarySearchLexer.Token.And) {
                 advance()
             }
@@ -48,11 +59,13 @@ class LibrarySearchParser(private val tokens: List<LibrarySearchLexer.Token>) {
 
         if (peek() is LibrarySearchLexer.Token.LParen) {
             advance()
+            parenDepth++
 
             val subTree = parseOr()
 
             if (peek() is LibrarySearchLexer.Token.RParen) {
                 advance()
+                parenDepth--
             }
 
             if (negated) {
@@ -69,9 +82,13 @@ class LibrarySearchParser(private val tokens: List<LibrarySearchLexer.Token>) {
                 } ?: GeneralQueryNode("${nextToken.field}:${nextToken.value}", negated)
             }
             is LibrarySearchLexer.Token.CompField -> {
-                ComparisonField.fromString(nextToken.field)?.let {
-                    ComparisonQueryNode(it, nextToken.value, Comparator.fromString(nextToken.comparator)!!, negated)
-                } ?: GeneralQueryNode("${nextToken.field}${nextToken.comparator}${nextToken.value}", negated)
+                val comp = Comparator.fromString(nextToken.comparator)
+                val field = ComparisonField.fromString(nextToken.field)
+                if (comp != null && field != null) {
+                    ComparisonQueryNode(field, nextToken.value, comp, negated)
+                } else {
+                    GeneralQueryNode("${nextToken.field}${nextToken.comparator}${nextToken.value}", negated)
+                }
             }
             else -> EmptyQueryNode
         }

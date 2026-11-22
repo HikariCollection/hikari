@@ -47,17 +47,6 @@ internal fun ColumnScope.ColorFilterPage(viewModel: ReaderSettingsViewModel) {
         )
     }
 
-    val brightnessSwipeEdge by viewModel.preferences.brightnessSwipeEdge.collectAsState()
-    SettingsChipRow(MR.strings.pref_brightness_swipe_edge) {
-        ReaderPreferences.BrightnessSwipeEdge.entries.forEach { edge ->
-            FilterChip(
-                selected = brightnessSwipeEdge == edge,
-                onClick = { viewModel.preferences.brightnessSwipeEdge.set(edge) },
-                label = { Text(stringResource(edge.titleRes)) },
-            )
-        }
-    }
-
     val colorFilter by viewModel.preferences.colorFilter.collectAsState()
     CheckboxItem(
         label = stringResource(MR.strings.pref_custom_color_filter),

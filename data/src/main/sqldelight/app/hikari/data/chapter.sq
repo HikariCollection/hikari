@@ -111,7 +111,8 @@ UPDATE chapter
 SET user_read = coalesce(:userRead, user_read),
     user_bookmark = coalesce(:userBookmark, user_bookmark),
     user_last_page_read = coalesce(:userLastPageRead, user_last_page_read),
-    state_date_fetch = coalesce(:stateDateFetch, state_date_fetch)
+    state_date_fetch = coalesce(:stateDateFetch, state_date_fetch),
+    remote_memo = coalesce(:remoteMemo, remote_memo)
 WHERE id = :id;
 
 updateFromBackup:

@@ -32,6 +32,7 @@ import app.hikari.presentation.manga.ChapterSettingsDialog
 import app.hikari.presentation.manga.DuplicateMangaDialog
 import app.hikari.presentation.manga.EditCoverAction
 import app.hikari.presentation.manga.MangaScreen
+import app.hikari.presentation.manga.components.ChapterBookmarkNoteDialog
 import app.hikari.presentation.manga.components.DeleteChaptersDialog
 import app.hikari.presentation.manga.components.EditMangaInfoDialog
 import app.hikari.presentation.manga.components.MangaCoverDialog
@@ -159,6 +160,7 @@ class MangaScreen(
             onEditNotesClicked = { navigator.push(MangaNotesScreen(manga = successState.manga)) },
             onEditInfoClicked = viewModel::showEditInfoDialog.takeIf { successState.manga.favorite },
             onMultiBookmarkClicked = viewModel::bookmarkChapters,
+            onEditBookmarkNote = viewModel::showEditBookmarkNoteDialog,
             onMultiMarkAsReadClicked = viewModel::markChaptersRead,
             onMarkPreviousAsReadClicked = viewModel::markPreviousChapterRead,
             onMultiDeleteClicked = viewModel::showDeleteChapterDialog,
@@ -227,6 +229,15 @@ class MangaScreen(
                     onDismissRequest = onDismissRequest,
                     onSave = viewModel::saveCustomMetadata,
                     onReset = viewModel::resetCustomMetadata,
+                )
+            }
+            is MangaViewModel.Dialog.EditBookmarkNote -> {
+                ChapterBookmarkNoteDialog(
+                    chapter = dialog.chapter,
+                    onDismissRequest = onDismissRequest,
+                    onSave = { note ->
+                        viewModel.updateChapterBookmarkNote(dialog.chapter.id, note)
+                    },
                 )
             }
             MangaViewModel.Dialog.SettingsSheet -> ChapterSettingsDialog(

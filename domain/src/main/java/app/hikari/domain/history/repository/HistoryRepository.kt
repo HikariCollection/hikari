@@ -1,6 +1,7 @@
 package app.hikari.domain.history.repository
 
 import app.hikari.domain.history.model.History
+import app.hikari.domain.history.model.HistoryExportItem
 import app.hikari.domain.history.model.HistoryUpdate
 import app.hikari.domain.history.model.HistoryWithRelations
 import app.hikari.domain.history.model.ReadActivityEntry
@@ -9,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 interface HistoryRepository {
 
     fun getHistory(query: String): Flow<List<HistoryWithRelations>>
+
+    suspend fun getAllHistoryForExport(): List<HistoryExportItem>
 
     suspend fun getLastHistory(): HistoryWithRelations?
 
