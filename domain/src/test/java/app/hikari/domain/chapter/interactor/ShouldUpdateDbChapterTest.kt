@@ -2,6 +2,7 @@ package app.hikari.domain.chapter.interactor
 
 import app.hikari.core.common.extensions.JsonObjectEmpty
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.chapter.model.withBookmarkNote
 import io.kotest.matchers.shouldBe
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
@@ -57,6 +58,21 @@ class ShouldUpdateDbChapterTest {
         shouldUpdate.await(
             dbChapter,
             dbChapter.copy(memo = buildJsonObject { put("extra", "1") }),
+        ) shouldBe true
+    }
+
+    @Test
+    fun `ignores local bookmark note when comparing memo`() {
+        val remoteMemo = buildJsonObject { put("extra", "1") }
+        val sourceChapter = baseChapter().copy(memo = remoteMemo)
+        val dbChapterWithNote = sourceChapter.copy(
+            memo = sourceChapter.withBookmarkNote("Remember this scene"),
+        )
+
+        shouldUpdate.await(dbChapterWithNote, sourceChapter) shouldBe false
+        shouldUpdate.await(
+            dbChapterWithNote,
+            sourceChapter.copy(memo = buildJsonObject { put("extra", "2") }),
         ) shouldBe true
     }
 }

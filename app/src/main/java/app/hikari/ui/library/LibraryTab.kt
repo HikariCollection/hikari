@@ -38,12 +38,14 @@ import app.hikari.presentation.core.screens.EmptyScreenAction
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.library.DeleteLibraryMangaDialog
 import app.hikari.presentation.library.LibrarySettingsDialog
+import app.hikari.presentation.library.RandomMangaPickerDialog
 import app.hikari.presentation.library.components.LibraryContent
 import app.hikari.presentation.library.components.LibraryToolbar
 import app.hikari.presentation.manga.components.LibraryBottomActionMenu
 import app.hikari.presentation.more.onboarding.GETTING_STARTED_URL
 import app.hikari.presentation.util.Tab
 import app.hikari.source.local.isLocal
+import app.hikari.ui.bookmarks.BookmarksAndNotesScreen
 import app.hikari.ui.browse.source.globalsearch.GlobalSearchScreen
 import app.hikari.ui.category.CategoryScreen
 import app.hikari.ui.home.HomeScreen
@@ -123,18 +125,8 @@ data object LibraryTab : Tab {
                     onClickFilter = viewModel::showSettingsDialog,
                     onClickRefresh = { scope.launch { onClickRefresh(state.activeCategory) } },
                     onClickGlobalUpdate = { scope.launch { onClickRefresh(null) } },
-                    onClickOpenRandomManga = {
-                        scope.launch {
-                            val randomItem = viewModel.getRandomLibraryItemForCurrentCategory()
-                            if (randomItem != null) {
-                                navigator.push(MangaScreen(randomItem.libraryManga.manga.id))
-                            } else {
-                                snackbarHostState.showSnackbar(
-                                    context.stringResource(MR.strings.information_no_entries_found),
-                                )
-                            }
-                        }
-                    },
+                    onClickOpenRandomManga = viewModel::openRandomMangaPickerDialog,
+                    onClickOpenBookmarksAndNotes = { navigator.push(BookmarksAndNotesScreen()) },
                     searchQuery = state.searchQuery,
                     onSearchQueryChange = viewModel::search,
                     // For scroll overlay when no tab
@@ -250,6 +242,38 @@ data object LibraryTab : Tab {
                         viewModel.removeMangas(dialog.manga, deleteManga, deleteChapter)
                         viewModel.clearSelection()
                     },
+                )
+            }
+            is LibraryViewModel.Dialog.RandomMangaPicker -> {
+                RandomMangaPickerDialog(
+                    item = dialog.item,
+                    filter = dialog.filter,
+                    candidateCount = dialog.candidateCount,
+                    showAllCategoriesFilter = state.displayedCategories.size > 1,
+                    onToggleUnreadOnly = {
+                        viewModel.updateRandomMangaFilter { it.copy(unreadOnly = !it.unreadOnly) }
+                    },
+                    onToggleStartedOnly = {
+                        viewModel.updateRandomMangaFilter { it.copy(startedOnly = !it.startedOnly) }
+                    },
+                    onToggleAllCategories = {
+                        viewModel.updateRandomMangaFilter { it.copy(allCategories = !it.allCategories) }
+                    },
+                    onReroll = viewModel::rerollRandomManga,
+                    onOpenManga = { manga -> navigator.push(MangaScreen(manga.id)) },
+                    onReadManga = { libraryManga ->
+                        scope.launch {
+                            val chapter = viewModel.getNextUnreadChapter(libraryManga.manga)
+                            if (chapter != null) {
+                                context.startActivity(
+                                    ReaderActivity.newIntent(context, chapter.mangaId, chapter.id),
+                                )
+                            } else {
+                                snackbarHostState.showSnackbar(context.stringResource(MR.strings.no_next_chapter))
+                            }
+                        }
+                    },
+                    onDismissRequest = onDismissRequest,
                 )
             }
             null -> {}

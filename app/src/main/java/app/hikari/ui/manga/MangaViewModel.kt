@@ -41,6 +41,7 @@ import app.hikari.domain.chapter.interactor.UpdateChapter
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterUpdate
 import app.hikari.domain.chapter.model.NoChaptersException
+import app.hikari.domain.chapter.model.matchesSearchQuery
 import app.hikari.domain.chapter.service.calculateChapterGap
 import app.hikari.domain.chapter.service.getChapterSort
 import app.hikari.domain.chapter.service.missingChaptersCount
@@ -183,6 +184,7 @@ class MangaViewModel(
     private val selectedChapterIds = MutableStateFlow(emptySet<Long>())
 
     private val dialog = MutableStateFlow<Dialog?>(null)
+    private val chapterSearchQuery = MutableStateFlow<String?>(null)
 
     private val isRefreshingData = MutableStateFlow(false)
 
@@ -254,13 +256,13 @@ class MangaViewModel(
         scanlators,
         trackers,
         combine(selectedChapterIds, queuedDownloadStates.pausedWhileUnsubscribed(), ::Pair),
-        combine(dialog, isRefreshingData, ::Pair),
+        combine(dialog, isRefreshingData, chapterSearchQuery, ::Triple),
     ) {
             mangaAndChapters,
             (availableScanlators, excludedScanlators),
             (trackingCount, hasLoggedInTrackers),
             (selectedIds, downloads),
-            (dialog, isRefreshingData),
+            (dialog, isRefreshingData, chapterSearchQuery),
         ->
         State.Success(
             manga = mangaAndChapters.manga,
@@ -282,6 +284,7 @@ class MangaViewModel(
             isRefreshingData = isRefreshingData,
             dialog = dialog,
             hideMissingChapters = hideMissingChapters,
+            chapterSearchQuery = chapterSearchQuery,
         )
     }
         // Composition would otherwise build these on first read, on the main thread, for every new state
@@ -1054,6 +1057,10 @@ class MangaViewModel(
         dialog.value = null
     }
 
+    fun setChapterSearchQuery(query: String?) {
+        chapterSearchQuery.value = query
+    }
+
     fun showEditBookmarkNoteDialog(chapter: Chapter) {
         dialog.value = Dialog.EditBookmarkNote(chapter)
     }
@@ -1142,6 +1149,7 @@ class MangaViewModel(
             val isRefreshingData: Boolean = false,
             val dialog: Dialog? = null,
             val hideMissingChapters: Boolean = false,
+            val chapterSearchQuery: String? = null,
         ) : State {
             val processedChapters by lazy {
                 chapters.applyFilters(manga).toList()
@@ -1164,12 +1172,12 @@ class MangaViewModel(
             }
 
             val missingChapterCount by lazy {
-                if (hideMissingChapters) return@lazy 0
+                if (hideMissingChapters || !chapterSearchQuery.isNullOrBlank()) return@lazy 0
                 processedChapters.fastMap { it.chapter.chapterNumber }.missingChaptersCount()
             }
 
             val chapterListItems by lazy {
-                if (hideMissingChapters) {
+                if (hideMissingChapters || !chapterSearchQuery.isNullOrBlank()) {
                     return@lazy processedChapters
                 }
 
@@ -1219,6 +1227,9 @@ class MangaViewModel(
                     .filter { (chapter) -> applyFilter(unreadFilter) { !chapter.read } }
                     .filter { (chapter) -> applyFilter(bookmarkedFilter) { chapter.bookmark } }
                     .filter { applyFilter(downloadedFilter) { it.isDownloaded || isLocalManga } }
+                    .filter { (chapter) ->
+                        chapterSearchQuery.isNullOrBlank() || chapter.matchesSearchQuery(chapterSearchQuery)
+                    }
                     .sortedWith { (chapter1), (chapter2) -> chapterSort(chapter1, chapter2) }
             }
         }

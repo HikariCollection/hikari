@@ -9,7 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Chapter bookmark notes (memos) allowing users to attach custom text notes to bookmarked chapters, previewed directly on the chapter item badge and editable via chapter selection bottom bar or note badge tap.
+- Chapter bookmark notes (memos) allowing users to attach custom text notes to bookmarked chapters, previewed directly on the chapter item badge, editable from the chapter selection bottom bar, note badge tap, or Reader top bar, and preserved across source syncs and chapter re-uploads.
+- Inline expandable chapter search in the Manga detail chapter header matching chapter titles, numbers, scanlators, and bookmark notes.
+- Interactive Random Manga Picker dialog in the Library overflow menu with cover preview, non-repeating re-roll, quick filter chips (`Unread`, `Started`, `All categories`), and direct Resume/Start reading launch.
+- Cross-library Bookmarks & Notes Hub accessible from More and the Library overflow menu with search, category/note/library filters, recent/title sorting, inline note editing, multi-select unbookmarking with optional note cleanup, and Markdown/JSON export.
 - Reading history export to RFC-4180 compliant CSV or structured JSON via system share sheet from the History screen top bar.
 
 ### Changed

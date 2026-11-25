@@ -1,6 +1,7 @@
 package app.hikari.domain.chapter.interactor
 
 import app.hikari.domain.chapter.model.Chapter
+import app.hikari.domain.chapter.model.mergeLocalMemoInto
 import dev.zacsweers.metro.Inject
 
 @Inject
@@ -12,6 +13,6 @@ class ShouldUpdateDbChapter {
             dbChapter.dateUpload != sourceChapter.dateUpload ||
             dbChapter.chapterNumber != sourceChapter.chapterNumber ||
             dbChapter.sourceOrder != sourceChapter.sourceOrder ||
-            dbChapter.memo != sourceChapter.memo
+            dbChapter.memo != dbChapter.mergeLocalMemoInto(sourceChapter)
     }
 }

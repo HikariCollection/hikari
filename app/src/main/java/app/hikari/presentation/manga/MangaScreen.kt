@@ -126,6 +126,7 @@ fun MangaScreen(
     onChapterSelected: (ChapterList.Item, Boolean, Boolean) -> Unit,
     onAllChapterSelected: (Boolean) -> Unit,
     onInvertSelection: () -> Unit,
+    onChapterSearchQueryChange: (String?) -> Unit = {},
 ) {
     val context = LocalContext.current
     val onCopyTagToClipboard: (tag: String) -> Unit = {
@@ -170,6 +171,7 @@ fun MangaScreen(
             onChapterSelected = onChapterSelected,
             onAllChapterSelected = onAllChapterSelected,
             onInvertSelection = onInvertSelection,
+            onChapterSearchQueryChange = onChapterSearchQueryChange,
         )
     } else {
         MangaScreenLargeImpl(
@@ -207,6 +209,7 @@ fun MangaScreen(
             onChapterSelected = onChapterSelected,
             onAllChapterSelected = onAllChapterSelected,
             onInvertSelection = onInvertSelection,
+            onChapterSearchQueryChange = onChapterSearchQueryChange,
         )
     }
 }
@@ -260,6 +263,7 @@ private fun MangaScreenSmallImpl(
     onChapterSelected: (ChapterList.Item, Boolean, Boolean) -> Unit,
     onAllChapterSelected: (Boolean) -> Unit,
     onInvertSelection: () -> Unit,
+    onChapterSearchQueryChange: (String?) -> Unit = {},
 ) {
     val chapterListState = rememberLazyListState()
 
@@ -273,6 +277,10 @@ private fun MangaScreenSmallImpl(
 
     BackHandler(enabled = isAnySelected) {
         onAllChapterSelected(false)
+    }
+
+    BackHandler(enabled = !isAnySelected && state.chapterSearchQuery != null) {
+        onChapterSearchQueryChange(null)
     }
 
     Scaffold(
@@ -421,6 +429,8 @@ private fun MangaScreenSmallImpl(
                             chapterCount = chapters.size,
                             missingChapterCount = state.missingChapterCount,
                             onClick = onFilterClicked,
+                            searchQuery = state.chapterSearchQuery,
+                            onSearchQueryChange = onChapterSearchQueryChange,
                         )
                     }
 
@@ -492,6 +502,7 @@ fun MangaScreenLargeImpl(
     onChapterSelected: (ChapterList.Item, Boolean, Boolean) -> Unit,
     onAllChapterSelected: (Boolean) -> Unit,
     onInvertSelection: () -> Unit,
+    onChapterSearchQueryChange: (String?) -> Unit = {},
 ) {
     val layoutDirection = LocalLayoutDirection.current
     val density = LocalDensity.current
@@ -511,6 +522,10 @@ fun MangaScreenLargeImpl(
 
     BackHandler(enabled = isAnySelected) {
         onAllChapterSelected(false)
+    }
+
+    BackHandler(enabled = !isAnySelected && state.chapterSearchQuery != null) {
+        onChapterSearchQueryChange(null)
     }
 
     Scaffold(
@@ -646,6 +661,8 @@ fun MangaScreenLargeImpl(
                                     chapterCount = chapters.size,
                                     missingChapterCount = state.missingChapterCount,
                                     onClick = onFilterButtonClicked,
+                                    searchQuery = state.chapterSearchQuery,
+                                    onSearchQueryChange = onChapterSearchQueryChange,
                                 )
                             }
 

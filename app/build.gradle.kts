@@ -34,8 +34,8 @@ android {
     defaultConfig {
         applicationId = "app.hikari"
 
-        versionCode = 3
-        versionName = "0.0.3"
+        versionCode = 4
+        versionName = "0.0.6"
 
         buildConfigField("boolean", "UPDATER_ENABLED", "${Config.enableUpdater}")
 

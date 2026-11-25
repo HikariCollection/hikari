@@ -1,5 +1,6 @@
 package app.hikari.domain.chapter.repository
 
+import app.hikari.domain.chapter.model.BookmarkedChapterEntry
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterRemoteUpdate
 import app.hikari.domain.chapter.model.ChapterSummary
@@ -29,6 +30,8 @@ interface ChapterRepository {
     fun getScanlatorsByMangaIdAsFlow(mangaId: Long): Flow<List<String>>
 
     suspend fun getBookmarkedChaptersByMangaId(mangaId: Long): List<Chapter>
+
+    fun getBookmarkedAndNotedChaptersAsFlow(): Flow<List<BookmarkedChapterEntry>>
 
     suspend fun getChapterById(id: Long): Chapter?
 

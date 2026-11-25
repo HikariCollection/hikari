@@ -3,6 +3,8 @@ package app.hikari.domain.chapter.interactor
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterUpdate
 import app.hikari.domain.chapter.model.bookmarkNote
+import app.hikari.domain.chapter.model.matchesSearchQuery
+import app.hikari.domain.chapter.model.mergeLocalMemoInto
 import app.hikari.domain.chapter.model.withBookmarkNote
 import app.hikari.domain.chapter.repository.ChapterRepository
 import io.kotest.matchers.nulls.shouldBeNull
@@ -101,5 +103,45 @@ class SetChapterBookmarkMemoTest {
             memo = emptyChapter.withBookmarkNote("Chapter cliffhanger"),
         )
         notedChapter.bookmarkNote shouldBe "Chapter cliffhanger"
+    }
+
+    @Test
+    fun `mergeLocalMemoInto preserves local bookmark note on remote chapter`() {
+        val localChapter = Chapter.create().copy(
+            memo = JsonObject(
+                mapOf(
+                    "bookmark_note" to JsonPrimitive("Keep me"),
+                    "stale_remote_key" to JsonPrimitive("old"),
+                ),
+            ),
+        )
+        val remoteChapter = Chapter.create().copy(
+            memo = JsonObject(mapOf("remote_key" to JsonPrimitive("new"))),
+        )
+
+        val merged = localChapter.mergeLocalMemoInto(remoteChapter)
+        merged["remote_key"] shouldBe JsonPrimitive("new")
+        merged["bookmark_note"] shouldBe JsonPrimitive("Keep me")
+        merged.containsKey("stale_remote_key") shouldBe false
+    }
+
+    @Test
+    fun `matchesSearchQuery matches name, chapter number, scanlator, and bookmark note`() {
+        val chapter = Chapter.create().copy(
+            name = "The Final Battle",
+            chapterNumber = 42.5,
+            scanlator = "Hikari Scans",
+            memo = JsonObject(mapOf("bookmark_note" to JsonPrimitive("Plot twist"))),
+        )
+
+        chapter.matchesSearchQuery("   ") shouldBe true
+        chapter.matchesSearchQuery("final") shouldBe true
+        chapter.matchesSearchQuery("42.5") shouldBe true
+        chapter.matchesSearchQuery("hikari") shouldBe true
+        chapter.matchesSearchQuery("twist") shouldBe true
+        chapter.matchesSearchQuery("nonexistent") shouldBe false
+
+        val integerChapter = chapter.copy(chapterNumber = 12.0, memo = JsonObject(emptyMap()))
+        integerChapter.matchesSearchQuery("12") shouldBe true
     }
 }

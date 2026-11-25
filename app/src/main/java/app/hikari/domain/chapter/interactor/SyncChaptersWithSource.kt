@@ -7,8 +7,11 @@ import app.hikari.domain.chapter.interactor.ShouldUpdateDbChapter
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterRemoteUpdate
 import app.hikari.domain.chapter.model.NoChaptersException
+import app.hikari.domain.chapter.model.bookmarkNote
 import app.hikari.domain.chapter.model.copyFromSChapter
+import app.hikari.domain.chapter.model.mergeLocalMemoInto
 import app.hikari.domain.chapter.model.toSChapter
+import app.hikari.domain.chapter.model.withBookmarkNote
 import app.hikari.domain.chapter.repository.ChapterRepository
 import app.hikari.domain.chapter.service.ChapterRecognition
 import app.hikari.domain.library.service.LibraryPreferences
@@ -135,7 +138,7 @@ class SyncChaptersWithSource(
                             scanlator = chapter.scanlator,
                             sourceOrder = chapter.sourceOrder,
                             dateUpload = chapter.dateUpload,
-                            memo = chapter.memo,
+                            memo = dbChapter.mergeLocalMemoInto(chapter),
                         ),
                     )
                 }
@@ -173,8 +176,12 @@ class SyncChaptersWithSource(
             deletedChapterNumbers.add(chapter.chapterNumber)
         }
 
-        val deletedChapterNumberDateFetchMap = recognizedRemoved.sortedBy { it.dateFetch }
+        val sortedRecognizedRemoved = recognizedRemoved.sortedBy { it.dateFetch }
+        val deletedChapterNumberDateFetchMap = sortedRecognizedRemoved
             .associate { it.chapterNumber to it.dateFetch }
+        val deletedChapterNumberBookmarkNoteMap = sortedRecognizedRemoved
+            .mapNotNull { removed -> removed.bookmarkNote?.let { removed.chapterNumber to it } }
+            .toMap()
 
         val markDuplicateAsRead = libraryPreferences.markDuplicateReadChapterAsRead.get()
             .contains(LibraryPreferences.MARK_DUPLICATE_CHAPTER_READ_NEW)
@@ -200,6 +207,10 @@ class SyncChaptersWithSource(
             // Try to to use the fetch date of the original entry to not pollute 'Updates' tab
             deletedChapterNumberDateFetchMap[chapter.chapterNumber]?.let {
                 chapter = chapter.copy(dateFetch = it)
+            }
+
+            deletedChapterNumberBookmarkNoteMap[chapter.chapterNumber]?.let { note ->
+                chapter = chapter.copy(memo = chapter.withBookmarkNote(note))
             }
 
             changedOrDuplicateReadUrls.add(chapter.url)

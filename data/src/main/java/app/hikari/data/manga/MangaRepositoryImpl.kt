@@ -60,6 +60,12 @@ class MangaRepositoryImpl(
             .awaitAsList()
     }
 
+    override fun getMangaWithBookmarksOrNotesAsFlow(): Flow<List<Manga>> {
+        return database.mangaQueries
+            .getMangaWithBookmarksOrNotes(MangaMapper::mapManga)
+            .subscribeToList()
+    }
+
     override suspend fun getReadMangaNotInLibrary(): List<Manga> {
         return database.mangaQueries
             .getReadMangaNotInLibrary(MangaMapper::mapManga)

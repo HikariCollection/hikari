@@ -77,6 +77,18 @@ FROM chapter
 WHERE manga_id = :mangaId
 AND user_bookmark;
 
+getBookmarkedAndNotedChapters:
+SELECT
+    C.id, C.manga_id, C.remote_url, C.remote_name, C.remote_scanlator, C.remote_chapter_number,
+    C.remote_date_upload, C.remote_order, C.remote_memo, C.user_read, C.user_bookmark,
+    C.user_last_page_read, C.state_date_fetch,
+    H.read_at AS last_read_at
+FROM chapter C
+LEFT JOIN history H
+ON C.id = H.chapter_id
+WHERE C.user_bookmark = 1
+OR length(C.remote_memo) > 2;
+
 getChapterByUrlAndMangaId:
 SELECT
     id, manga_id, remote_url, remote_name, remote_scanlator, remote_chapter_number,

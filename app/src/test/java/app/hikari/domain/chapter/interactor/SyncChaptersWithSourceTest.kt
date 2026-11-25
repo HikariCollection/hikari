@@ -7,6 +7,8 @@ import app.hikari.data.download.model.Download
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterRemoteUpdate
 import app.hikari.domain.chapter.model.NoChaptersException
+import app.hikari.domain.chapter.model.bookmarkNote
+import app.hikari.domain.chapter.model.withBookmarkNote
 import app.hikari.domain.chapter.repository.ChapterRepository
 import app.hikari.domain.library.service.LibraryPreferences
 import app.hikari.domain.manga.interactor.GetExcludedScanlators
@@ -280,5 +282,68 @@ class SyncChaptersWithSourceTest {
         restoredCh3.dateFetch shouldBe Instant.fromEpochMilliseconds(500_000L)
 
         result.map { it.url } shouldBe listOf("/ch/5/good")
+    }
+
+    @Test
+    fun `preserves local bookmark note across remote update and chapter re-upload`() = runTest {
+        val manga = testManga()
+        val source = remoteSource()
+
+        val dbUpdatedChapter = Chapter.create().let { base ->
+            base.copy(
+                id = 10L,
+                mangaId = manga.id,
+                url = "/ch/1",
+                name = "Chapter 1",
+                chapterNumber = 1.0,
+                bookmark = true,
+                memo = base.withBookmarkNote("Favorite panel on page 8"),
+            )
+        }
+        val dbRemovedChapter = Chapter.create().let { base ->
+            base.copy(
+                id = 11L,
+                mangaId = manga.id,
+                url = "/ch/2/old",
+                name = "Chapter 2",
+                chapterNumber = 2.0,
+                bookmark = true,
+                dateFetch = Instant.fromEpochMilliseconds(400_000L),
+                memo = base.withBookmarkNote("Re-upload note"),
+            )
+        }
+        coEvery { chapterRepository.getChapterByMangaId(manga.id) } returns listOf(
+            dbUpdatedChapter,
+            dbRemovedChapter,
+        )
+
+        val addedSlot = slot<List<Chapter>>()
+        val updatedSlot = slot<List<ChapterRemoteUpdate>>()
+        coEvery {
+            chapterRepository.updateFromRemote(any(), capture(addedSlot), capture(updatedSlot))
+        } answers {
+            addedSlot.captured.mapIndexed { idx, c -> c.copy(id = 300L + idx) }
+        }
+
+        syncChaptersWithSource.await(
+            listOf(
+                sChapter("/ch/1", "Chapter 1 (V2)"),
+                sChapter("/ch/2/new", "Chapter 2"),
+            ),
+            manga,
+            source,
+        )
+
+        updatedSlot.captured.single().let { update ->
+            update.id shouldBe 10L
+            update.name shouldBe "Chapter 1 (V2)"
+            Chapter.create().copy(memo = update.memo).bookmarkNote shouldBe "Favorite panel on page 8"
+        }
+
+        addedSlot.captured.single().let { added ->
+            added.url shouldBe "/ch/2/new"
+            added.bookmark shouldBe true
+            added.bookmarkNote shouldBe "Re-upload note"
+        }
     }
 }

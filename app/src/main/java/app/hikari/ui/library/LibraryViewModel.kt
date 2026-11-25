@@ -605,9 +605,51 @@ class LibraryViewModel(
             .asState(viewModelScope)
     }
 
-    fun getRandomLibraryItemForCurrentCategory(): LibraryItem? {
+    fun openRandomMangaPickerDialog() {
+        val initialFilter = RandomMangaFilter()
+        val candidates = getRandomCandidates(initialFilter)
+        dialog.update {
+            Dialog.RandomMangaPicker(
+                item = pickRandomCandidate(candidates),
+                filter = initialFilter,
+                candidateCount = candidates.size,
+            )
+        }
+    }
+
+    fun rerollRandomManga() {
+        val currentDialog = dialog.value as? Dialog.RandomMangaPicker ?: return
+        val candidates = getRandomCandidates(currentDialog.filter)
+        dialog.update {
+            currentDialog.copy(
+                item = pickRandomCandidate(candidates, excludeMangaId = currentDialog.item?.id),
+                candidateCount = candidates.size,
+            )
+        }
+    }
+
+    fun updateRandomMangaFilter(transform: (RandomMangaFilter) -> RandomMangaFilter) {
+        val currentDialog = dialog.value as? Dialog.RandomMangaPicker ?: return
+        val newFilter = transform(currentDialog.filter)
+        val candidates = getRandomCandidates(newFilter)
+        val retainedItem = currentDialog.item?.takeIf { current -> candidates.any { it.id == current.id } }
+        dialog.update {
+            currentDialog.copy(
+                item = retainedItem ?: pickRandomCandidate(candidates),
+                filter = newFilter,
+                candidateCount = candidates.size,
+            )
+        }
+    }
+
+    private fun getRandomCandidates(filter: RandomMangaFilter): List<LibraryItem> {
         val state = state.value
-        return state.getItemsForCategoryId(state.activeCategory?.id).randomOrNull()
+        val rawItems = if (filter.allCategories) {
+            state.displayedCategories.flatMap { state.getItemsForCategory(it) }
+        } else {
+            state.getItemsForCategoryId(state.activeCategory?.id)
+        }
+        return filterRandomCandidates(rawItems, filter)
     }
 
     fun showSettingsDialog() {
@@ -748,6 +790,11 @@ class LibraryViewModel(
         ) : Dialog
 
         data class DeleteManga(val manga: List<Manga>) : Dialog
+        data class RandomMangaPicker(
+            val item: LibraryItem?,
+            val filter: RandomMangaFilter,
+            val candidateCount: Int,
+        ) : Dialog
     }
 
     @Immutable

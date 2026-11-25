@@ -17,6 +17,7 @@ import app.hikari.presentation.core.i18n.stringResource
 import app.hikari.presentation.more.MoreScreen
 import app.hikari.presentation.util.Tab
 import app.hikari.presentation.util.rememberAnimatedVectorPainter
+import app.hikari.ui.bookmarks.BookmarksAndNotesScreen
 import app.hikari.ui.category.CategoryScreen
 import app.hikari.ui.download.DownloadQueueScreen
 import app.hikari.ui.setting.SettingsScreen
@@ -71,6 +72,7 @@ data object MoreTab : Tab {
             onClickDownloadQueue = { navigator.push(DownloadQueueScreen) },
             onClickCategories = { navigator.push(CategoryScreen()) },
             onClickStats = { navigator.push(StatsScreen()) },
+            onClickBookmarksAndNotes = { navigator.push(BookmarksAndNotesScreen()) },
             onClickDataAndStorage = { navigator.push(SettingsScreen(SettingsScreen.Destination.DataAndStorage)) },
             onClickSettings = { navigator.push(SettingsScreen()) },
             onClickAbout = { navigator.push(SettingsScreen(SettingsScreen.Destination.About)) },

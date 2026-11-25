@@ -12,6 +12,7 @@ import app.hikari.icons.materialsymbols.MaterialSymbols
 import app.hikari.icons.materialsymbols.automirroredrounded.Help
 import app.hikari.icons.materialsymbols.automirroredrounded.Label
 import app.hikari.icons.materialsymbols.rounded.CloudOff
+import app.hikari.icons.materialsymbols.rounded.CollectionsBookmark
 import app.hikari.icons.materialsymbols.rounded.Download
 import app.hikari.icons.materialsymbols.rounded.Eyeglasses2
 import app.hikari.icons.materialsymbols.rounded.Info
@@ -38,6 +39,7 @@ fun MoreScreen(
     onClickDownloadQueue: () -> Unit,
     onClickCategories: () -> Unit,
     onClickStats: () -> Unit,
+    onClickBookmarksAndNotes: () -> Unit,
     onClickDataAndStorage: () -> Unit,
     onClickSettings: () -> Unit,
     onClickAbout: () -> Unit,
@@ -113,6 +115,13 @@ fun MoreScreen(
                     title = stringResource(MR.strings.label_stats),
                     icon = MaterialSymbols.Rounded.QueryStats,
                     onPreferenceClick = onClickStats,
+                )
+            }
+            item {
+                TextPreferenceWidget(
+                    title = stringResource(MR.strings.label_bookmarks_and_notes),
+                    icon = MaterialSymbols.Rounded.CollectionsBookmark,
+                    onPreferenceClick = onClickBookmarksAndNotes,
                 )
             }
             item {

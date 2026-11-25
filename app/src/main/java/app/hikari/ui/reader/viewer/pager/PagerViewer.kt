@@ -178,7 +178,7 @@ abstract class PagerViewer(val activity: ReaderActivity) : Viewer {
             return
         }
 
-        val isHorizontal = pager.isHorizontal()
+        val isHorizontal = pager.isHorizontal
         when (simplePaged.pageTransition) {
             ReaderPreferences.PagerPageTransition.DEFAULT -> {
                 pager.setPageTransformer(false, null)

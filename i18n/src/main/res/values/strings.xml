@@ -82,6 +82,7 @@
     <string name="action_edit_bookmark_note">Bookmark note</string>
     <string name="action_remove_bookmark_note">Remove note</string>
     <string name="bookmark_note_hint">Add a note for this bookmark…</string>
+    <string name="action_search_chapters">Search chapters…</string>
     <string name="action_delete">Delete</string>
     <string name="action_update_library">Update library</string>
     <string name="action_enable_all">Enable all</string>
@@ -90,6 +91,10 @@
     <string name="action_add">Add</string>
     <string name="action_update_category">Update category</string>
     <string name="action_open_random_manga">Open random entry</string>
+    <string name="random_manga_picker_title">Random entry</string>
+    <string name="action_reroll">Re-roll</string>
+    <string name="random_manga_all_categories">All categories</string>
+    <string name="random_manga_open_details">Details</string>
     <string name="action_add_category">Add category</string>
     <string name="action_edit_categories">Edit categories</string>
     <string name="action_rename_category">Rename category</string>
@@ -907,6 +912,26 @@
     <string name="export_history_empty">No reading history to export</string>
     <string name="clear_history_completed">History deleted</string>
     <string name="clear_history_confirmation">Are you sure? All history will be lost.</string>
+
+    <!-- Bookmarks & Notes Hub -->
+    <string name="label_bookmarks_and_notes">Bookmarks &amp; notes</string>
+    <string name="search_bookmarks_and_notes">Search bookmarks and notes…</string>
+    <string name="bookmarks_filter_all">All</string>
+    <string name="bookmarks_filter_bookmarks">Bookmarks</string>
+    <string name="bookmarks_filter_chapter_notes">Chapter notes</string>
+    <string name="bookmarks_filter_manga_notes">Manga notes</string>
+    <string name="bookmarks_sort_recent">Recent activity</string>
+    <string name="bookmarks_sort_title">Title</string>
+    <string name="bookmarks_series_notes_label">Series notes</string>
+    <string name="bookmarks_note_only_label">Note only</string>
+    <string name="bookmarks_not_in_library">Not in library</string>
+    <string name="bookmarks_empty">No bookmarked chapters or notes yet</string>
+    <string name="unbookmark_confirm_title">Unbookmark selected chapters?</string>
+    <string name="unbookmark_clear_notes_option">Also delete attached bookmark notes</string>
+    <string name="action_export_bookmarks_and_notes">Export bookmarks &amp; notes</string>
+    <string name="export_bookmarks_dialog_title">Export Bookmarks &amp; Notes</string>
+    <string name="export_bookmarks_as_markdown">Markdown (.md)</string>
+    <string name="export_bookmarks_empty">No bookmarks or notes to export</string>
 
     <!-- Source Screen -->
     <string name="source_empty_screen">No source found</string>

@@ -61,6 +61,21 @@ SELECT
 FROM manga
 WHERE user_favorite_at IS NOT NULL;
 
+getMangaWithBookmarksOrNotes:
+SELECT
+    id, source_id, remote_url, remote_title, remote_author, remote_artist, remote_description,
+    remote_genre, remote_status, remote_cover, remote_update_strategy, remote_memo,
+    user_favorite_at, user_notes, user_reader_flags, user_chapter_flags,
+    state_chapter_last_update,
+    state_cover_last_modified, state_initialized
+FROM manga
+WHERE trim(user_notes) != ''
+OR EXISTS (
+    SELECT 1 FROM chapter C
+    WHERE C.manga_id = manga.id
+    AND (C.user_bookmark = 1 OR length(C.remote_memo) > 2)
+);
+
 getReadMangaNotInLibrary:
 SELECT
     id, source_id, remote_url, remote_title, remote_author, remote_artist, remote_description,

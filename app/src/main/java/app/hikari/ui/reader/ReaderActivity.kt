@@ -75,6 +75,7 @@ import app.hikari.domain.base.BasePreferences
 import app.hikari.i18n.MR
 import app.hikari.presentation.core.screens.LoadingScreen
 import app.hikari.presentation.core.util.collectAsState
+import app.hikari.presentation.manga.components.ChapterBookmarkNoteDialog
 import app.hikari.presentation.reader.DisplayRefreshHost
 import app.hikari.presentation.reader.OrientationSelectDialog
 import app.hikari.presentation.reader.ReaderContentOverlay
@@ -280,7 +281,7 @@ class ReaderActivity : BaseActivity() {
             }
 
             val onDismissRequest = viewModel::closeDialog
-            when (state.dialog) {
+            when (val dialog = state.dialog) {
                 is ReaderViewModel.Dialog.Settings -> {
                     ReaderSettingsDialog(
                         onDismissRequest = onDismissRequest,
@@ -317,6 +318,13 @@ class ReaderActivity : BaseActivity() {
                         onSetAsCover = viewModel::setAsCover,
                         onShare = viewModel::shareImage,
                         onSave = viewModel::saveImage,
+                    )
+                }
+                is ReaderViewModel.Dialog.EditBookmarkNote -> {
+                    ChapterBookmarkNoteDialog(
+                        chapter = dialog.chapter,
+                        onDismissRequest = onDismissRequest,
+                        onSave = viewModel::updateChapterBookmarkNote,
                     )
                 }
                 null -> {}
@@ -562,7 +570,9 @@ class ReaderActivity : BaseActivity() {
             navigateUp = onBackPressedDispatcher::onBackPressed,
             onClickTopAppBar = ::openMangaScreen,
             bookmarked = state.bookmarked,
+            hasBookmarkNote = !state.bookmarkNote.isNullOrBlank(),
             onToggleBookmarked = viewModel::toggleChapterBookmark,
+            onEditBookmarkNote = viewModel::openBookmarkNoteDialog,
             onOpenInWebView = ::openChapterInWebView.takeIf { isHttpSource },
             onOpenInBrowser = ::openChapterInBrowser.takeIf { isHttpSource },
             onShare = ::shareChapter.takeIf { isHttpSource },

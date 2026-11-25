@@ -22,10 +22,13 @@ import app.hikari.data.saver.ImageSaver
 import app.hikari.data.saver.Location
 import app.hikari.domain.base.BasePreferences
 import app.hikari.domain.chapter.interactor.GetChaptersByMangaId
+import app.hikari.domain.chapter.interactor.SetChapterBookmarkMemo
 import app.hikari.domain.chapter.interactor.UpdateChapter
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterUpdate
+import app.hikari.domain.chapter.model.bookmarkNote
 import app.hikari.domain.chapter.model.toSChapter
+import app.hikari.domain.chapter.model.withBookmarkNote
 import app.hikari.domain.chapter.service.getChapterSort
 import app.hikari.domain.download.service.DownloadPreferences
 import app.hikari.domain.history.interactor.GetNextChapters
@@ -119,6 +122,7 @@ class ReaderViewModel(
     private val getNextChapters: GetNextChapters,
     private val upsertHistory: UpsertHistory,
     private val updateChapter: UpdateChapter,
+    private val setChapterBookmarkMemo: SetChapterBookmarkMemo,
     private val setMangaViewerFlags: SetMangaViewerFlags,
     private val getIncognitoState: GetIncognitoState,
     private val libraryPreferences: LibraryPreferences,
@@ -402,6 +406,7 @@ class ReaderViewModel(
                 it.copy(
                     viewerChapters = newChapters,
                     bookmarked = newChapters.currChapter.chapter.bookmark,
+                    bookmarkNote = newChapters.currChapter.chapter.bookmarkNote,
                 )
             }
         }
@@ -811,6 +816,35 @@ class ReaderViewModel(
         }
     }
 
+    fun openBookmarkNoteDialog() {
+        val chapter = getCurrentChapter()?.chapter ?: return
+        mutableState.update { it.copy(dialog = Dialog.EditBookmarkNote(chapter)) }
+    }
+
+    fun updateChapterBookmarkNote(note: String?) {
+        val readerChapter = getCurrentChapter() ?: return
+        val newMemo = readerChapter.chapter.withBookmarkNote(note)
+        val hasNote = !note.isNullOrBlank()
+        val newBookmarked = readerChapter.chapter.bookmark || hasNote
+        readerChapter.update {
+            it.copy(
+                bookmark = newBookmarked,
+                memo = newMemo,
+            )
+        }
+
+        viewModelScope.launch {
+            setChapterBookmarkMemo(readerChapter.chapter.id, note)
+        }
+
+        mutableState.update {
+            it.copy(
+                bookmarked = newBookmarked,
+                bookmarkNote = readerChapter.chapter.bookmarkNote,
+            )
+        }
+    }
+
     /**
      * Returns the viewer position used by this manga or the default one.
      */
@@ -1092,6 +1126,7 @@ class ReaderViewModel(
         val initError: Throwable? = null,
         val viewerChapters: ViewerChapters? = null,
         val bookmarked: Boolean = false,
+        val bookmarkNote: String? = null,
         val isLoadingAdjacentChapter: Boolean = false,
         val currentPage: Int = -1,
         val dialog: Dialog? = null,
@@ -1109,6 +1144,7 @@ class ReaderViewModel(
         data object ReadingModeSelect : Dialog
         data object OrientationModeSelect : Dialog
         data class PageActions(val page: ReaderPage) : Dialog
+        data class EditBookmarkNote(val chapter: Chapter) : Dialog
     }
 
     sealed interface Event {

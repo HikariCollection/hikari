@@ -6,16 +6,19 @@ import app.cash.sqldelight.async.coroutines.awaitAsOneOrNull
 import app.hikari.core.common.util.lang.toLong
 import app.hikari.data.Database
 import app.hikari.data.subscribeToList
+import app.hikari.domain.chapter.model.BookmarkedChapterEntry
 import app.hikari.domain.chapter.model.Chapter
 import app.hikari.domain.chapter.model.ChapterRemoteUpdate
 import app.hikari.domain.chapter.model.ChapterSummary
 import app.hikari.domain.chapter.model.ChapterUpdate
+import app.hikari.domain.chapter.model.bookmarkNote
 import app.hikari.domain.chapter.repository.ChapterRepository
 import dev.zacsweers.metro.AppScope
 import dev.zacsweers.metro.ContributesBinding
 import dev.zacsweers.metro.Inject
 import dev.zacsweers.metro.SingleIn
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.JsonObject
 import kotlin.time.Instant
 
@@ -145,6 +148,49 @@ class ChapterRepositoryImpl(
         return database.chapterQueries
             .getBookmarkedChaptersByMangaId(mangaId, ::mapChapter)
             .awaitAsList()
+    }
+
+    override fun getBookmarkedAndNotedChaptersAsFlow(): Flow<List<BookmarkedChapterEntry>> {
+        return database.chapterQueries
+            .getBookmarkedAndNotedChapters {
+                    id,
+                    mangaId,
+                    remoteUrl,
+                    remoteName,
+                    remoteScanlator,
+                    remoteChapterNumber,
+                    remoteDateUpload,
+                    remoteOrder,
+                    remoteMemo,
+                    userRead,
+                    userBookmark,
+                    userLastPageRead,
+                    stateDateFetch,
+                    lastReadAt,
+                ->
+                BookmarkedChapterEntry(
+                    chapter = mapChapter(
+                        id = id,
+                        mangaId = mangaId,
+                        remoteUrl = remoteUrl,
+                        remoteName = remoteName,
+                        remoteScanlator = remoteScanlator,
+                        remoteChapterNumber = remoteChapterNumber,
+                        remoteDateUpload = remoteDateUpload,
+                        remoteOrder = remoteOrder,
+                        remoteMemo = remoteMemo,
+                        userRead = userRead,
+                        userBookmark = userBookmark,
+                        userLastPageRead = userLastPageRead,
+                        stateDateFetch = stateDateFetch,
+                    ),
+                    lastReadAt = lastReadAt,
+                )
+            }
+            .subscribeToList()
+            .map { entries ->
+                entries.filter { it.chapter.bookmark || !it.chapter.bookmarkNote.isNullOrBlank() }
+            }
     }
 
     override suspend fun getChapterById(id: Long): Chapter? {
